@@ -1,0 +1,44 @@
+# Two jobs. `check_index` runs on every merge request and refuses a stale index or a malformed
+# standard. `portal` builds the team portal from every registered repository and keeps it as an
+# artifact; publishing to SPCS is the commented step at the end and is unverified until the
+# runner has the Snowflake image repository and `ds deploy` wired. Plain syntax for an older
+# GitLab; the runner needs Python 3, Node 26, `ds` (pipx), and the docs shell checkout.
+stages:
+  - check
+  - portal
+
+check_index:
+  stage: check
+  tags:
+    - '<docs-runner-tag>'
+  script:
+    - python3 --version
+    - python3 scripts/build_index.py --check
+
+portal:
+  stage: portal
+  tags:
+    - '<docs-runner-tag>'
+  only:
+    - main
+    - schedules
+  variables:
+    DS_CANON: "$CI_PROJECT_DIR"
+    DS_DOCS_SHELL: "$CI_PROJECT_DIR/.shell"
+    GIT_DEPTH: "1"
+  script:
+    # the shell: the docs-ds repository, same host, read-only token in CI variables
+    - git clone --depth 1 "https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}/${DOCS_SHELL_PATH}.git" .shell
+    - (cd .shell && npm ci --no-fund --no-audit)
+    # every registered repository, shallow; repos.txt is one `group/project` per line
+    - mkdir -p checkouts
+    - grep -v "^#" repos.txt | while read -r p; do [ -n "$p" ] && git clone --depth 1 "https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}/${p}.git" "checkouts/$(basename "$p")"; done
+    - ds docs portal checkouts --canon . --out site
+    # UNVERIFIED: package and publish. The static container is docs-ds/Dockerfile.static.
+    # - docker build -f .shell/Dockerfile.static --build-arg SITE_DIR=site -t "$SNOWFLAKE_REGISTRY/ds_portal:$CI_COMMIT_SHORT_SHA" .shell
+    # - docker push "$SNOWFLAKE_REGISTRY/ds_portal:$CI_COMMIT_SHORT_SHA"
+    # - snow sql -q "ALTER SERVICE DS_OPS.PORTAL FROM SPECIFICATION ..."   (reuse ds deploy service)
+  artifacts:
+    paths:
+      - site/
+    expire_in: 1 week

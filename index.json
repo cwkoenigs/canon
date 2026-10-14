@@ -1,0 +1,244 @@
+{
+  "generated": "2026-10-14",
+  "standards": [
+    {
+      "id": "adr-000",
+      "version": 1,
+      "title": "Repo knowledge system",
+      "applies_to": [
+        "*"
+      ],
+      "owner": "ckoenigs",
+      "supersedes": null,
+      "status": "proposed",
+      "hash": "4f195db15897",
+      "path": "adr/adr-000-knowledge-system.md"
+    },
+    {
+      "id": "architecture",
+      "version": 1,
+      "title": "Architecture and Abstraction",
+      "applies_to": [
+        "*"
+      ],
+      "owner": "ckoenigs",
+      "supersedes": null,
+      "status": "proposed",
+      "hash": "fd73d6512253",
+      "path": "architecture.md"
+    },
+    {
+      "id": "change-cadence",
+      "version": 1,
+      "title": "Standard Change Cadence",
+      "applies_to": [
+        "*"
+      ],
+      "owner": "ckoenigs",
+      "supersedes": null,
+      "status": "proposed",
+      "hash": "573ea1b91fe6",
+      "path": "change-cadence.md"
+    },
+    {
+      "id": "cicd",
+      "version": 1,
+      "title": "CI/CD and Release Management",
+      "applies_to": [
+        "*"
+      ],
+      "owner": "ckoenigs",
+      "supersedes": null,
+      "status": "proposed",
+      "hash": "62b7331c85aa",
+      "path": "cicd.md"
+    },
+    {
+      "id": "code-review",
+      "version": 1,
+      "title": "Code Review Standards",
+      "applies_to": [
+        "*"
+      ],
+      "owner": "ckoenigs",
+      "supersedes": null,
+      "status": "proposed",
+      "hash": "dca21cb9489d",
+      "path": "code-review.md"
+    },
+    {
+      "id": "compliance-rubric",
+      "version": 1,
+      "title": "Compliance Rubric",
+      "applies_to": [
+        "*"
+      ],
+      "owner": "ckoenigs",
+      "supersedes": null,
+      "status": "proposed",
+      "hash": "f42415db5e8f",
+      "path": "compliance-rubric.md"
+    },
+    {
+      "id": "decision-logs",
+      "version": 1,
+      "title": "Decision Logs and Lineage",
+      "applies_to": [
+        "*"
+      ],
+      "owner": "ckoenigs",
+      "supersedes": null,
+      "status": "proposed",
+      "hash": "c91766389518",
+      "path": "decision-logs.md"
+    },
+    {
+      "id": "error-handling",
+      "version": 1,
+      "title": "Error Handling",
+      "applies_to": [
+        "service",
+        "package"
+      ],
+      "owner": "ckoenigs",
+      "supersedes": null,
+      "status": "proposed",
+      "hash": "86f4d7902afa",
+      "path": "error-handling.md"
+    },
+    {
+      "id": "idempotency",
+      "version": 1,
+      "title": "Idempotency and Resilience",
+      "applies_to": [
+        "service",
+        "pipeline",
+        "dbt"
+      ],
+      "owner": "ckoenigs",
+      "supersedes": null,
+      "status": "proposed",
+      "hash": "44015e55915a",
+      "path": "idempotency.md"
+    },
+    {
+      "id": "lifecycle",
+      "version": 1,
+      "title": "Project Lifecycle Standards",
+      "applies_to": [
+        "*"
+      ],
+      "owner": "ckoenigs",
+      "supersedes": null,
+      "status": "proposed",
+      "hash": "7ecc5616b91e",
+      "path": "lifecycle.md"
+    },
+    {
+      "id": "llm-agents",
+      "version": 1,
+      "title": "LLM and Agent Standards",
+      "applies_to": [
+        "*"
+      ],
+      "owner": "ckoenigs",
+      "supersedes": null,
+      "status": "proposed",
+      "hash": "62c4c71ef736",
+      "path": "llm-agents.md"
+    },
+    {
+      "id": "normative-language",
+      "version": 1,
+      "title": "Normative Language",
+      "applies_to": [
+        "*"
+      ],
+      "owner": "ckoenigs",
+      "supersedes": null,
+      "status": "proposed",
+      "hash": "9a3a57bdc381",
+      "path": "normative-language.md"
+    },
+    {
+      "id": "observability",
+      "version": 1,
+      "title": "Observability and Operations",
+      "applies_to": [
+        "service",
+        "pipeline",
+        "dbt"
+      ],
+      "owner": "ckoenigs",
+      "supersedes": null,
+      "status": "proposed",
+      "hash": "d7b62a42b045",
+      "path": "observability.md"
+    },
+    {
+      "id": "operating-principles",
+      "version": 1,
+      "title": "Operating Principles",
+      "applies_to": [
+        "*"
+      ],
+      "owner": "ckoenigs",
+      "supersedes": null,
+      "status": "proposed",
+      "hash": "5c77e71305d1",
+      "path": "operating-principles.md"
+    },
+    {
+      "id": "review-cadence",
+      "version": 1,
+      "title": "Review Cadence",
+      "applies_to": [
+        "*"
+      ],
+      "owner": "ckoenigs",
+      "supersedes": null,
+      "status": "proposed",
+      "hash": "7d998e266e2b",
+      "path": "review-cadence.md"
+    },
+    {
+      "id": "security",
+      "version": 1,
+      "title": "Security and Privacy",
+      "applies_to": [
+        "*"
+      ],
+      "owner": "ckoenigs",
+      "supersedes": null,
+      "status": "proposed",
+      "hash": "9c8ee26d8acf",
+      "path": "security.md"
+    },
+    {
+      "id": "templates",
+      "version": 1,
+      "title": "Templates",
+      "applies_to": [
+        "*"
+      ],
+      "owner": "ckoenigs",
+      "supersedes": null,
+      "status": "proposed",
+      "hash": "212ad157f071",
+      "path": "templates.md"
+    },
+    {
+      "id": "testing",
+      "version": 1,
+      "title": "Testing and QA",
+      "applies_to": [
+        "*"
+      ],
+      "owner": "ckoenigs",
+      "supersedes": null,
+      "status": "proposed",
+      "hash": "e3e0bd699d6d",
+      "path": "testing.md"
+    }
+  ]
+}
