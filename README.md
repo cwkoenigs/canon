@@ -25,6 +25,21 @@ broadly. Review each file, narrow `applies_to`, set `status: accepted`, and bump
 until the text changes. Section 17 of the guidebook is deliberately absent: it is answered
 per repository by `ds new`.
 
+## Gotchas and accepted code
+
+`gotchas/` holds what building things here taught the hard way: each a standard with
+`kind: gotcha`, a rule, what actually happened, and how to check for it. They are indexed,
+pointed at and adopted like any standard, so a new repo's AGENTS.md lists the ones whose tags
+match. The first ten come from building ds-next on 2026-10-16.
+
+`blocks/<id>/` holds accepted code: small, tested modules that encode those lessons, so a repo
+pulls the right implementation instead of rediscovering it. Each has `BLOCK.md` (front matter
+`id`, `version`, `title`, `module`, `requires`, `tags`, `owner`, `status`), `code/<module>.py`,
+and `tests/test_*.py` written against `{{package}}`. `ds-next` adds a block with `block_add`,
+records its version in the repo's manifest, and reports it pending when the canon's version
+moves. `python scripts/test_blocks.py` runs every block's tests as they run inside a repo. Change
+a block here, bump its version, rebuild the index; never edit a repo's copy in place.
+
 ## Scaffolds
 
 `scaffolds/<id>/` holds the accepted project shapes: `SCAFFOLD.md` (front matter `id`,

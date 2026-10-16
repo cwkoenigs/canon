@@ -11,6 +11,7 @@
       "owner": "ckoenigs",
       "supersedes": null,
       "status": "proposed",
+      "kind": "standard",
       "hash": "4f195db15897",
       "path": "adr/adr-000-knowledge-system.md"
     },
@@ -24,6 +25,7 @@
       "owner": "ckoenigs",
       "supersedes": null,
       "status": "proposed",
+      "kind": "standard",
       "hash": "fd73d6512253",
       "path": "architecture.md"
     },
@@ -37,6 +39,7 @@
       "owner": "ckoenigs",
       "supersedes": null,
       "status": "proposed",
+      "kind": "standard",
       "hash": "573ea1b91fe6",
       "path": "change-cadence.md"
     },
@@ -50,6 +53,7 @@
       "owner": "ckoenigs",
       "supersedes": null,
       "status": "proposed",
+      "kind": "standard",
       "hash": "62b7331c85aa",
       "path": "cicd.md"
     },
@@ -63,6 +67,7 @@
       "owner": "ckoenigs",
       "supersedes": null,
       "status": "proposed",
+      "kind": "standard",
       "hash": "dca21cb9489d",
       "path": "code-review.md"
     },
@@ -76,6 +81,7 @@
       "owner": "ckoenigs",
       "supersedes": null,
       "status": "proposed",
+      "kind": "standard",
       "hash": "f42415db5e8f",
       "path": "compliance-rubric.md"
     },
@@ -89,6 +95,7 @@
       "owner": "ckoenigs",
       "supersedes": null,
       "status": "proposed",
+      "kind": "standard",
       "hash": "c91766389518",
       "path": "decision-logs.md"
     },
@@ -103,8 +110,150 @@
       "owner": "ckoenigs",
       "supersedes": null,
       "status": "proposed",
+      "kind": "standard",
       "hash": "86f4d7902afa",
       "path": "error-handling.md"
+    },
+    {
+      "id": "gotcha-agent-trust",
+      "version": 1,
+      "title": "What to let the model decide",
+      "applies_to": [
+        "cortex"
+      ],
+      "owner": "ckoenigs",
+      "supersedes": null,
+      "status": "proposed",
+      "kind": "gotcha",
+      "hash": "319937a56ece",
+      "path": "gotchas/gotcha-agent-trust.md"
+    },
+    {
+      "id": "gotcha-approvals",
+      "version": 1,
+      "title": "Approving what a model wants to do",
+      "applies_to": [
+        "cortex",
+        "cli"
+      ],
+      "owner": "ckoenigs",
+      "supersedes": null,
+      "status": "proposed",
+      "kind": "gotcha",
+      "hash": "e2e1aacd64c9",
+      "path": "gotchas/gotcha-approvals.md"
+    },
+    {
+      "id": "gotcha-confined-writes",
+      "version": 1,
+      "title": "Writes that stay where they were asked to go",
+      "applies_to": [
+        "python"
+      ],
+      "owner": "ckoenigs",
+      "supersedes": null,
+      "status": "proposed",
+      "kind": "gotcha",
+      "hash": "e56764a2a752",
+      "path": "gotchas/gotcha-confined-writes.md"
+    },
+    {
+      "id": "gotcha-cortex-sdk",
+      "version": 1,
+      "title": "Cortex Code SDK behaviour that is not in its docs",
+      "applies_to": [
+        "cortex"
+      ],
+      "owner": "ckoenigs",
+      "supersedes": null,
+      "status": "proposed",
+      "kind": "gotcha",
+      "hash": "774903064d93",
+      "path": "gotchas/gotcha-cortex-sdk.md"
+    },
+    {
+      "id": "gotcha-docs-staging",
+      "version": 1,
+      "title": "Staging repository docs for a site build",
+      "applies_to": [
+        "docs"
+      ],
+      "owner": "ckoenigs",
+      "supersedes": null,
+      "status": "proposed",
+      "kind": "gotcha",
+      "hash": "46e46d7a67eb",
+      "path": "gotchas/gotcha-docs-staging.md"
+    },
+    {
+      "id": "gotcha-generated-text",
+      "version": 1,
+      "title": "User text in generated files",
+      "applies_to": [
+        "python"
+      ],
+      "owner": "ckoenigs",
+      "supersedes": null,
+      "status": "proposed",
+      "kind": "gotcha",
+      "hash": "5475bc065140",
+      "path": "gotchas/gotcha-generated-text.md"
+    },
+    {
+      "id": "gotcha-git-hooks",
+      "version": 1,
+      "title": "Installing git hooks and running git",
+      "applies_to": [
+        "python"
+      ],
+      "owner": "ckoenigs",
+      "supersedes": null,
+      "status": "proposed",
+      "kind": "gotcha",
+      "hash": "577d7e80c961",
+      "path": "gotchas/gotcha-git-hooks.md"
+    },
+    {
+      "id": "gotcha-terminal-ui",
+      "version": 1,
+      "title": "Claude-Code-style terminals with prompt_toolkit and rich",
+      "applies_to": [
+        "cli"
+      ],
+      "owner": "ckoenigs",
+      "supersedes": null,
+      "status": "proposed",
+      "kind": "gotcha",
+      "hash": "a7a401a9b52f",
+      "path": "gotchas/gotcha-terminal-ui.md"
+    },
+    {
+      "id": "gotcha-validation",
+      "version": 1,
+      "title": "Validating manifests and Markdown",
+      "applies_to": [
+        "python"
+      ],
+      "owner": "ckoenigs",
+      "supersedes": null,
+      "status": "proposed",
+      "kind": "gotcha",
+      "hash": "d32e4745ce3a",
+      "path": "gotchas/gotcha-validation.md"
+    },
+    {
+      "id": "gotcha-verify-process",
+      "version": 1,
+      "title": "How to build so the result can be trusted",
+      "applies_to": [
+        "*"
+      ],
+      "owner": "ckoenigs",
+      "supersedes": null,
+      "status": "proposed",
+      "kind": "gotcha",
+      "hash": "9ab49338afe3",
+      "path": "gotchas/gotcha-verify-process.md"
     },
     {
       "id": "idempotency",
@@ -118,6 +267,7 @@
       "owner": "ckoenigs",
       "supersedes": null,
       "status": "proposed",
+      "kind": "standard",
       "hash": "44015e55915a",
       "path": "idempotency.md"
     },
@@ -131,6 +281,7 @@
       "owner": "ckoenigs",
       "supersedes": null,
       "status": "proposed",
+      "kind": "standard",
       "hash": "7ecc5616b91e",
       "path": "lifecycle.md"
     },
@@ -144,6 +295,7 @@
       "owner": "ckoenigs",
       "supersedes": null,
       "status": "proposed",
+      "kind": "standard",
       "hash": "62c4c71ef736",
       "path": "llm-agents.md"
     },
@@ -157,6 +309,7 @@
       "owner": "ckoenigs",
       "supersedes": null,
       "status": "proposed",
+      "kind": "standard",
       "hash": "9a3a57bdc381",
       "path": "normative-language.md"
     },
@@ -172,6 +325,7 @@
       "owner": "ckoenigs",
       "supersedes": null,
       "status": "proposed",
+      "kind": "standard",
       "hash": "d7b62a42b045",
       "path": "observability.md"
     },
@@ -185,6 +339,7 @@
       "owner": "ckoenigs",
       "supersedes": null,
       "status": "proposed",
+      "kind": "standard",
       "hash": "5c77e71305d1",
       "path": "operating-principles.md"
     },
@@ -198,6 +353,7 @@
       "owner": "ckoenigs",
       "supersedes": null,
       "status": "proposed",
+      "kind": "standard",
       "hash": "7d998e266e2b",
       "path": "review-cadence.md"
     },
@@ -211,6 +367,7 @@
       "owner": "ckoenigs",
       "supersedes": null,
       "status": "proposed",
+      "kind": "standard",
       "hash": "9c8ee26d8acf",
       "path": "security.md"
     },
@@ -224,6 +381,7 @@
       "owner": "ckoenigs",
       "supersedes": null,
       "status": "proposed",
+      "kind": "standard",
       "hash": "212ad157f071",
       "path": "templates.md"
     },
@@ -237,6 +395,7 @@
       "owner": "ckoenigs",
       "supersedes": null,
       "status": "proposed",
+      "kind": "standard",
       "hash": "e3e0bd699d6d",
       "path": "testing.md"
     }
@@ -298,6 +457,173 @@
         "pyproject.toml",
         "src/__package__/__init__.py",
         "tests/test_package.py"
+      ]
+    }
+  ],
+  "blocks": [
+    {
+      "id": "block-approver",
+      "version": 1,
+      "title": "Approvals for model tool calls",
+      "module": "approver",
+      "requires": [
+        "snowflake-cortex-agent-sdk==0.0.2"
+      ],
+      "tags": [
+        "cortex",
+        "cli"
+      ],
+      "owner": "ckoenigs",
+      "status": "accepted",
+      "hash": "5f2756cc0981",
+      "dir": "blocks/block-approver",
+      "tests": [
+        "test_approver.py"
+      ]
+    },
+    {
+      "id": "block-claude-render",
+      "version": 1,
+      "title": "Claude-Code-style message rendering",
+      "module": "render",
+      "requires": [
+        "snowflake-cortex-agent-sdk==0.0.2",
+        "rich>=13"
+      ],
+      "tags": [
+        "cortex",
+        "cli"
+      ],
+      "owner": "ckoenigs",
+      "status": "accepted",
+      "hash": "34ada7aba60d",
+      "dir": "blocks/block-claude-render",
+      "tests": [
+        "test_render.py"
+      ]
+    },
+    {
+      "id": "block-confined-write",
+      "version": 1,
+      "title": "Confined file writes",
+      "module": "confined",
+      "requires": [],
+      "tags": [
+        "python"
+      ],
+      "owner": "ckoenigs",
+      "status": "accepted",
+      "hash": "3ff6903fb9eb",
+      "dir": "blocks/block-confined-write",
+      "tests": [
+        "test_confined.py"
+      ]
+    },
+    {
+      "id": "block-cortex-session",
+      "version": 1,
+      "title": "Cortex Code session with in-process tools",
+      "module": "cortex_session",
+      "requires": [
+        "snowflake-cortex-agent-sdk==0.0.2"
+      ],
+      "tags": [
+        "cortex"
+      ],
+      "owner": "ckoenigs",
+      "status": "accepted",
+      "hash": "15d0b6fe62bd",
+      "dir": "blocks/block-cortex-session",
+      "tests": [
+        "test_cortex_session.py"
+      ]
+    },
+    {
+      "id": "block-git-hooks",
+      "version": 1,
+      "title": "Git commands and hook installation",
+      "module": "githooks",
+      "requires": [],
+      "tags": [
+        "python"
+      ],
+      "owner": "ckoenigs",
+      "status": "accepted",
+      "hash": "3a5615b62120",
+      "dir": "blocks/block-git-hooks",
+      "tests": [
+        "test_githooks.py"
+      ]
+    },
+    {
+      "id": "block-markdown-pointers",
+      "version": 1,
+      "title": "Markdown [[pointer]] reading",
+      "module": "pointers",
+      "requires": [],
+      "tags": [
+        "python"
+      ],
+      "owner": "ckoenigs",
+      "status": "accepted",
+      "hash": "d4c8d51ae6d9",
+      "dir": "blocks/block-markdown-pointers",
+      "tests": [
+        "test_pointers.py"
+      ]
+    },
+    {
+      "id": "block-safe-outdir",
+      "version": 1,
+      "title": "Safe build output directories",
+      "module": "outdir",
+      "requires": [],
+      "tags": [
+        "python",
+        "docs"
+      ],
+      "owner": "ckoenigs",
+      "status": "accepted",
+      "hash": "e8e2cf80b06c",
+      "dir": "blocks/block-safe-outdir",
+      "tests": [
+        "test_outdir.py"
+      ]
+    },
+    {
+      "id": "block-text-safety",
+      "version": 1,
+      "title": "Text safety for generated files",
+      "module": "textsafe",
+      "requires": [],
+      "tags": [
+        "python"
+      ],
+      "owner": "ckoenigs",
+      "status": "accepted",
+      "hash": "82353e9b9bae",
+      "dir": "blocks/block-text-safety",
+      "tests": [
+        "test_textsafe.py"
+      ]
+    },
+    {
+      "id": "block-tui-widgets",
+      "version": 1,
+      "title": "Inline picker and one-screen form",
+      "module": "widgets",
+      "requires": [
+        "prompt-toolkit>=3.0.40"
+      ],
+      "tags": [
+        "cli"
+      ],
+      "owner": "ckoenigs",
+      "status": "accepted",
+      "hash": "21761bb93ea8",
+      "dir": "blocks/block-tui-widgets",
+      "tests": [
+        "test_widgets.py"
       ]
     }
   ]
