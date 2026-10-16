@@ -4,6 +4,7 @@ version: 1
 title: Text safety for generated files
 module: textsafe
 requires: []
+test_requires: ["pyyaml>=6"]
 tags: ["python"]
 owner: ckoenigs
 status: accepted

@@ -3,7 +3,12 @@ import tomllib
 import pytest
 import yaml
 
-from {{package}}.textsafe import check_one_line, check_project_name, fill_template, json_literal
+from {{package}}.textsafe import (
+    check_one_line,
+    check_project_name,
+    fill_template,
+    json_literal,
+)
 
 HOSTILE = 'Print "hello" \\ 🚀 """ end\x7f'
 

@@ -78,7 +78,8 @@ def parse_block(path: Path) -> dict:
         digest.update(f.relative_to(base).as_posix().encode() + f.read_bytes())
     return {
         "id": fm["id"], "version": int(fm["version"]), "title": fm["title"], "module": fm["module"],
-        "requires": json.loads(fm["requires"]), "tags": json.loads(fm["tags"]), "owner": fm["owner"],
+        "requires": json.loads(fm["requires"]), "test_requires": json.loads(fm.get("test_requires", "[]")),
+        "tags": json.loads(fm["tags"]), "owner": fm["owner"],
         "status": fm.get("status", "proposed"), "hash": digest.hexdigest()[:12],
         "dir": base.relative_to(ROOT).as_posix(), "tests": [t.name for t in tests],
     }

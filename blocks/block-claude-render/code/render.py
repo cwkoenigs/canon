@@ -12,8 +12,16 @@ import json
 import time
 from typing import Any
 
-from cortex_agent_sdk.cortexcode import (AssistantMessage, ResultMessage, SystemMessage, TextBlock,
-                                         ThinkingBlock, ToolResultBlock, ToolUseBlock, UserMessage)
+from cortex_agent_sdk.cortexcode import (
+    AssistantMessage,
+    ResultMessage,
+    SystemMessage,
+    TextBlock,
+    ThinkingBlock,
+    ToolResultBlock,
+    ToolUseBlock,
+    UserMessage,
+)
 from rich.console import Console
 from rich.markdown import Markdown
 from rich.table import Table

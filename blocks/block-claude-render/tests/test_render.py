@@ -1,5 +1,12 @@
-from cortex_agent_sdk.cortexcode import (AssistantMessage, ResultMessage, TextBlock, ThinkingBlock,
-                                         ToolResultBlock, ToolUseBlock, UserMessage)
+from cortex_agent_sdk.cortexcode import (
+    AssistantMessage,
+    ResultMessage,
+    TextBlock,
+    ThinkingBlock,
+    ToolResultBlock,
+    ToolUseBlock,
+    UserMessage,
+)
 from rich.console import Console
 
 from {{package}}.render import asks, render

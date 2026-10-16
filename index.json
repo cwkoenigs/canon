@@ -469,6 +469,7 @@
       "requires": [
         "snowflake-cortex-agent-sdk==0.0.2"
       ],
+      "test_requires": [],
       "tags": [
         "cortex",
         "cli"
@@ -490,13 +491,14 @@
         "snowflake-cortex-agent-sdk==0.0.2",
         "rich>=13"
       ],
+      "test_requires": [],
       "tags": [
         "cortex",
         "cli"
       ],
       "owner": "ckoenigs",
       "status": "accepted",
-      "hash": "34ada7aba60d",
+      "hash": "a744fff42eed",
       "dir": "blocks/block-claude-render",
       "tests": [
         "test_render.py"
@@ -508,6 +510,7 @@
       "title": "Confined file writes",
       "module": "confined",
       "requires": [],
+      "test_requires": [],
       "tags": [
         "python"
       ],
@@ -527,12 +530,13 @@
       "requires": [
         "snowflake-cortex-agent-sdk==0.0.2"
       ],
+      "test_requires": [],
       "tags": [
         "cortex"
       ],
       "owner": "ckoenigs",
       "status": "accepted",
-      "hash": "15d0b6fe62bd",
+      "hash": "711687386cf6",
       "dir": "blocks/block-cortex-session",
       "tests": [
         "test_cortex_session.py"
@@ -544,6 +548,7 @@
       "title": "Git commands and hook installation",
       "module": "githooks",
       "requires": [],
+      "test_requires": [],
       "tags": [
         "python"
       ],
@@ -561,6 +566,7 @@
       "title": "Markdown [[pointer]] reading",
       "module": "pointers",
       "requires": [],
+      "test_requires": [],
       "tags": [
         "python"
       ],
@@ -578,6 +584,7 @@
       "title": "Safe build output directories",
       "module": "outdir",
       "requires": [],
+      "test_requires": [],
       "tags": [
         "python",
         "docs"
@@ -596,12 +603,15 @@
       "title": "Text safety for generated files",
       "module": "textsafe",
       "requires": [],
+      "test_requires": [
+        "pyyaml>=6"
+      ],
       "tags": [
         "python"
       ],
       "owner": "ckoenigs",
       "status": "accepted",
-      "hash": "82353e9b9bae",
+      "hash": "38df8d627338",
       "dir": "blocks/block-text-safety",
       "tests": [
         "test_textsafe.py"
@@ -615,6 +625,7 @@
       "requires": [
         "prompt-toolkit>=3.0.40"
       ],
+      "test_requires": [],
       "tags": [
         "cli"
       ],

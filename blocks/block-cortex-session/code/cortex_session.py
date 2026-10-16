@@ -11,9 +11,14 @@ from collections.abc import AsyncIterator, Awaitable, Callable
 from pathlib import Path
 from typing import Any
 
-from cortex_agent_sdk.cortexcode import (CortexCodeAgentOptions, CortexCodeSDKClient, Message,
-                                         PermissionResultAllow, PermissionResultDeny,
-                                         create_sdk_mcp_server)
+from cortex_agent_sdk.cortexcode import (
+    CortexCodeAgentOptions,
+    CortexCodeSDKClient,
+    Message,
+    PermissionResultAllow,
+    PermissionResultDeny,
+    create_sdk_mcp_server,
+)
 
 ERROR_PREFIX = "ERROR: "
 Ask = Callable[[str, dict[str, Any], Any], Awaitable[Any]]
