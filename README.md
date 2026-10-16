@@ -29,8 +29,11 @@ per repository by `ds new`.
 
 `scaffolds/<id>/` holds the accepted project shapes: `SCAFFOLD.md` (front matter `id`,
 `version`, `title`, `path` for the `/new` menu, the `tags` a new repo gets, `owner`, `status`,
-and default `test_cmd`/`lint_cmd`) and `files/`, the templates. Placeholders are `{{name}}`,
-`{{package}}`, `{{purpose}}`, `{{purpose_json}}`, `{{test_cmd}}` and `{{lint_cmd}}`; a path segment
+and default `test_cmd`/`lint_cmd`) and `files/`, the templates. Placeholders are `{{name}}` and
+`{{package}}` (both safe identifiers), and `{{purpose_json}}`, `{{test_cmd_json}}` and
+`{{lint_cmd_json}}`: each a JSON string, which is also a valid Python, TOML and YAML double-quoted
+string, so user text can never break the generated file. Use those inside code and config;
+`{{purpose}}`, `{{test_cmd}}` and `{{lint_cmd}}` are raw text for prose only; a path segment
 `__package__` becomes the package name and a leading `dot-` becomes `.`. `build_index.py` lists
 them in `index.json` with a hash over every template, so an edited template needs a version bump.
 `ds-next` creates repositories only from a scaffold whose status is `accepted`, and records its

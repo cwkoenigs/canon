@@ -244,7 +244,7 @@
   "scaffolds": [
     {
       "id": "python-cli",
-      "version": 1,
+      "version": 2,
       "title": "Python command-line tool",
       "path": [
         "python",
@@ -261,7 +261,7 @@
         "test_cmd": "uv run pytest -q",
         "lint_cmd": "uv run ruff check ."
       },
-      "hash": "ebfea53bf220",
+      "hash": "2eeac93d6791",
       "dir": "scaffolds/python-cli",
       "files": [
         "dot-gitignore",
@@ -274,7 +274,7 @@
     },
     {
       "id": "python-package",
-      "version": 1,
+      "version": 2,
       "title": "Python library package",
       "path": [
         "python",
@@ -290,7 +290,7 @@
         "test_cmd": "uv run pytest -q",
         "lint_cmd": "uv run ruff check ."
       },
-      "hash": "4f00dba7935d",
+      "hash": "633005736cfd",
       "dir": "scaffolds/python-package",
       "files": [
         "dot-gitignore",

@@ -1,6 +1,6 @@
 ---
 id: python-package
-version: 1
+version: 2
 title: Python library package
 path: ["python", "package"]
 tags: ["python", "package"]

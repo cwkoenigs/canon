@@ -1,6 +1,6 @@
 ---
 id: python-cli
-version: 1
+version: 2
 title: Python command-line tool
 path: ["python", "cli"]
 tags: ["python", "package", "cli"]
