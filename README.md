@@ -25,6 +25,19 @@ broadly. Review each file, narrow `applies_to`, set `status: accepted`, and bump
 until the text changes. Section 17 of the guidebook is deliberately absent: it is answered
 per repository by `ds new`.
 
+## Scaffolds
+
+`scaffolds/<id>/` holds the accepted project shapes: `SCAFFOLD.md` (front matter `id`,
+`version`, `title`, `path` for the `/new` menu, the `tags` a new repo gets, `owner`, `status`,
+and default `test_cmd`/`lint_cmd`) and `files/`, the templates. Placeholders are `{{name}}`,
+`{{package}}`, `{{purpose}}`, `{{purpose_json}}`, `{{test_cmd}}` and `{{lint_cmd}}`; a path segment
+`__package__` becomes the package name and a leading `dot-` becomes `.`. `build_index.py` lists
+them in `index.json` with a hash over every template, so an edited template needs a version bump.
+`ds-next` creates repositories only from a scaffold whose status is `accepted`, and records its
+id and version in the repository's manifest. Adding or changing one is a merge request like a
+standard. The two seeded here, `python-cli` and `python-package`, came from ds-next's built-in
+templates and are marked accepted so it works today; the owner should review them.
+
 ## Portal pipeline
 
 `.gitlab-ci.yml` has a `portal` job (main and schedules) that clones the docs shell and every

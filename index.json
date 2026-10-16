@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-14",
+  "generated": "2026-10-16",
   "standards": [
     {
       "id": "adr-000",
@@ -239,6 +239,66 @@
       "status": "proposed",
       "hash": "e3e0bd699d6d",
       "path": "testing.md"
+    }
+  ],
+  "scaffolds": [
+    {
+      "id": "python-cli",
+      "version": 1,
+      "title": "Python command-line tool",
+      "path": [
+        "python",
+        "cli"
+      ],
+      "tags": [
+        "python",
+        "package",
+        "cli"
+      ],
+      "owner": "ckoenigs",
+      "status": "accepted",
+      "defaults": {
+        "test_cmd": "uv run pytest -q",
+        "lint_cmd": "uv run ruff check ."
+      },
+      "hash": "ebfea53bf220",
+      "dir": "scaffolds/python-cli",
+      "files": [
+        "dot-gitignore",
+        "dot-gitlab-ci.yml",
+        "pyproject.toml",
+        "src/__package__/__init__.py",
+        "src/__package__/cli.py",
+        "tests/test_cli.py"
+      ]
+    },
+    {
+      "id": "python-package",
+      "version": 1,
+      "title": "Python library package",
+      "path": [
+        "python",
+        "package"
+      ],
+      "tags": [
+        "python",
+        "package"
+      ],
+      "owner": "ckoenigs",
+      "status": "accepted",
+      "defaults": {
+        "test_cmd": "uv run pytest -q",
+        "lint_cmd": "uv run ruff check ."
+      },
+      "hash": "4f00dba7935d",
+      "dir": "scaffolds/python-package",
+      "files": [
+        "dot-gitignore",
+        "dot-gitlab-ci.yml",
+        "pyproject.toml",
+        "src/__package__/__init__.py",
+        "tests/test_package.py"
+      ]
     }
   ]
 }

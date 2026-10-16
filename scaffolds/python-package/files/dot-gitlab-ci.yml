@@ -1,0 +1,17 @@
+# ds:inherited [[cicd]]
+stages: [check]
+
+test:
+  stage: check
+  image: ghcr.io/astral-sh/uv:python3.12-bookworm
+  script:
+    - uv sync
+    - {{test_cmd}}
+    - {{lint_cmd}}
+
+reconcile:
+  stage: check
+  image: ghcr.io/astral-sh/uv:python3.12-bookworm
+  script:
+    - uvx --from ds-next ds-next reconcile
+  allow_failure: true   # until ds-next is published where the runner can reach it
