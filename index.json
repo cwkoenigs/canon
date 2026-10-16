@@ -116,7 +116,7 @@
     },
     {
       "id": "gotcha-agent-trust",
-      "version": 1,
+      "version": 2,
       "title": "What to let the model decide",
       "applies_to": [
         "cortex"
@@ -125,7 +125,7 @@
       "supersedes": null,
       "status": "proposed",
       "kind": "gotcha",
-      "hash": "319937a56ece",
+      "hash": "27871a89e458",
       "path": "gotchas/gotcha-agent-trust.md"
     },
     {
@@ -159,7 +159,7 @@
     },
     {
       "id": "gotcha-cortex-sdk",
-      "version": 1,
+      "version": 2,
       "title": "Cortex Code SDK behaviour that is not in its docs",
       "applies_to": [
         "cortex"
@@ -168,7 +168,7 @@
       "supersedes": null,
       "status": "proposed",
       "kind": "gotcha",
-      "hash": "774903064d93",
+      "hash": "a23d730709ef",
       "path": "gotchas/gotcha-cortex-sdk.md"
     },
     {
@@ -243,7 +243,7 @@
     },
     {
       "id": "gotcha-verify-process",
-      "version": 1,
+      "version": 2,
       "title": "How to build so the result can be trusted",
       "applies_to": [
         "*"
@@ -252,7 +252,7 @@
       "supersedes": null,
       "status": "proposed",
       "kind": "gotcha",
-      "hash": "9ab49338afe3",
+      "hash": "d2e593882940",
       "path": "gotchas/gotcha-verify-process.md"
     },
     {
@@ -595,6 +595,24 @@
       "dir": "blocks/block-safe-outdir",
       "tests": [
         "test_outdir.py"
+      ]
+    },
+    {
+      "id": "block-scaffold-render",
+      "version": 1,
+      "title": "Render an accepted canon scaffold",
+      "module": "scaffoldrender",
+      "requires": [],
+      "test_requires": [],
+      "tags": [
+        "python"
+      ],
+      "owner": "ckoenigs",
+      "status": "accepted",
+      "hash": "500795bb9196",
+      "dir": "blocks/block-scaffold-render",
+      "tests": [
+        "test_scaffoldrender.py"
       ]
     },
     {

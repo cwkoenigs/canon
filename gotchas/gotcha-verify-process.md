@@ -1,6 +1,6 @@
 ---
 id: gotcha-verify-process
-version: 1
+version: 2
 title: How to build so the result can be trusted
 applies_to: ["*"]
 owner: ckoenigs
@@ -25,3 +25,7 @@ source: ds-next build, 2026-10-16
 5. **Get an outside review and loop until the findings stop being real.** Nine rounds found 37
    defects, the worst (a repo-deleting docs build) in round seven.
 6. **Never `cd dir && rm -rf *`:** create a fresh directory for each run instead.
+7. **"It exited" is not "it exited cleanly".** A crash also ends the process: a check that /exit
+   leaves passed while /exit printed a traceback. Check exit status and scan output for tracebacks.
+8. **Write down a lesson before it costs twice.** The task-group crash was found in the rebuild
+   and repeated in ds-next the same hour, because it was remembered and not yet written.

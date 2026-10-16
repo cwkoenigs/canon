@@ -1,6 +1,6 @@
 ---
 id: gotcha-cortex-sdk
-version: 1
+version: 2
 title: Cortex Code SDK behaviour that is not in its docs
 applies_to: ["cortex"]
 owner: ckoenigs
@@ -38,9 +38,19 @@ Facts about driving Cortex Code 1.2.14 from Python, each found the hard way and 
    silently continues the old conversation.
 6. **A first turn takes several seconds** to start the CLI; later turns reuse it. Show
    "Connecting…" and elapsed time, not a silent prompt.
+7. **Connect and disconnect the client in the same task.** The SDK's connection lives in an anyio
+   task group that must be exited in the task that entered it. Run the whole terminal in one
+   `asyncio.run(...)` and call `connect()` directly, never inside `asyncio.gather()`,
+   `create_task()`, or one `loop.run_until_complete()` per command; otherwise closing raises
+   `RuntimeError: Attempted to exit cancel scope in a different task than it was entered in`.
+   (Rebuild of 2026-10-16 crashed on /exit this way; ds-next then repeated it with gather().)
+8. **After an interrupt, keep reading.** `interrupt()` makes the turn end early, but its remaining
+   messages still arrive: keep consuming `receive_response()` until the `ResultMessage`, or they
+   leak into the next turn.
 
 ## Check
 
 - `grep -rn allowed_tools` finds nothing in code that creates options.
 - A tool error test asserts the text starts with `ERROR:`.
 - Accepted code: [[block-cortex-session]].
+- A test connects and closes a fake client and asserts both ran in the caller's task.

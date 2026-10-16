@@ -1,6 +1,6 @@
 ---
 id: gotcha-agent-trust
-version: 1
+version: 2
 title: What to let the model decide
 applies_to: ["cortex"]
 owner: ckoenigs
@@ -23,7 +23,11 @@ source: ds-next build, 2026-10-16
    number it could guess.
 4. **Keep what the user typed.** A tag the user typed survives even when another field that
    would also imply it is blank.
+5. **Agents drop requirements silently.** Given a spec, a build agent skipped "Cortex reviews the
+   draft" in /new and reported everything done. End every build by walking the spec item by item
+   and saying which are done and how; never accept "all done" without that list.
 
 ## Check
 
 - Accepted code: [[block-cortex-session]].
+- Acceptance checks cover every spec item, including side effects such as a model turn.
