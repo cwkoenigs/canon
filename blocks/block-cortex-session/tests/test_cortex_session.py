@@ -102,3 +102,29 @@ def test_no_stall_while_a_person_is_deciding(tmp_path, monkeypatch):
         return [m async for m in s.turn("hi", idle_timeout=0.2)]
 
     assert len(asyncio.run(asyncio.wait_for(go(), 5))) == 2
+
+
+def test_reads_inside_the_working_directory_do_not_ask(tmp_path):
+    asked = []
+
+    async def ask(name, inp, ctx):
+        asked.append(name)
+        return "asked"
+
+    (tmp_path / "src").mkdir()
+    s = CortexSession(tmp_path, [], "kb", set(), ask=ask)
+
+    def permit(kind, resource):
+        return asyncio.run(s.permit(kind, {"action": "read", "resource": resource}, None))
+
+    assert permit("Read", str(tmp_path / "src" / "a.py")).behavior == "allow"
+    assert permit("Read", "src/a.py").behavior == "allow"
+    assert permit("Glob", f"**/*.py in {tmp_path}").behavior == "allow"
+    assert permit("Grep", f"TODO in {tmp_path / 'src'}").behavior == "allow"
+    assert asked == []
+    assert permit("Read", "/etc/hosts") == "asked"
+    assert permit("Read", str(tmp_path / ".." / "elsewhere.txt")) == "asked"
+    assert permit("Glob", f"../**/* in {tmp_path}") == "asked"
+    assert permit("Grep", "secret in /Users") == "asked"
+    assert permit("Write", str(tmp_path / "a.py")) == "asked"
+    assert permit("Edit", str(tmp_path / "a.py")) == "asked"

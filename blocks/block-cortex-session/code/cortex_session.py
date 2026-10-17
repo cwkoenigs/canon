@@ -25,6 +25,10 @@ ERROR_PREFIX = "ERROR: "
 Ask = Callable[[str, dict[str, Any], Any], Awaitable[Any]]
 
 
+# Cortex's built-in reads. Inside the working directory they run without asking; outside it
+# they ask, so the person sees a model reach for ~/.ssh. [[gotcha-approvals]]
+READ_KINDS = frozenset({"Read", "Glob", "Grep"})
+
 class TurnStalled(TimeoutError):
     """Cortex sent nothing for longer than the idle timeout; the turn was interrupted."""
 
@@ -70,6 +74,8 @@ class CortexSession:
         resource = str(inp.get("resource", "")) if isinstance(inp, dict) else ""
         if tool_name == "MCP" and resource.split("\n", 1)[0].strip() in self.read_only:
             return PermissionResultAllow()
+        if tool_name in READ_KINDS and self.reads_inside(tool_name, resource):
+            return PermissionResultAllow()
         if self.ask is None:
             return PermissionResultDeny(message="No one is here to approve this call.")
         self._asking = True                      # the stall watchdog waits while a person decides
@@ -77,6 +83,23 @@ class CortexSession:
             return await self.ask(tool_name, inp, ctx)
         finally:
             self._asking = False
+
+    def reads_inside(self, kind: str, resource: str) -> bool:
+        """Whether a built-in read stays inside the working directory. Cortex sends a path for
+        Read and "<pattern> in <dir>" for Glob and Grep. A pattern that climbs out or is absolute
+        counts as outside, so the person sees it."""
+        first = resource.split("\n", 1)[0].strip()
+        if kind == "Read":
+            pattern, target = "", first
+        else:
+            pattern, sep, target = first.rpartition(" in ")
+            if not sep:
+                pattern, target = first, str(self.cwd)
+        if ".." in Path(pattern).parts or pattern.startswith(("/", "~")) or not target:
+            return False
+        path = Path(target).expanduser()
+        path = (path if path.is_absolute() else self.cwd / path).resolve()
+        return path == self.cwd or path.is_relative_to(self.cwd)
 
     @property
     def connected(self) -> bool:

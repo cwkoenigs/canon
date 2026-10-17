@@ -116,7 +116,7 @@
     },
     {
       "id": "gotcha-agent-trust",
-      "version": 4,
+      "version": 5,
       "title": "What to let the model decide",
       "applies_to": [
         "cortex"
@@ -125,12 +125,12 @@
       "supersedes": null,
       "status": "proposed",
       "kind": "gotcha",
-      "hash": "3c09214cd944",
+      "hash": "f1c9d46a66d5",
       "path": "gotchas/gotcha-agent-trust.md"
     },
     {
       "id": "gotcha-approvals",
-      "version": 2,
+      "version": 3,
       "title": "Approving what a model wants to do",
       "applies_to": [
         "cortex",
@@ -140,7 +140,7 @@
       "supersedes": null,
       "status": "proposed",
       "kind": "gotcha",
-      "hash": "6ca1c823c405",
+      "hash": "80a1fefe3080",
       "path": "gotchas/gotcha-approvals.md"
     },
     {
@@ -483,6 +483,24 @@
       ]
     },
     {
+      "id": "block-canon-reader",
+      "version": 1,
+      "title": "Read the canon's index and standards",
+      "module": "canonreader",
+      "requires": [],
+      "test_requires": [],
+      "tags": [
+        "python"
+      ],
+      "owner": "ckoenigs",
+      "status": "accepted",
+      "hash": "45c3b6402eb8",
+      "dir": "blocks/block-canon-reader",
+      "tests": [
+        "test_canonreader.py"
+      ]
+    },
+    {
       "id": "block-claude-render",
       "version": 1,
       "title": "Claude-Code-style message rendering",
@@ -524,7 +542,7 @@
     },
     {
       "id": "block-cortex-session",
-      "version": 2,
+      "version": 3,
       "title": "Cortex Code session with in-process tools",
       "module": "cortex_session",
       "requires": [
@@ -536,7 +554,7 @@
       ],
       "owner": "ckoenigs",
       "status": "accepted",
-      "hash": "9246bbb3c00a",
+      "hash": "3a411b32f9d2",
       "dir": "blocks/block-cortex-session",
       "tests": [
         "test_cortex_session.py"
