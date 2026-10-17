@@ -1,6 +1,6 @@
 ---
 id: gotcha-agent-trust
-version: 2
+version: 3
 title: What to let the model decide
 applies_to: ["cortex"]
 owner: ckoenigs
@@ -26,6 +26,9 @@ source: ds-next build, 2026-10-16
 5. **Agents drop requirements silently.** Given a spec, a build agent skipped "Cortex reviews the
    draft" in /new and reported everything done. End every build by walking the spec item by item
    and saying which are done and how; never accept "all done" without that list.
+6. **A review gates the action.** If the model's review raises a concern, or the review cannot run
+   (an error, a cap, a timeout), do not go ahead: show why and let the person decide. A rebuild's
+   /new created the repo anyway after its review failed.
 
 ## Check
 

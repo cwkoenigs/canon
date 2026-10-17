@@ -1,6 +1,6 @@
 ---
 id: gotcha-terminal-ui
-version: 1
+version: 2
 title: Claude-Code-style terminals with prompt_toolkit and rich
 applies_to: ["cli"]
 owner: ckoenigs
@@ -32,6 +32,8 @@ source: ds-next build, 2026-10-16
    prompt opened during a turn.
 8. **Testing in a pty:** set `PROMPT_TOOLKIT_NO_CPR=1`, and send whole characters, not bytes,
    or multi-byte characters arrive as stray control bytes.
+9. **Never report an action that did not happen.** A rebuild printed "(empty reply sent)" on Enter
+   while sending nothing. Say what was done, or do it.
 
 ## Check
 

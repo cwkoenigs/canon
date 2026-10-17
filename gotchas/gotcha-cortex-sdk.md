@@ -1,6 +1,6 @@
 ---
 id: gotcha-cortex-sdk
-version: 2
+version: 3
 title: Cortex Code SDK behaviour that is not in its docs
 applies_to: ["cortex"]
 owner: ckoenigs
@@ -47,6 +47,21 @@ Facts about driving Cortex Code 1.2.14 from Python, each found the hard way and 
 8. **After an interrupt, keep reading.** `interrupt()` makes the turn end early, but its remaining
    messages still arrive: keep consuming `receive_response()` until the `ResultMessage`, or they
    leak into the next turn.
+9. **`cortex exec` and `--print` are blocked on subscription and trial accounts** ("--print mode is
+   not available for subscription/trial accounts"), whatever the output format. The stream-json
+   protocol the SDK uses still works, so script Cortex through the SDK, `ds-next ask`, or
+   `cortex --input-format stream-json --output-format stream-json` with one JSON user message
+   (`{"type": "user", "session_id": "default", "parent_tool_use_id": null, "message": {...}}`)
+   on stdin.
+10. **Every turn needs a stall timeout.** A Cortex stream can stop without ending: one waited over
+    two hours. Bound the wait between messages, interrupt and say so when it passes, and treat
+    "Network connection was interrupted while streaming" as retryable. Pause that bound while a
+    person is answering an approval (Cortex is silent then by design), and do not use
+    `asyncio.timeout` around the stream: cancelling its `__anext__` finalizes the generator.
+    Accepted code: [[block-cortex-session]] v2.
+11. **Accounts have a request cap.** "You have reached the maximum number of requests for your
+    subscription. Your limit will reset in N hours" arrives as a turn result, not an exception;
+    show it as the reason, not as a failed task.
 
 ## Check
 

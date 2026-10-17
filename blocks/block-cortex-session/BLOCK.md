@@ -1,6 +1,6 @@
 ---
 id: block-cortex-session
-version: 1
+version: 2
 title: Cortex Code session with in-process tools
 module: cortex_session
 requires: ["snowflake-cortex-agent-sdk==0.0.2"]
@@ -16,7 +16,7 @@ Drive Cortex Code from Python with your own MCP tools, read-only ones auto-appro
 
 ## API
 
-`CortexSession(cwd, tools, server, read_only, ask, system_prompt, model, connection, effort)` with `turn(prompt)` (async iterator of SDK messages), `interrupt()`, `set_effort()`, `close()`, `reset()` · `text_result(s)`, `error_result(s)` (ERROR: prefix).
+`CortexSession(cwd, tools, server, read_only, ask, system_prompt, model, connection, effort)` with `turn(prompt, idle_timeout=None)` (async iterator of SDK messages; raises `TurnStalled` after a silent stream), `interrupt()`, `set_effort()`, `close()`, `reset()` · `text_result(s)`, `error_result(s)` (ERROR: prefix).
 
 ## Why it is shaped this way
 

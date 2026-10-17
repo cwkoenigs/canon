@@ -1,6 +1,6 @@
 ---
 id: gotcha-verify-process
-version: 2
+version: 3
 title: How to build so the result can be trusted
 applies_to: ["*"]
 owner: ckoenigs
@@ -29,3 +29,8 @@ source: ds-next build, 2026-10-16
    leaves passed while /exit printed a traceback. Check exit status and scan output for tracebacks.
 8. **Write down a lesson before it costs twice.** The task-group crash was found in the rebuild
    and repeated in ds-next the same hour, because it was remembered and not yet written.
+9. **Keep the machine awake for long runs.** On battery a Mac's maintenance sleep froze a Cortex
+   stream mid-run; run long jobs under `caffeinate -ims`, and when timings look impossible, read
+   `pmset -g log` before blaming the code.
+10. **Budget for the request cap.** One rebuild plus its acceptance run is about fifty Cortex
+    requests; plan runs per reset, and probe with one tiny turn before a long run.
