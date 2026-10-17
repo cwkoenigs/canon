@@ -214,6 +214,20 @@
       "path": "gotchas/gotcha-git-hooks.md"
     },
     {
+      "id": "gotcha-green-means-ran",
+      "version": 1,
+      "title": "A green check proves the job finished, not that it did the work",
+      "applies_to": [
+        "*"
+      ],
+      "owner": "ckoenigs",
+      "supersedes": null,
+      "status": "proposed",
+      "kind": "gotcha",
+      "hash": "7d4ce683b0da",
+      "path": "gotchas/gotcha-green-means-ran.md"
+    },
+    {
       "id": "gotcha-terminal-ui",
       "version": 3,
       "title": "Claude-Code-style terminals with prompt_toolkit and rich",
