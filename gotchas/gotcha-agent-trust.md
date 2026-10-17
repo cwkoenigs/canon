@@ -1,12 +1,12 @@
 ---
 id: gotcha-agent-trust
-version: 3
+version: 4
 title: What to let the model decide
 applies_to: ["cortex"]
 owner: ckoenigs
 status: proposed
 kind: gotcha
-date: 2026-10-16
+date: 2026-10-17
 source: ds-next build, 2026-10-16
 ---
 
@@ -29,8 +29,13 @@ source: ds-next build, 2026-10-16
 6. **A review gates the action.** If the model's review raises a concern, or the review cannot run
    (an error, a cap, a timeout), do not go ahead: show why and let the person decide. A rebuild's
    /new created the repo anyway after its review failed.
+7. **Get the verdict as data, not prose.** Give the review a tool to answer with, such as
+   `review_verdict(ok: bool, concerns: list[str])`, and gate on that call. Without a verdict call,
+   treat the review as not approved. A rebuild decided "concern raised" by whether the reply
+   ended in a question, so "the purpose is vague." with no question mark still created the repo.
 
 ## Check
 
 - Accepted code: [[block-cortex-session]].
 - Acceptance checks cover every spec item, including side effects such as a model turn.
+- A draft the review must object to is refused, whatever words the review used.

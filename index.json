@@ -116,7 +116,7 @@
     },
     {
       "id": "gotcha-agent-trust",
-      "version": 3,
+      "version": 4,
       "title": "What to let the model decide",
       "applies_to": [
         "cortex"
@@ -125,7 +125,7 @@
       "supersedes": null,
       "status": "proposed",
       "kind": "gotcha",
-      "hash": "82d78a87f1f4",
+      "hash": "3c09214cd944",
       "path": "gotchas/gotcha-agent-trust.md"
     },
     {
