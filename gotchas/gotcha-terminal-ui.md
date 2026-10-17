@@ -1,12 +1,12 @@
 ---
 id: gotcha-terminal-ui
-version: 2
+version: 3
 title: Claude-Code-style terminals with prompt_toolkit and rich
 applies_to: ["cli"]
 owner: ckoenigs
 status: proposed
 kind: gotcha
-date: 2026-10-16
+date: 2026-10-17
 source: ds-next build, 2026-10-16
 ---
 
@@ -34,7 +34,12 @@ source: ds-next build, 2026-10-16
    or multi-byte characters arrive as stray control bytes.
 9. **Never report an action that did not happen.** A rebuild printed "(empty reply sent)" on Enter
    while sending nothing. Say what was done, or do it.
+10. **Fill every suggestion you can derive, and require in the form what the canon requires.**
+   Owner comes from `git config user.name`; the form refuses a blank owner before any model turn.
+   A rebuild left owner blank, so its review rightly refused a good draft: the person learned
+   about a missing field one model turn late, from the model.
 
 ## Check
 
 - Accepted code: [[block-tui-widgets]], [[block-claude-render]].
+- The form opens with owner already filled in, and refuses to submit without one.

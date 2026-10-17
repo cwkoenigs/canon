@@ -130,7 +130,7 @@
     },
     {
       "id": "gotcha-approvals",
-      "version": 1,
+      "version": 2,
       "title": "Approving what a model wants to do",
       "applies_to": [
         "cortex",
@@ -140,7 +140,7 @@
       "supersedes": null,
       "status": "proposed",
       "kind": "gotcha",
-      "hash": "e2e1aacd64c9",
+      "hash": "6ca1c823c405",
       "path": "gotchas/gotcha-approvals.md"
     },
     {
@@ -215,7 +215,7 @@
     },
     {
       "id": "gotcha-terminal-ui",
-      "version": 2,
+      "version": 3,
       "title": "Claude-Code-style terminals with prompt_toolkit and rich",
       "applies_to": [
         "cli"
@@ -224,7 +224,7 @@
       "supersedes": null,
       "status": "proposed",
       "kind": "gotcha",
-      "hash": "ae11f1ec6bb8",
+      "hash": "a5e8b12caf26",
       "path": "gotchas/gotcha-terminal-ui.md"
     },
     {

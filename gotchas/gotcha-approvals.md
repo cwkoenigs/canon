@@ -1,12 +1,12 @@
 ---
 id: gotcha-approvals
-version: 1
+version: 2
 title: Approving what a model wants to do
 applies_to: ["cortex", "cli"]
 owner: ckoenigs
 status: proposed
 kind: gotcha
-date: 2026-10-16
+date: 2026-10-17
 source: ds-next build, 2026-10-16
 ---
 
@@ -26,6 +26,10 @@ source: ds-next build, 2026-10-16
 5. **The model never invents an answer.** Offer a suggestion only when it follows from what the
    user gave; a purpose or schema it made up is not a suggestion.
 6. **Clearing a session clears its approvals** ("always" grants, pending drafts).
+7. **A verdict is a report, not an action.** Tools that only report back to your code, such as
+   `review_verdict`, run without asking and are never compared with the form. A rebuild wired
+   its verdict tool through the draft approval, so it asked "Allow?" for its own review and
+   showed every field as changed.
 
 ## Check
 
