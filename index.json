@@ -687,5 +687,1322 @@
         "test_widgets.py"
       ]
     }
+  ],
+  "code": [
+    {
+      "id": "block-approver:Approver",
+      "name": "Approver",
+      "block": "block-approver",
+      "version": 1,
+      "module": "approver",
+      "status": "accepted",
+      "kind": "class",
+      "signature": "class Approver",
+      "summary": "A can_use_tool callback. `ask(title, detail) -> answer` shows a request and reads a line.",
+      "needs": [
+        "_norm",
+        "changed_keys",
+        "describe_permission"
+      ],
+      "tests": [
+        "test_approver.py::test_draft_covers_only_exact_calls",
+        "test_approver.py::test_only_explicit_answers",
+        "test_approver.py::test_serialized_and_whole"
+      ],
+      "lessons": [
+        "gotcha-approvals"
+      ],
+      "tags": [
+        "cortex",
+        "cli"
+      ],
+      "lines": 43,
+      "hash": "fc2c0a641c2a"
+    },
+    {
+      "id": "block-approver:changed_keys",
+      "name": "changed_keys",
+      "block": "block-approver",
+      "version": 1,
+      "module": "approver",
+      "status": "accepted",
+      "kind": "function",
+      "signature": "def changed_keys(draft: dict, args: dict, ignore: tuple[str, ...]=()) -> list[str]",
+      "summary": "",
+      "needs": [
+        "_norm"
+      ],
+      "tests": [],
+      "lessons": [
+        "gotcha-approvals"
+      ],
+      "tags": [
+        "cortex",
+        "cli"
+      ],
+      "lines": 3,
+      "hash": "ed0a2516926e"
+    },
+    {
+      "id": "block-approver:describe_permission",
+      "name": "describe_permission",
+      "block": "block-approver",
+      "version": 1,
+      "module": "approver",
+      "status": "accepted",
+      "kind": "function",
+      "signature": "def describe_permission(tool_name: str, inp: dict[str, Any], prefix: str='') -> tuple[str, str]",
+      "summary": "(title, detail) from Cortex's (\"MCP\" | \"Bash\" | ..., {\"action\", \"resource\"}). For MCP the first resource line is the tool name; `prefix` (e.g. \"mcp__kb__\") is stripped from it.",
+      "needs": [],
+      "tests": [
+        "test_approver.py::test_describe"
+      ],
+      "lessons": [
+        "gotcha-approvals"
+      ],
+      "tags": [
+        "cortex",
+        "cli"
+      ],
+      "lines": 9,
+      "hash": "7f1ee47eeb86"
+    },
+    {
+      "id": "block-canon-reader:Canon",
+      "name": "Canon",
+      "block": "block-canon-reader",
+      "version": 1,
+      "module": "canonreader",
+      "status": "accepted",
+      "kind": "class",
+      "signature": "class Canon",
+      "summary": "",
+      "needs": [
+        "KINDS",
+        "canon_root",
+        "strip_front_matter"
+      ],
+      "tests": [
+        "test_canonreader.py::test_a_broken_index_never_raises",
+        "test_canonreader.py::test_missing_index"
+      ],
+      "lessons": [
+        "gotcha-confined-writes",
+        "gotcha-validation"
+      ],
+      "tags": [
+        "python"
+      ],
+      "lines": 73,
+      "hash": "d0e4a14a3230"
+    },
+    {
+      "id": "block-canon-reader:KINDS",
+      "name": "KINDS",
+      "block": "block-canon-reader",
+      "version": 1,
+      "module": "canonreader",
+      "status": "accepted",
+      "kind": "constant",
+      "signature": "KINDS = ('standards', 'scaffolds', 'blocks')",
+      "summary": "",
+      "needs": [],
+      "tests": [],
+      "lessons": [
+        "gotcha-confined-writes",
+        "gotcha-validation"
+      ],
+      "tags": [
+        "python"
+      ],
+      "lines": 1,
+      "hash": "cab76b401f85"
+    },
+    {
+      "id": "block-canon-reader:canon_root",
+      "name": "canon_root",
+      "block": "block-canon-reader",
+      "version": 1,
+      "module": "canonreader",
+      "status": "accepted",
+      "kind": "function",
+      "signature": "def canon_root(env: Mapping[str, str] | None=None) -> Path",
+      "summary": "",
+      "needs": [],
+      "tests": [
+        "test_canonreader.py::test_root_from_env_else_home"
+      ],
+      "lessons": [
+        "gotcha-confined-writes",
+        "gotcha-validation"
+      ],
+      "tags": [
+        "python"
+      ],
+      "lines": 3,
+      "hash": "1bb3b7b65c03"
+    },
+    {
+      "id": "block-canon-reader:strip_front_matter",
+      "name": "strip_front_matter",
+      "block": "block-canon-reader",
+      "version": 1,
+      "module": "canonreader",
+      "status": "accepted",
+      "kind": "function",
+      "signature": "def strip_front_matter(text: str) -> str",
+      "summary": "",
+      "needs": [],
+      "tests": [
+        "test_canonreader.py::test_strip_front_matter_leaves_plain_text"
+      ],
+      "lessons": [
+        "gotcha-confined-writes",
+        "gotcha-validation"
+      ],
+      "tags": [
+        "python"
+      ],
+      "lines": 6,
+      "hash": "77ec1dbb0be8"
+    },
+    {
+      "id": "block-claude-render:ACCENT",
+      "name": "ACCENT",
+      "block": "block-claude-render",
+      "version": 1,
+      "module": "render",
+      "status": "accepted",
+      "kind": "constant",
+      "signature": "(ACCENT, DIM) = ('#d97757', 'grey50')",
+      "summary": "",
+      "needs": [
+        "ACCENT",
+        "DIM"
+      ],
+      "tests": [],
+      "lessons": [
+        "gotcha-terminal-ui"
+      ],
+      "tags": [
+        "cortex",
+        "cli"
+      ],
+      "lines": 1,
+      "hash": "c52a2342b4f6"
+    },
+    {
+      "id": "block-claude-render:DIM",
+      "name": "DIM",
+      "block": "block-claude-render",
+      "version": 1,
+      "module": "render",
+      "status": "accepted",
+      "kind": "constant",
+      "signature": "(ACCENT, DIM) = ('#d97757', 'grey50')",
+      "summary": "",
+      "needs": [
+        "ACCENT",
+        "DIM"
+      ],
+      "tests": [],
+      "lessons": [
+        "gotcha-terminal-ui"
+      ],
+      "tags": [
+        "cortex",
+        "cli"
+      ],
+      "lines": 1,
+      "hash": "c52a2342b4f6"
+    },
+    {
+      "id": "block-claude-render:arg_summary",
+      "name": "arg_summary",
+      "block": "block-claude-render",
+      "version": 1,
+      "module": "render",
+      "status": "accepted",
+      "kind": "function",
+      "signature": "def arg_summary(inp: dict[str, Any], width: int=70) -> str",
+      "summary": "",
+      "needs": [],
+      "tests": [],
+      "lessons": [
+        "gotcha-terminal-ui"
+      ],
+      "tags": [
+        "cortex",
+        "cli"
+      ],
+      "lines": 7,
+      "hash": "4b0e730da62e"
+    },
+    {
+      "id": "block-claude-render:asks",
+      "name": "asks",
+      "block": "block-claude-render",
+      "version": 1,
+      "module": "render",
+      "status": "accepted",
+      "kind": "function",
+      "signature": "def asks(text: str) -> bool",
+      "summary": "Whether a reply ends by asking something, even with an example after the question mark.",
+      "needs": [],
+      "tests": [
+        "test_render.py::test_asks"
+      ],
+      "lessons": [
+        "gotcha-terminal-ui"
+      ],
+      "tags": [
+        "cortex",
+        "cli"
+      ],
+      "lines": 3,
+      "hash": "0971131f618c"
+    },
+    {
+      "id": "block-claude-render:bullet",
+      "name": "bullet",
+      "block": "block-claude-render",
+      "version": 1,
+      "module": "render",
+      "status": "accepted",
+      "kind": "function",
+      "signature": "def bullet(body, style: str='white') -> Table",
+      "summary": "",
+      "needs": [],
+      "tests": [],
+      "lessons": [
+        "gotcha-terminal-ui"
+      ],
+      "tags": [
+        "cortex",
+        "cli"
+      ],
+      "lines": 6,
+      "hash": "68250b7e163e"
+    },
+    {
+      "id": "block-claude-render:render",
+      "name": "render",
+      "block": "block-claude-render",
+      "version": 1,
+      "module": "render",
+      "status": "accepted",
+      "kind": "function",
+      "signature": "def render(console: Console, msg: Any, state: dict, prefix: str='') -> None",
+      "summary": "Text as \u23fa Markdown, tool calls as \u23fa Name(arg), results as \u23bf first line (+N lines), errors red (by flag or an ERROR: prefix), thinking hidden. Updates state: step, asked, model.",
+      "needs": [
+        "ACCENT",
+        "DIM",
+        "arg_summary",
+        "asks",
+        "bullet",
+        "result_text",
+        "short_name"
+      ],
+      "tests": [
+        "test_render.py::test_renders_like_claude_code"
+      ],
+      "lessons": [
+        "gotcha-terminal-ui"
+      ],
+      "tags": [
+        "cortex",
+        "cli"
+      ],
+      "lines": 32,
+      "hash": "d79f4b620e09"
+    },
+    {
+      "id": "block-claude-render:result_text",
+      "name": "result_text",
+      "block": "block-claude-render",
+      "version": 1,
+      "module": "render",
+      "status": "accepted",
+      "kind": "function",
+      "signature": "def result_text(block: ToolResultBlock) -> str",
+      "summary": "",
+      "needs": [],
+      "tests": [],
+      "lessons": [
+        "gotcha-terminal-ui"
+      ],
+      "tags": [
+        "cortex",
+        "cli"
+      ],
+      "lines": 5,
+      "hash": "67d35c993066"
+    },
+    {
+      "id": "block-claude-render:short_name",
+      "name": "short_name",
+      "block": "block-claude-render",
+      "version": 1,
+      "module": "render",
+      "status": "accepted",
+      "kind": "function",
+      "signature": "def short_name(name: str, prefix: str='') -> str",
+      "summary": "",
+      "needs": [],
+      "tests": [],
+      "lessons": [
+        "gotcha-terminal-ui"
+      ],
+      "tags": [
+        "cortex",
+        "cli"
+      ],
+      "lines": 4,
+      "hash": "8b4b126902c4"
+    },
+    {
+      "id": "block-claude-render:status_label",
+      "name": "status_label",
+      "block": "block-claude-render",
+      "version": 1,
+      "module": "render",
+      "status": "accepted",
+      "kind": "function",
+      "signature": "def status_label(state: dict, started: float) -> str",
+      "summary": "'\u273b Running scaffold_get\u2026 7s \u00b7 ctrl-c to interrupt' for console.status().",
+      "needs": [
+        "ACCENT",
+        "DIM"
+      ],
+      "tests": [],
+      "lessons": [
+        "gotcha-terminal-ui"
+      ],
+      "tags": [
+        "cortex",
+        "cli"
+      ],
+      "lines": 4,
+      "hash": "4772fbe42350"
+    },
+    {
+      "id": "block-confined-write:create_new",
+      "name": "create_new",
+      "block": "block-confined-write",
+      "version": 1,
+      "module": "confined",
+      "status": "accepted",
+      "kind": "function",
+      "signature": "def create_new(folder: Path, stem: str, text: str, suffix: str='.md', limit: int=99) -> Path",
+      "summary": "Create folder/stem.md, or stem-2.md, stem-3.md ... never overwriting or following a link.",
+      "needs": [],
+      "tests": [
+        "test_confined.py::test_create_new_never_overwrites"
+      ],
+      "lessons": [
+        "gotcha-confined-writes"
+      ],
+      "tags": [
+        "python"
+      ],
+      "lines": 15,
+      "hash": "ec2ed4743f9f"
+    },
+    {
+      "id": "block-confined-write:inside",
+      "name": "inside",
+      "block": "block-confined-write",
+      "version": 1,
+      "module": "confined",
+      "status": "accepted",
+      "kind": "function",
+      "signature": "def inside(dest: Path, rel: str) -> Path",
+      "summary": "The path for `rel` under `dest`. Refuses absolute paths, `..`, any symbolic link on the way (dest/.git -> elsewhere redirects everything beneath it), and anything resolving outside dest.",
+      "needs": [],
+      "tests": [
+        "test_confined.py::test_refuses_escapes",
+        "test_confined.py::test_refuses_links_on_the_way"
+      ],
+      "lessons": [
+        "gotcha-confined-writes"
+      ],
+      "tags": [
+        "python"
+      ],
+      "lines": 18,
+      "hash": "81fd3ff632aa"
+    },
+    {
+      "id": "block-confined-write:write_tree",
+      "name": "write_tree",
+      "block": "block-confined-write",
+      "version": 1,
+      "module": "confined",
+      "status": "accepted",
+      "kind": "function",
+      "signature": "def write_tree(dest: Path, files: dict[str, str]) -> list[Path]",
+      "summary": "Write {relative path: text} under dest, checking every path before writing any.",
+      "needs": [
+        "inside"
+      ],
+      "tests": [
+        "test_confined.py::test_checks_all_before_writing_any"
+      ],
+      "lessons": [
+        "gotcha-confined-writes"
+      ],
+      "tags": [
+        "python"
+      ],
+      "lines": 7,
+      "hash": "9e30503d0457"
+    },
+    {
+      "id": "block-cortex-session:Ask",
+      "name": "Ask",
+      "block": "block-cortex-session",
+      "version": 3,
+      "module": "cortex_session",
+      "status": "accepted",
+      "kind": "constant",
+      "signature": "Ask = Callable[[str, dict[str, Any], Any], Awaitable[Any]]",
+      "summary": "",
+      "needs": [],
+      "tests": [],
+      "lessons": [
+        "gotcha-cortex-sdk"
+      ],
+      "tags": [
+        "cortex"
+      ],
+      "lines": 1,
+      "hash": "7b67c7a47287"
+    },
+    {
+      "id": "block-cortex-session:CortexSession",
+      "name": "CortexSession",
+      "block": "block-cortex-session",
+      "version": 3,
+      "module": "cortex_session",
+      "status": "accepted",
+      "kind": "class",
+      "signature": "class CortexSession",
+      "summary": "Connects on the first turn. Never sets allowed_tools (Cortex treats it as an exclusive allowlist); read-only tools are approved in the permission callback, everything else goes to `ask`, and with no `ask` it is denied.",
+      "needs": [
+        "Ask",
+        "READ_KINDS",
+        "TurnStalled"
+      ],
+      "tests": [
+        "test_cortex_session.py::test_a_stalled_turn_is_interrupted_not_waited_on",
+        "test_cortex_session.py::test_never_an_allowlist_and_reads_are_auto_approved",
+        "test_cortex_session.py::test_no_stall_while_a_person_is_deciding",
+        "test_cortex_session.py::test_reads_inside_the_working_directory_do_not_ask",
+        "test_cortex_session.py::test_reset_does_not_resume"
+      ],
+      "lessons": [
+        "gotcha-cortex-sdk"
+      ],
+      "tags": [
+        "cortex"
+      ],
+      "lines": 134,
+      "hash": "7714e9cf98d7"
+    },
+    {
+      "id": "block-cortex-session:ERROR_PREFIX",
+      "name": "ERROR_PREFIX",
+      "block": "block-cortex-session",
+      "version": 3,
+      "module": "cortex_session",
+      "status": "accepted",
+      "kind": "constant",
+      "signature": "ERROR_PREFIX = 'ERROR: '",
+      "summary": "",
+      "needs": [],
+      "tests": [],
+      "lessons": [
+        "gotcha-cortex-sdk"
+      ],
+      "tags": [
+        "cortex"
+      ],
+      "lines": 1,
+      "hash": "9de62abfe429"
+    },
+    {
+      "id": "block-cortex-session:READ_KINDS",
+      "name": "READ_KINDS",
+      "block": "block-cortex-session",
+      "version": 3,
+      "module": "cortex_session",
+      "status": "accepted",
+      "kind": "constant",
+      "signature": "READ_KINDS = frozenset({'Read', 'Glob', 'Grep'})",
+      "summary": "",
+      "needs": [],
+      "tests": [],
+      "lessons": [
+        "gotcha-cortex-sdk"
+      ],
+      "tags": [
+        "cortex"
+      ],
+      "lines": 1,
+      "hash": "985848a1b721"
+    },
+    {
+      "id": "block-cortex-session:TurnStalled",
+      "name": "TurnStalled",
+      "block": "block-cortex-session",
+      "version": 3,
+      "module": "cortex_session",
+      "status": "accepted",
+      "kind": "class",
+      "signature": "class TurnStalled(TimeoutError)",
+      "summary": "Cortex sent nothing for longer than the idle timeout; the turn was interrupted.",
+      "needs": [],
+      "tests": [
+        "test_cortex_session.py::test_a_stalled_turn_is_interrupted_not_waited_on"
+      ],
+      "lessons": [
+        "gotcha-cortex-sdk"
+      ],
+      "tags": [
+        "cortex"
+      ],
+      "lines": 2,
+      "hash": "9a07ece3ccf7"
+    },
+    {
+      "id": "block-cortex-session:error_result",
+      "name": "error_result",
+      "block": "block-cortex-session",
+      "version": 3,
+      "module": "cortex_session",
+      "status": "accepted",
+      "kind": "function",
+      "signature": "def error_result(text: str) -> dict[str, Any]",
+      "summary": "Cortex drops is_error for in-process tools, so the text says ERROR first as well.",
+      "needs": [
+        "ERROR_PREFIX"
+      ],
+      "tests": [
+        "test_cortex_session.py::test_errors_say_so_in_text"
+      ],
+      "lessons": [
+        "gotcha-cortex-sdk"
+      ],
+      "tags": [
+        "cortex"
+      ],
+      "lines": 3,
+      "hash": "95259419743b"
+    },
+    {
+      "id": "block-cortex-session:text_result",
+      "name": "text_result",
+      "block": "block-cortex-session",
+      "version": 3,
+      "module": "cortex_session",
+      "status": "accepted",
+      "kind": "function",
+      "signature": "def text_result(text: str) -> dict[str, Any]",
+      "summary": "",
+      "needs": [],
+      "tests": [],
+      "lessons": [
+        "gotcha-cortex-sdk"
+      ],
+      "tags": [
+        "cortex"
+      ],
+      "lines": 2,
+      "hash": "969278a5f18a"
+    },
+    {
+      "id": "block-git-hooks:GitError",
+      "name": "GitError",
+      "block": "block-git-hooks",
+      "version": 1,
+      "module": "githooks",
+      "status": "accepted",
+      "kind": "class",
+      "signature": "class GitError(RuntimeError)",
+      "summary": "",
+      "needs": [],
+      "tests": [
+        "test_githooks.py::test_git_failures_raise",
+        "test_githooks.py::test_init_refuses_a_parent_repo"
+      ],
+      "lessons": [
+        "gotcha-git-hooks"
+      ],
+      "tags": [
+        "python"
+      ],
+      "lines": 2,
+      "hash": "0fdf40b01fdc"
+    },
+    {
+      "id": "block-git-hooks:git",
+      "name": "git",
+      "block": "block-git-hooks",
+      "version": 1,
+      "module": "githooks",
+      "status": "accepted",
+      "kind": "function",
+      "signature": "def git(repo: Path, *args: str) -> str",
+      "summary": "Run git in repo; raise GitError with its message on failure. Returns stdout.",
+      "needs": [
+        "GitError"
+      ],
+      "tests": [
+        "test_githooks.py::test_git_failures_raise",
+        "test_githooks.py::test_hooks_path_outside_is_reported"
+      ],
+      "lessons": [
+        "gotcha-git-hooks"
+      ],
+      "tags": [
+        "python"
+      ],
+      "lines": 6,
+      "hash": "2f54eac29596"
+    },
+    {
+      "id": "block-git-hooks:hook_script",
+      "name": "hook_script",
+      "block": "block-git-hooks",
+      "version": 1,
+      "module": "githooks",
+      "status": "accepted",
+      "kind": "function",
+      "signature": "def hook_script(marker: str, command: list[str], fallback: str='') -> str",
+      "summary": "A POSIX hook that runs a kept-aside earlier hook first, then `command`. The command's first word is found on PATH, else at `fallback`; if neither exists it says so instead of skipping silently. Every embedded value is shell-quoted.",
+      "needs": [],
+      "tests": [
+        "test_githooks.py::test_embedded_paths_never_run_as_shell",
+        "test_githooks.py::test_foreign_hook_is_kept_and_runs_first",
+        "test_githooks.py::test_missing_tool_says_so"
+      ],
+      "lessons": [
+        "gotcha-git-hooks"
+      ],
+      "tags": [
+        "python"
+      ],
+      "lines": 20,
+      "hash": "d2270b83723e"
+    },
+    {
+      "id": "block-git-hooks:init_own_repo",
+      "name": "init_own_repo",
+      "block": "block-git-hooks",
+      "version": 1,
+      "module": "githooks",
+      "status": "accepted",
+      "kind": "function",
+      "signature": "def init_own_repo(repo: Path) -> None",
+      "summary": "git init repo if needed, then make sure git resolves it to itself and not to a parent repo.",
+      "needs": [
+        "GitError",
+        "git"
+      ],
+      "tests": [
+        "test_githooks.py::test_init_refuses_a_parent_repo"
+      ],
+      "lessons": [
+        "gotcha-git-hooks"
+      ],
+      "tags": [
+        "python"
+      ],
+      "lines": 10,
+      "hash": "f0ed18852cd3"
+    },
+    {
+      "id": "block-git-hooks:install_hook",
+      "name": "install_hook",
+      "block": "block-git-hooks",
+      "version": 1,
+      "module": "githooks",
+      "status": "accepted",
+      "kind": "function",
+      "signature": "def install_hook(repo: Path, name: str, script: str, marker: str) -> str | None",
+      "summary": "Install `script` as hook `name` where git runs hooks. An existing hook that is not ours (no `marker` line) is kept as <name>.local, which our script runs first. Returns why it could not install, or None.",
+      "needs": [
+        "GitError",
+        "git"
+      ],
+      "tests": [
+        "test_githooks.py::test_foreign_hook_is_kept_and_runs_first",
+        "test_githooks.py::test_hooks_path_outside_is_reported"
+      ],
+      "lessons": [
+        "gotcha-git-hooks"
+      ],
+      "tags": [
+        "python"
+      ],
+      "lines": 26,
+      "hash": "d7c2a88994c3"
+    },
+    {
+      "id": "block-markdown-pointers:CODE_RE",
+      "name": "CODE_RE",
+      "block": "block-markdown-pointers",
+      "version": 1,
+      "module": "pointers",
+      "status": "accepted",
+      "kind": "constant",
+      "signature": "CODE_RE = re.compile('^[ \\\\t]{0,3}(`{3,}|~{3,})[^\\\\n]*\\\\n.*?(?:^[ \\\\t]{0,3}\\\\1[`~]*[ \\\\t]*$|\\\\Z)|(`+)[^`\\\\n].*?\\\\2', re.",
+      "summary": "",
+      "needs": [],
+      "tests": [],
+      "lessons": [
+        "gotcha-validation"
+      ],
+      "tags": [
+        "python"
+      ],
+      "lines": 2,
+      "hash": "58238570d914"
+    },
+    {
+      "id": "block-markdown-pointers:POINTER_RE",
+      "name": "POINTER_RE",
+      "block": "block-markdown-pointers",
+      "version": 1,
+      "module": "pointers",
+      "status": "accepted",
+      "kind": "constant",
+      "signature": "POINTER_RE = re.compile('\\\\[\\\\[([a-z0-9-]+)(?:@(\\\\d+))?\\\\]\\\\]')",
+      "summary": "",
+      "needs": [],
+      "tests": [],
+      "lessons": [
+        "gotcha-validation"
+      ],
+      "tags": [
+        "python"
+      ],
+      "lines": 1,
+      "hash": "893ebe769165"
+    },
+    {
+      "id": "block-markdown-pointers:mask_code",
+      "name": "mask_code",
+      "block": "block-markdown-pointers",
+      "version": 1,
+      "module": "pointers",
+      "status": "accepted",
+      "kind": "function",
+      "signature": "def mask_code(text: str) -> str",
+      "summary": "",
+      "needs": [
+        "CODE_RE"
+      ],
+      "tests": [],
+      "lessons": [
+        "gotcha-validation"
+      ],
+      "tags": [
+        "python"
+      ],
+      "lines": 2,
+      "hash": "616197c4cee2"
+    },
+    {
+      "id": "block-markdown-pointers:pointer_problems",
+      "name": "pointer_problems",
+      "block": "block-markdown-pointers",
+      "version": 1,
+      "module": "pointers",
+      "status": "accepted",
+      "kind": "function",
+      "signature": "def pointer_problems(text: str, versions: dict[str, int]) -> list[str]",
+      "summary": "What is wrong with the pointers, given {id: current version}: unknown ids, impossible pins.",
+      "needs": [
+        "CODE_RE",
+        "POINTER_RE",
+        "mask_code",
+        "pointers"
+      ],
+      "tests": [
+        "test_pointers.py::test_code_is_not_a_claim",
+        "test_pointers.py::test_pins"
+      ],
+      "lessons": [
+        "gotcha-validation"
+      ],
+      "tags": [
+        "python"
+      ],
+      "lines": 9,
+      "hash": "1f12ad7d49c8"
+    },
+    {
+      "id": "block-markdown-pointers:pointers",
+      "name": "pointers",
+      "block": "block-markdown-pointers",
+      "version": 1,
+      "module": "pointers",
+      "status": "accepted",
+      "kind": "function",
+      "signature": "def pointers(text: str) -> list[tuple[str, int | None]]",
+      "summary": "(id, pinned version or None) for every pointer in prose.",
+      "needs": [
+        "CODE_RE",
+        "POINTER_RE",
+        "mask_code"
+      ],
+      "tests": [
+        "test_pointers.py::test_pins"
+      ],
+      "lessons": [
+        "gotcha-validation"
+      ],
+      "tags": [
+        "python"
+      ],
+      "lines": 3,
+      "hash": "b927b4a98ce0"
+    },
+    {
+      "id": "block-safe-outdir:MARKER",
+      "name": "MARKER",
+      "block": "block-safe-outdir",
+      "version": 1,
+      "module": "outdir",
+      "status": "accepted",
+      "kind": "constant",
+      "signature": "MARKER = '.built-site'",
+      "summary": "",
+      "needs": [],
+      "tests": [],
+      "lessons": [
+        "gotcha-confined-writes"
+      ],
+      "tags": [
+        "python",
+        "docs"
+      ],
+      "lines": 1,
+      "hash": "7fafc612a843"
+    },
+    {
+      "id": "block-safe-outdir:check_out_dir",
+      "name": "check_out_dir",
+      "block": "block-safe-outdir",
+      "version": 1,
+      "module": "outdir",
+      "status": "accepted",
+      "kind": "function",
+      "signature": "def check_out_dir(out: Path, protect: list[Path], marker: str=MARKER) -> Path",
+      "summary": "The resolved output directory, or ValueError when emptying it could delete something: it is or contains a protected path, home or the root, or it holds files that are not a previous build carrying the marker.",
+      "needs": [
+        "MARKER"
+      ],
+      "tests": [
+        "test_outdir.py::test_allows_new_and_previous_builds",
+        "test_outdir.py::test_refuses_the_repo_its_parents_home_and_foreign_dirs"
+      ],
+      "lessons": [
+        "gotcha-confined-writes"
+      ],
+      "tags": [
+        "python",
+        "docs"
+      ],
+      "lines": 15,
+      "hash": "275cc953a4d1"
+    },
+    {
+      "id": "block-safe-outdir:mark_out_dir",
+      "name": "mark_out_dir",
+      "block": "block-safe-outdir",
+      "version": 1,
+      "module": "outdir",
+      "status": "accepted",
+      "kind": "function",
+      "signature": "def mark_out_dir(out: Path, marker: str=MARKER) -> None",
+      "summary": "",
+      "needs": [
+        "MARKER"
+      ],
+      "tests": [
+        "test_outdir.py::test_allows_new_and_previous_builds"
+      ],
+      "lessons": [
+        "gotcha-confined-writes"
+      ],
+      "tags": [
+        "python",
+        "docs"
+      ],
+      "lines": 4,
+      "hash": "98dbce557e5e"
+    },
+    {
+      "id": "block-scaffold-render:NAME_RE",
+      "name": "NAME_RE",
+      "block": "block-scaffold-render",
+      "version": 1,
+      "module": "scaffoldrender",
+      "status": "accepted",
+      "kind": "constant",
+      "signature": "NAME_RE = re.compile('^[a-z][a-z0-9]*(-[a-z0-9]+)*$')",
+      "summary": "",
+      "needs": [],
+      "tests": [],
+      "lessons": [
+        "gotcha-agent-trust",
+        "gotcha-confined-writes",
+        "gotcha-generated-text"
+      ],
+      "tags": [
+        "python"
+      ],
+      "lines": 1,
+      "hash": "cca906a88781"
+    },
+    {
+      "id": "block-scaffold-render:PLACEHOLDER_RE",
+      "name": "PLACEHOLDER_RE",
+      "block": "block-scaffold-render",
+      "version": 1,
+      "module": "scaffoldrender",
+      "status": "accepted",
+      "kind": "constant",
+      "signature": "PLACEHOLDER_RE = re.compile('\\\\{\\\\{([a-z_]+)\\\\}\\\\}')",
+      "summary": "",
+      "needs": [],
+      "tests": [],
+      "lessons": [
+        "gotcha-agent-trust",
+        "gotcha-confined-writes",
+        "gotcha-generated-text"
+      ],
+      "tags": [
+        "python"
+      ],
+      "lines": 1,
+      "hash": "738595bb72b6"
+    },
+    {
+      "id": "block-scaffold-render:render_scaffold",
+      "name": "render_scaffold",
+      "block": "block-scaffold-render",
+      "version": 1,
+      "module": "scaffoldrender",
+      "status": "accepted",
+      "kind": "function",
+      "signature": "def render_scaffold(canon_root: Path, entry: dict[str, Any], name: str, purpose: str, test_cmd: str | None=None, lint_cmd: str | None=None) -> dict[str, str]",
+      "summary": "",
+      "needs": [
+        "NAME_RE",
+        "PLACEHOLDER_RE",
+        "_literal",
+        "_one_line",
+        "_target",
+        "scaffold_digest"
+      ],
+      "tests": [
+        "test_scaffoldrender.py::test_refusals",
+        "test_scaffoldrender.py::test_renders_paths_and_values",
+        "test_scaffoldrender.py::test_template_paths_are_checked"
+      ],
+      "lessons": [
+        "gotcha-agent-trust",
+        "gotcha-confined-writes",
+        "gotcha-generated-text"
+      ],
+      "tags": [
+        "python"
+      ],
+      "lines": 29,
+      "hash": "b1f55f28af78"
+    },
+    {
+      "id": "block-scaffold-render:scaffold_digest",
+      "name": "scaffold_digest",
+      "block": "block-scaffold-render",
+      "version": 1,
+      "module": "scaffoldrender",
+      "status": "accepted",
+      "kind": "function",
+      "signature": "def scaffold_digest(canon_root: Path, entry: dict[str, Any]) -> str",
+      "summary": "SCAFFOLD.md, then each template's path under the scaffold dir and its bytes, as build_index.py hashes.",
+      "needs": [],
+      "tests": [],
+      "lessons": [
+        "gotcha-agent-trust",
+        "gotcha-confined-writes",
+        "gotcha-generated-text"
+      ],
+      "tags": [
+        "python"
+      ],
+      "lines": 7,
+      "hash": "aca1ef69b870"
+    },
+    {
+      "id": "block-text-safety:NAME_RE",
+      "name": "NAME_RE",
+      "block": "block-text-safety",
+      "version": 1,
+      "module": "textsafe",
+      "status": "accepted",
+      "kind": "constant",
+      "signature": "NAME_RE = re.compile('^[a-z][a-z0-9]*(-[a-z0-9]+)*$')",
+      "summary": "",
+      "needs": [],
+      "tests": [],
+      "lessons": [
+        "gotcha-generated-text"
+      ],
+      "tags": [
+        "python"
+      ],
+      "lines": 1,
+      "hash": "cca906a88781"
+    },
+    {
+      "id": "block-text-safety:PLACEHOLDER_RE",
+      "name": "PLACEHOLDER_RE",
+      "block": "block-text-safety",
+      "version": 1,
+      "module": "textsafe",
+      "status": "accepted",
+      "kind": "constant",
+      "signature": "PLACEHOLDER_RE = re.compile('\\\\{\\\\{([a-z_]+)\\\\}\\\\}')",
+      "summary": "",
+      "needs": [],
+      "tests": [],
+      "lessons": [
+        "gotcha-generated-text"
+      ],
+      "tags": [
+        "python"
+      ],
+      "lines": 1,
+      "hash": "738595bb72b6"
+    },
+    {
+      "id": "block-text-safety:check_one_line",
+      "name": "check_one_line",
+      "block": "block-text-safety",
+      "version": 1,
+      "module": "textsafe",
+      "status": "accepted",
+      "kind": "function",
+      "signature": "def check_one_line(label: str, value: str) -> None",
+      "summary": "Raise ValueError unless value is one line of printable text.",
+      "needs": [],
+      "tests": [
+        "test_textsafe.py::test_one_line"
+      ],
+      "lessons": [
+        "gotcha-generated-text"
+      ],
+      "tags": [
+        "python"
+      ],
+      "lines": 5,
+      "hash": "6bb3b3fcfadc"
+    },
+    {
+      "id": "block-text-safety:check_project_name",
+      "name": "check_project_name",
+      "block": "block-text-safety",
+      "version": 1,
+      "module": "textsafe",
+      "status": "accepted",
+      "kind": "function",
+      "signature": "def check_project_name(name: str, max_len: int=41) -> str",
+      "summary": "Lowercase words joined by single dashes, whose package name imports. Returns the package name.",
+      "needs": [
+        "NAME_RE"
+      ],
+      "tests": [
+        "test_textsafe.py::test_bad_names",
+        "test_textsafe.py::test_good_name"
+      ],
+      "lessons": [
+        "gotcha-generated-text"
+      ],
+      "tags": [
+        "python"
+      ],
+      "lines": 8,
+      "hash": "ef9cbecc13db"
+    },
+    {
+      "id": "block-text-safety:fill_template",
+      "name": "fill_template",
+      "block": "block-text-safety",
+      "version": 1,
+      "module": "textsafe",
+      "status": "accepted",
+      "kind": "function",
+      "signature": "def fill_template(text: str, values: dict[str, str]) -> str",
+      "summary": "Replace {{key}} in one pass, so a value containing {{other}} stays literal. Unknown keys stay.",
+      "needs": [
+        "PLACEHOLDER_RE"
+      ],
+      "tests": [
+        "test_textsafe.py::test_fill_is_one_pass"
+      ],
+      "lessons": [
+        "gotcha-generated-text"
+      ],
+      "tags": [
+        "python"
+      ],
+      "lines": 3,
+      "hash": "71bae70c95bc"
+    },
+    {
+      "id": "block-text-safety:json_literal",
+      "name": "json_literal",
+      "block": "block-text-safety",
+      "version": 1,
+      "module": "textsafe",
+      "status": "accepted",
+      "kind": "function",
+      "signature": "def json_literal(s: str) -> str",
+      "summary": "A string literal valid in JSON, Python, TOML and YAML (double-quoted) at once. Raw Unicode is kept (TOML rejects JSON's surrogate escapes); DEL is escaped (TOML and YAML refuse it raw).",
+      "needs": [],
+      "tests": [
+        "test_textsafe.py::test_json_literal_is_valid_everywhere"
+      ],
+      "lessons": [
+        "gotcha-generated-text"
+      ],
+      "tags": [
+        "python"
+      ],
+      "lines": 4,
+      "hash": "dd69514ba244"
+    },
+    {
+      "id": "block-tui-widgets:ACCENT",
+      "name": "ACCENT",
+      "block": "block-tui-widgets",
+      "version": 1,
+      "module": "widgets",
+      "status": "accepted",
+      "kind": "constant",
+      "signature": "ACCENT = '#d97757'",
+      "summary": "",
+      "needs": [],
+      "tests": [],
+      "lessons": [
+        "gotcha-terminal-ui"
+      ],
+      "tags": [
+        "cli"
+      ],
+      "lines": 1,
+      "hash": "d39998f90d83"
+    },
+    {
+      "id": "block-tui-widgets:Field",
+      "name": "Field",
+      "block": "block-tui-widgets",
+      "version": 1,
+      "module": "widgets",
+      "status": "accepted",
+      "kind": "class",
+      "signature": "class Field",
+      "summary": "",
+      "needs": [],
+      "tests": [],
+      "lessons": [
+        "gotcha-terminal-ui"
+      ],
+      "tags": [
+        "cli"
+      ],
+      "lines": 6,
+      "hash": "7f9709a82762"
+    },
+    {
+      "id": "block-tui-widgets:STYLE",
+      "name": "STYLE",
+      "block": "block-tui-widgets",
+      "version": 1,
+      "module": "widgets",
+      "status": "accepted",
+      "kind": "constant",
+      "signature": "STYLE = Style.from_dict({'accent': f'{ACCENT} bold', 'dim': '#808080', 'error': '#e06c75', 'label': '#a0a0a0', 'focus': ",
+      "summary": "",
+      "needs": [
+        "ACCENT"
+      ],
+      "tests": [],
+      "lessons": [
+        "gotcha-terminal-ui"
+      ],
+      "tags": [
+        "cli"
+      ],
+      "lines": 4,
+      "hash": "cf252ff8448b"
+    },
+    {
+      "id": "block-tui-widgets:form",
+      "name": "form",
+      "block": "block-tui-widgets",
+      "version": 1,
+      "module": "widgets",
+      "status": "accepted",
+      "kind": "function",
+      "signature": "async def form(title: str, fields: list[Field], footer: Callable[[dict[str, str]], str], validate: Callable[[dict[str, str]], tuple[str, str] | None]) -> dict[str, str] | None",
+      "summary": "Every field on one screen, already filled with a suggestion. Tab/\u2193 and Shift-Tab/\u2191 move, Enter submits from any field. `validate` returns (field key, message) to refuse a submit; `footer` is recomputed on every keystroke.",
+      "needs": [
+        "ACCENT",
+        "Field",
+        "STYLE"
+      ],
+      "tests": [
+        "test_widgets.py::test_form_validate_can_refuse"
+      ],
+      "lessons": [
+        "gotcha-terminal-ui"
+      ],
+      "tags": [
+        "cli"
+      ],
+      "lines": 69,
+      "hash": "0f56763e7628"
+    },
+    {
+      "id": "block-tui-widgets:pick",
+      "name": "pick",
+      "block": "block-tui-widgets",
+      "version": 1,
+      "module": "widgets",
+      "status": "accepted",
+      "kind": "function",
+      "signature": "async def pick(title: str, options: list[tuple[str, str, str]]) -> str | None",
+      "summary": "options: (value, label, description). \u2191/\u2193 or a digit to move, Enter to choose.",
+      "needs": [
+        "ACCENT",
+        "STYLE"
+      ],
+      "tests": [
+        "test_widgets.py::test_pick_arrows_and_enter"
+      ],
+      "lessons": [
+        "gotcha-terminal-ui"
+      ],
+      "tags": [
+        "cli"
+      ],
+      "lines": 43,
+      "hash": "854501a63a36"
+    }
   ]
 }

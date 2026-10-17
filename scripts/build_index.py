@@ -17,6 +17,7 @@ a version bump makes the index stale.
 """
 from __future__ import annotations
 
+import ast
 import hashlib
 import json
 import re
@@ -85,6 +86,81 @@ def parse_block(path: Path) -> dict:
     }
 
 
+POINTER_RE = re.compile(r"\[\[([a-z0-9-]+)(?:@\d+)?\]\]")
+
+
+def _names(node: ast.AST) -> set[str]:
+    return {n.id for n in ast.walk(node) if isinstance(n, ast.Name)}
+
+
+def _symbols(tree: ast.Module) -> dict[str, ast.stmt]:
+    """Top-level functions, classes and assigned constants, by name."""
+    out: dict[str, ast.stmt] = {}
+    for node in tree.body:
+        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
+            out[node.name] = node
+        elif isinstance(node, (ast.Assign, ast.AnnAssign)):
+            targets = node.targets if isinstance(node, ast.Assign) else [node.target]
+            for tg in targets:
+                for n in (tg.elts if isinstance(tg, ast.Tuple) else [tg]):
+                    if isinstance(n, ast.Name):
+                        out[n.id] = node
+    return out
+
+
+def _signature(node: ast.stmt) -> str:
+    if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+        ret = f" -> {ast.unparse(node.returns)}" if node.returns else ""
+        prefix = "async def" if isinstance(node, ast.AsyncFunctionDef) else "def"
+        return f"{prefix} {node.name}({ast.unparse(node.args)}){ret}"
+    if isinstance(node, ast.ClassDef):
+        bases = f"({', '.join(ast.unparse(b) for b in node.bases)})" if node.bases else ""
+        return f"class {node.name}{bases}"
+    return ast.unparse(node).splitlines()[0][:120]
+
+
+def parse_code(block: dict) -> list[dict]:
+    """Every top-level function, class and constant in a block's module: what it is, what it needs
+    from the same module, which of the block's tests use it, and the lessons it carries. Lets a
+    model search and pull one function instead of reading a whole block."""
+    base = ROOT / block["dir"]
+    source = (base / "code" / f"{block['module']}.py").read_text()
+    tree = ast.parse(source)
+    syms = _symbols(tree)
+    uses = {name: _names(node) & set(syms) - {name} for name, node in syms.items()}
+    about = (base / "BLOCK.md").read_text()
+    block_lessons = sorted(set(POINTER_RE.findall(about)) - {block["id"]})
+    tests: dict[str, list[str]] = {name: [] for name in syms}
+    for tf in block["tests"]:
+        ttree = ast.parse((base / "tests" / tf).read_text().replace("{{package}}", "pkg"))
+        for node in ttree.body:
+            if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)) and node.name.startswith("test"):
+                for name in _names(node) & set(syms):
+                    tests[name].append(f"{tf}::{node.name}")
+    out = []
+    for name, node in syms.items():
+        if name.startswith("_") and not isinstance(node, (ast.Assign, ast.AnnAssign)):
+            continue                                # private helpers come along as needs, not on their own
+        needs, todo = set(), list(uses[name])
+        while todo:
+            n = todo.pop()
+            if n not in needs:
+                needs.add(n)
+                todo += list(uses[n])
+        doc = ast.get_docstring(node) if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)) else None
+        seg = ast.get_source_segment(source, node) or ""
+        lessons = sorted(set(POINTER_RE.findall(doc or "")) | set(block_lessons))
+        out.append({
+            "id": f"{block['id']}:{name}", "name": name, "block": block["id"], "version": block["version"],
+            "module": block["module"], "status": block["status"],
+            "kind": "class" if isinstance(node, ast.ClassDef) else "constant" if isinstance(node, (ast.Assign, ast.AnnAssign)) else "function",
+            "signature": _signature(node), "summary": (doc or "").strip().split("\n\n")[0].replace("\n", " ")[:300],
+            "needs": sorted(needs), "tests": sorted(tests[name]), "lessons": lessons, "tags": block["tags"],
+            "lines": seg.count("\n") + 1, "hash": hashlib.sha256(seg.encode()).hexdigest()[:12],
+        })
+    return sorted(out, key=lambda s: s["id"])
+
+
 def parse(path: Path) -> dict:
     text = path.read_text()
     fm = front_matter(path)
@@ -118,8 +194,12 @@ def build() -> dict:
     blocks = [parse_block(p) for p in sorted((ROOT / "blocks").glob("*/BLOCK.md"))]
     if len({b["id"] for b in blocks}) != len(blocks):
         raise ValueError("duplicate block ids")
+    code = [s for b in blocks for s in parse_code(b)]
+    known = set(ids)
+    for s in code:
+        s["lessons"] = [x for x in s["lessons"] if x in known]
     return {"generated": date.today().isoformat(), "standards": standards, "scaffolds": scaffolds,
-            "blocks": blocks}
+            "blocks": blocks, "code": code}
 
 
 def main() -> int:
@@ -132,7 +212,7 @@ def main() -> int:
     out = ROOT / "index.json"
     if check:
         current = json.loads(out.read_text()) if out.exists() else {}
-        if any(current.get(k) != index[k] for k in ("standards", "scaffolds", "blocks")):
+        if any(current.get(k) != index[k] for k in ("standards", "scaffolds", "blocks", "code")):
             print("index.json is stale: run python scripts/build_index.py and commit it", file=sys.stderr)
             return 1
         print(f"index.json is current ({len(index['standards'])} standards, {len(index['scaffolds'])} scaffolds, "
@@ -140,7 +220,7 @@ def main() -> int:
         return 0
     out.write_text(json.dumps(index, indent=2) + "\n")
     print(f"wrote index.json ({len(index['standards'])} standards, {len(index['scaffolds'])} scaffolds, "
-          f"{len(index['blocks'])} blocks)")
+          f"{len(index['blocks'])} blocks, {len(index['code'])} code symbols)")
     return 0
 
 
