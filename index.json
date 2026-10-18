@@ -575,6 +575,42 @@
       ]
     },
     {
+      "id": "block-dotenv",
+      "version": 1,
+      "title": "Dotenv file parsing",
+      "module": "dotenv",
+      "requires": [],
+      "test_requires": [],
+      "tags": [
+        "python"
+      ],
+      "owner": "ckoenigs",
+      "status": "accepted",
+      "hash": "617986a34371",
+      "dir": "blocks/block-dotenv",
+      "tests": [
+        "test_dotenv.py"
+      ]
+    },
+    {
+      "id": "block-env-schema",
+      "version": 1,
+      "title": "Typed dotenv schema and value checks",
+      "module": "schema",
+      "requires": [],
+      "test_requires": [],
+      "tags": [
+        "python"
+      ],
+      "owner": "ckoenigs",
+      "status": "accepted",
+      "hash": "b94152ac36c8",
+      "dir": "blocks/block-env-schema",
+      "tests": [
+        "test_schema.py"
+      ]
+    },
+    {
       "id": "block-git-hooks",
       "version": 1,
       "title": "Git commands and hook installation",
@@ -874,7 +910,7 @@
       "module": "render",
       "status": "accepted",
       "kind": "constant",
-      "signature": "(ACCENT, DIM) = ('#d97757', 'grey50')",
+      "signature": "ACCENT, DIM = ('#d97757', 'grey50')",
       "summary": "",
       "needs": [
         "ACCENT",
@@ -899,7 +935,7 @@
       "module": "render",
       "status": "accepted",
       "kind": "constant",
-      "signature": "(ACCENT, DIM) = ('#d97757', 'grey50')",
+      "signature": "ACCENT, DIM = ('#d97757', 'grey50')",
       "summary": "",
       "needs": [
         "ACCENT",
@@ -1319,6 +1355,378 @@
       ],
       "lines": 2,
       "hash": "969278a5f18a"
+    },
+    {
+      "id": "block-dotenv:ASSIGNMENT",
+      "name": "ASSIGNMENT",
+      "block": "block-dotenv",
+      "version": 1,
+      "module": "dotenv",
+      "status": "accepted",
+      "kind": "constant",
+      "signature": "ASSIGNMENT = re.compile('([A-Za-z_][A-Za-z0-9_]*)=(.*)')",
+      "summary": "",
+      "needs": [],
+      "tests": [],
+      "lessons": [
+        "gotcha-generated-text"
+      ],
+      "tags": [
+        "python"
+      ],
+      "lines": 1,
+      "hash": "fe9c50bc6dba"
+    },
+    {
+      "id": "block-dotenv:DOUBLE_QUOTE_ESCAPES",
+      "name": "DOUBLE_QUOTE_ESCAPES",
+      "block": "block-dotenv",
+      "version": 1,
+      "module": "dotenv",
+      "status": "accepted",
+      "kind": "constant",
+      "signature": "DOUBLE_QUOTE_ESCAPES = {'n': '\\n', 't': '\\t', '\\\\': '\\\\', '\"': '\"', '$': '$'}",
+      "summary": "",
+      "needs": [],
+      "tests": [],
+      "lessons": [
+        "gotcha-generated-text"
+      ],
+      "tags": [
+        "python"
+      ],
+      "lines": 1,
+      "hash": "a3dbfde80955"
+    },
+    {
+      "id": "block-dotenv:ParseError",
+      "name": "ParseError",
+      "block": "block-dotenv",
+      "version": 1,
+      "module": "dotenv",
+      "status": "accepted",
+      "kind": "class",
+      "signature": "class ParseError(ValueError)",
+      "summary": "A line that is not a valid dotenv assignment.",
+      "needs": [],
+      "tests": [
+        "test_dotenv.py::test_unparseable_lines_raise"
+      ],
+      "lessons": [
+        "gotcha-generated-text"
+      ],
+      "tags": [
+        "python"
+      ],
+      "lines": 2,
+      "hash": "0be936480465"
+    },
+    {
+      "id": "block-dotenv:TRAILING_COMMENT",
+      "name": "TRAILING_COMMENT",
+      "block": "block-dotenv",
+      "version": 1,
+      "module": "dotenv",
+      "status": "accepted",
+      "kind": "constant",
+      "signature": "TRAILING_COMMENT = re.compile('(^|\\\\s)#.*$')",
+      "summary": "",
+      "needs": [],
+      "tests": [],
+      "lessons": [
+        "gotcha-generated-text"
+      ],
+      "tags": [
+        "python"
+      ],
+      "lines": 1,
+      "hash": "46e9f0ea08e1"
+    },
+    {
+      "id": "block-dotenv:parse_line",
+      "name": "parse_line",
+      "block": "block-dotenv",
+      "version": 1,
+      "module": "dotenv",
+      "status": "accepted",
+      "kind": "function",
+      "signature": "def parse_line(line: str) -> tuple[str, str] | None",
+      "summary": "Return (name, value) for an assignment, or None for a blank or comment line.",
+      "needs": [
+        "ASSIGNMENT",
+        "DOUBLE_QUOTE_ESCAPES",
+        "ParseError",
+        "TRAILING_COMMENT",
+        "_end_quoted",
+        "_parse_double_quoted",
+        "_parse_value"
+      ],
+      "tests": [
+        "test_dotenv.py::test_blank_and_comment_lines_are_skipped",
+        "test_dotenv.py::test_unparseable_lines_raise",
+        "test_dotenv.py::test_values"
+      ],
+      "lessons": [
+        "gotcha-generated-text"
+      ],
+      "tags": [
+        "python"
+      ],
+      "lines": 10,
+      "hash": "b0517d99b4fe"
+    },
+    {
+      "id": "block-dotenv:read_env",
+      "name": "read_env",
+      "block": "block-dotenv",
+      "version": 1,
+      "module": "dotenv",
+      "status": "accepted",
+      "kind": "function",
+      "signature": "def read_env(filename: str) -> tuple[dict[str, str], list[str]]",
+      "summary": "Read a dotenv file. Returns its variables and one error line per unparseable line.",
+      "needs": [
+        "ASSIGNMENT",
+        "DOUBLE_QUOTE_ESCAPES",
+        "ParseError",
+        "TRAILING_COMMENT",
+        "_end_quoted",
+        "_parse_double_quoted",
+        "_parse_value",
+        "parse_line"
+      ],
+      "tests": [],
+      "lessons": [
+        "gotcha-generated-text"
+      ],
+      "tags": [
+        "python"
+      ],
+      "lines": 15,
+      "hash": "78fb7dd14ecc"
+    },
+    {
+      "id": "block-env-schema:BOOL_WORDS",
+      "name": "BOOL_WORDS",
+      "block": "block-env-schema",
+      "version": 1,
+      "module": "schema",
+      "status": "accepted",
+      "kind": "constant",
+      "signature": "BOOL_WORDS = frozenset({'true', 'false', 'yes', 'no', 'on', 'off', '1', '0'})",
+      "summary": "",
+      "needs": [],
+      "tests": [],
+      "lessons": [
+        "gotcha-validation"
+      ],
+      "tags": [
+        "python"
+      ],
+      "lines": 1,
+      "hash": "81985caa3722"
+    },
+    {
+      "id": "block-env-schema:INT_PATTERN",
+      "name": "INT_PATTERN",
+      "block": "block-env-schema",
+      "version": 1,
+      "module": "schema",
+      "status": "accepted",
+      "kind": "constant",
+      "signature": "INT_PATTERN = re.compile('[+-]?[0-9]+')",
+      "summary": "",
+      "needs": [],
+      "tests": [],
+      "lessons": [
+        "gotcha-validation"
+      ],
+      "tags": [
+        "python"
+      ],
+      "lines": 1,
+      "hash": "e774abe44e1e"
+    },
+    {
+      "id": "block-env-schema:NAME_PATTERN",
+      "name": "NAME_PATTERN",
+      "block": "block-env-schema",
+      "version": 1,
+      "module": "schema",
+      "status": "accepted",
+      "kind": "constant",
+      "signature": "NAME_PATTERN = re.compile('[A-Za-z_][A-Za-z0-9_]*')",
+      "summary": "",
+      "needs": [],
+      "tests": [],
+      "lessons": [
+        "gotcha-validation"
+      ],
+      "tags": [
+        "python"
+      ],
+      "lines": 1,
+      "hash": "fffa74cba97e"
+    },
+    {
+      "id": "block-env-schema:SchemaError",
+      "name": "SchemaError",
+      "block": "block-env-schema",
+      "version": 1,
+      "module": "schema",
+      "status": "accepted",
+      "kind": "class",
+      "signature": "class SchemaError(Exception)",
+      "summary": "The schema file cannot be read or is malformed.",
+      "needs": [],
+      "tests": [
+        "test_schema.py::test_invalid_toml_is_a_schema_error",
+        "test_schema.py::test_malformed_schema_is_a_schema_error",
+        "test_schema.py::test_missing_file_is_a_schema_error"
+      ],
+      "lessons": [
+        "gotcha-validation"
+      ],
+      "tags": [
+        "python"
+      ],
+      "lines": 2,
+      "hash": "e5158cec4e22"
+    },
+    {
+      "id": "block-env-schema:TYPES",
+      "name": "TYPES",
+      "block": "block-env-schema",
+      "version": 1,
+      "module": "schema",
+      "status": "accepted",
+      "kind": "constant",
+      "signature": "TYPES = ('string', 'int', 'bool', 'port', 'url', 'enum')",
+      "summary": "",
+      "needs": [],
+      "tests": [],
+      "lessons": [
+        "gotcha-validation"
+      ],
+      "tags": [
+        "python"
+      ],
+      "lines": 1,
+      "hash": "64751ff66cd2"
+    },
+    {
+      "id": "block-env-schema:VARIABLE_KEYS",
+      "name": "VARIABLE_KEYS",
+      "block": "block-env-schema",
+      "version": 1,
+      "module": "schema",
+      "status": "accepted",
+      "kind": "constant",
+      "signature": "VARIABLE_KEYS = frozenset({'type', 'required', 'default', 'values'})",
+      "summary": "",
+      "needs": [],
+      "tests": [],
+      "lessons": [
+        "gotcha-validation"
+      ],
+      "tags": [
+        "python"
+      ],
+      "lines": 1,
+      "hash": "fdb43a6bc517"
+    },
+    {
+      "id": "block-env-schema:Variable",
+      "name": "Variable",
+      "block": "block-env-schema",
+      "version": 1,
+      "module": "schema",
+      "status": "accepted",
+      "kind": "class",
+      "signature": "class Variable",
+      "summary": "",
+      "needs": [],
+      "tests": [
+        "test_schema.py::test_check_value",
+        "test_schema.py::test_loads_every_type"
+      ],
+      "lessons": [
+        "gotcha-validation"
+      ],
+      "tags": [
+        "python"
+      ],
+      "lines": 5,
+      "hash": "07b7f277b284"
+    },
+    {
+      "id": "block-env-schema:check_value",
+      "name": "check_value",
+      "block": "block-env-schema",
+      "version": 1,
+      "module": "schema",
+      "status": "accepted",
+      "kind": "function",
+      "signature": "def check_value(variable: Variable, value: str) -> str | None",
+      "summary": "Return what is wrong with value for its type, or None if it fits.",
+      "needs": [
+        "BOOL_WORDS",
+        "INT_PATTERN",
+        "Variable",
+        "_is_port",
+        "_is_url"
+      ],
+      "tests": [
+        "test_schema.py::test_check_value"
+      ],
+      "lessons": [
+        "gotcha-validation"
+      ],
+      "tags": [
+        "python"
+      ],
+      "lines": 14,
+      "hash": "d50e7af834ec"
+    },
+    {
+      "id": "block-env-schema:load_schema",
+      "name": "load_schema",
+      "block": "block-env-schema",
+      "version": 1,
+      "module": "schema",
+      "status": "accepted",
+      "kind": "function",
+      "signature": "def load_schema(path: str) -> dict[str, Variable]",
+      "summary": "",
+      "needs": [
+        "BOOL_WORDS",
+        "INT_PATTERN",
+        "NAME_PATTERN",
+        "SchemaError",
+        "TYPES",
+        "VARIABLE_KEYS",
+        "Variable",
+        "_is_port",
+        "_is_url",
+        "_parse_schema",
+        "_parse_variable",
+        "check_value"
+      ],
+      "tests": [
+        "test_schema.py::test_empty_schema_is_allowed",
+        "test_schema.py::test_invalid_toml_is_a_schema_error",
+        "test_schema.py::test_loads_every_type",
+        "test_schema.py::test_malformed_schema_is_a_schema_error",
+        "test_schema.py::test_missing_file_is_a_schema_error"
+      ],
+      "lessons": [
+        "gotcha-validation"
+      ],
+      "tags": [
+        "python"
+      ],
+      "lines": 11,
+      "hash": "eb581be14b85"
     },
     {
       "id": "block-git-hooks:GitError",

@@ -13,4 +13,6 @@
 - `canon_lib.scaffoldrender`: Render an accepted canon scaffold  (from block-scaffold-render v1)
 - `canon_lib.textsafe`: Text safety for generated files  (from block-text-safety v1)
 - `canon_lib.widgets`: Inline picker and one-screen form  (from block-tui-widgets v1)
+- `canon_lib.dotenv`: Dotenv file parsing  (from block-dotenv v1)
+- `canon_lib.schema`: Typed dotenv schema and value checks  (from block-env-schema v1)
 """
