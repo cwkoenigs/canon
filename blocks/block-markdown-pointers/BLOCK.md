@@ -1,18 +1,22 @@
 ---
 id: block-markdown-pointers
-version: 1
+version: 2
 title: Markdown [[pointer]] reading
 module: pointers
 requires: []
 tags: ["python"]
 owner: ckoenigs
 status: accepted
-date: 2026-10-16
+date: 2026-10-17
 ---
 
 # Markdown [[pointer]] reading
 
 Find [[id]] and [[id@N]] pointers in prose, ignoring every kind of code fence and span.
+
+## Changes
+
+v2: an unknown id is reported as it was written, pin included (`[[ghost@1]] is not in the canon`); v1 dropped the pin. Found by an independent judge, 2026-10-17.
 
 ## API
 

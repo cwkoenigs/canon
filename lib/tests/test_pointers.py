@@ -14,3 +14,7 @@ def test_code_is_not_a_claim(code):
 def test_pins():
     assert pointers("[[testing@1]] [[testing]]") == [("testing", 1), ("testing", None)]
     assert pointer_problems("[[testing@3]]", V) == ["[[testing@3]] pins a version the canon never had (current v2)"]
+
+
+def test_unknown_id_is_reported_as_written():
+    assert pointer_problems("[[nope@1]] and [[nope]]", V) == sorted(["[[nope@1]] is not in the canon", "[[nope]] is not in the canon"])

@@ -24,7 +24,7 @@ def pointer_problems(text: str, versions: dict[str, int]) -> list[str]:
     problems = set()
     for sid, pin in pointers(text):
         if sid not in versions:
-            problems.add(f"[[{sid}]] is not in the canon")
+            problems.add(f"[[{sid}{f'@{pin}' if pin is not None else ''}]] is not in the canon")
         elif pin is not None and not 1 <= pin <= versions[sid]:
             problems.add(f"[[{sid}@{pin}]] pins a version the canon never had (current v{versions[sid]})")
     return sorted(problems)

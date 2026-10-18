@@ -594,7 +594,7 @@
     },
     {
       "id": "block-markdown-pointers",
-      "version": 1,
+      "version": 2,
       "title": "Markdown [[pointer]] reading",
       "module": "pointers",
       "requires": [],
@@ -604,7 +604,7 @@
       ],
       "owner": "ckoenigs",
       "status": "accepted",
-      "hash": "d4c8d51ae6d9",
+      "hash": "751dcca0f85c",
       "dir": "blocks/block-markdown-pointers",
       "tests": [
         "test_pointers.py"
@@ -1452,7 +1452,7 @@
       "id": "block-markdown-pointers:CODE_RE",
       "name": "CODE_RE",
       "block": "block-markdown-pointers",
-      "version": 1,
+      "version": 2,
       "module": "pointers",
       "status": "accepted",
       "kind": "constant",
@@ -1473,7 +1473,7 @@
       "id": "block-markdown-pointers:POINTER_RE",
       "name": "POINTER_RE",
       "block": "block-markdown-pointers",
-      "version": 1,
+      "version": 2,
       "module": "pointers",
       "status": "accepted",
       "kind": "constant",
@@ -1494,7 +1494,7 @@
       "id": "block-markdown-pointers:mask_code",
       "name": "mask_code",
       "block": "block-markdown-pointers",
-      "version": 1,
+      "version": 2,
       "module": "pointers",
       "status": "accepted",
       "kind": "function",
@@ -1517,7 +1517,7 @@
       "id": "block-markdown-pointers:pointer_problems",
       "name": "pointer_problems",
       "block": "block-markdown-pointers",
-      "version": 1,
+      "version": 2,
       "module": "pointers",
       "status": "accepted",
       "kind": "function",
@@ -1531,7 +1531,8 @@
       ],
       "tests": [
         "test_pointers.py::test_code_is_not_a_claim",
-        "test_pointers.py::test_pins"
+        "test_pointers.py::test_pins",
+        "test_pointers.py::test_unknown_id_is_reported_as_written"
       ],
       "lessons": [
         "gotcha-validation"
@@ -1540,13 +1541,13 @@
         "python"
       ],
       "lines": 9,
-      "hash": "1f12ad7d49c8"
+      "hash": "c3e1c53db246"
     },
     {
       "id": "block-markdown-pointers:pointers",
       "name": "pointers",
       "block": "block-markdown-pointers",
-      "version": 1,
+      "version": 2,
       "module": "pointers",
       "status": "accepted",
       "kind": "function",
