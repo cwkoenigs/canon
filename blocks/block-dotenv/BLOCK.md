@@ -6,7 +6,7 @@ module: dotenv
 requires: []
 tags: ["python"]
 owner: ckoenigs
-status: accepted
+status: proposed
 date: 2026-10-17
 ---
 
@@ -16,7 +16,7 @@ Dotenv file parsing
 
 ## Why it is shaped this way
 
-Accepted for the growth test by the blind judge's tests (96/96), not yet by the owner.
+Promoted on the blind judge's tests (96/96); served as proposed until the owner reviews it (adr-001).
 
 Promoted from a real repo (envcheck seed build 3 (Haiku; blind judge 96/96)) on 2026-10-17: its judge-validated tests are the block's
 tests. [[gotcha-generated-text]]

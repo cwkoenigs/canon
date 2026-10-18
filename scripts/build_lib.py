@@ -1,6 +1,7 @@
-"""Build canon-lib from the blocks, so the two cannot drift. Every accepted (or, with --all, every)
-block's module goes to lib/src/canon_lib/<module>.py and its tests to lib/tests/test_<module>.py with
-`{{package}}` replaced by `canon_lib`; the package docstring lists the modules. pyproject.toml (extras,
+"""Build canon-lib from the blocks, so the two cannot drift. Every served block (accepted or proposed;
+retired ones are left out, --all takes everything) has its module copied to lib/src/canon_lib/<module>.py
+and its tests to lib/tests/test_<module>.py with `{{package}}` replaced by `canon_lib`; the package
+docstring lists the modules. pyproject.toml (extras,
 dependencies) is kept by hand. --check only reports what would change (for CI). Exit 1 on drift.
 
 Usage: python scripts/build_lib.py [--check] [--all]
@@ -25,21 +26,23 @@ def front_matter(text: str) -> dict[str, str]:
     return out
 
 
-def planned(include_all: bool) -> tuple[dict[Path, str], list[tuple[str, str, str, str]]]:
+def planned(include_all: bool) -> tuple[dict[Path, str], list[tuple[str, str, str, str, str]]]:
     files: dict[Path, str] = {}
     rows = []
     for block in sorted((CANON / "blocks").glob("block-*")):
         meta = front_matter((block / "BLOCK.md").read_text())
-        if meta.get("status") != "accepted" and not include_all:
+        if meta.get("status") not in ("accepted", "proposed") and not include_all:
             continue
         mod = meta["module"]
         files[LIB / "src" / "canon_lib" / f"{mod}.py"] = (block / "code" / f"{mod}.py").read_text()
         for test in sorted((block / "tests").glob("test_*.py")):
             files[LIB / "tests" / test.name] = test.read_text().replace("{{package}}", "canon_lib")
-        rows.append((mod, meta.get("title", mod), meta["id"], meta.get("version", "?")))
-    lines = "\n".join(f"- `canon_lib.{mod}`: {title}  (from {bid} v{ver})" for mod, title, bid, ver in rows)
+        rows.append((mod, meta.get("title", mod), meta["id"], meta.get("version", "?"),
+                     "" if meta.get("status") == "accepted" else ", unreviewed"))
+    lines = "\n".join(f"- `canon_lib.{mod}`: {title}  (from {bid} v{ver}{status})"
+                      for mod, title, bid, ver, status in rows)
     files[LIB / "src" / "canon_lib" / "__init__.py"] = (
-        '"""canon-lib: the team\'s accepted, tested code. Import what you need, e.g.\n'
+        '"""canon-lib: the team\'s accepted and proposed (unreviewed) tested code. Import what you need, e.g.\n'
         "`from canon_lib.textsafe import json_literal`. Each module's docstring links the lessons\n"
         "(gotchas) it encodes. Append-only: a breaking change ships under a new name.\n"
         "Built from canon/blocks by scripts/build_lib.py; do not edit here.\n\n" + lines + '\n"""\n')
