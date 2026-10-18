@@ -3,7 +3,7 @@ name = "{{name}}"
 version = "0.1.0"
 description = {{purpose_json}}
 requires-python = ">=3.12"
-dependencies = []
+dependencies = [{{canon_lib_dep}}]
 
 [dependency-groups]
 dev = ["pytest>=8", "ruff>=0.6"]
@@ -14,3 +14,4 @@ build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/{{package}}"]
+{{canon_lib_source}}

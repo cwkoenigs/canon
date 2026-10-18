@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-17",
+  "generated": "2026-10-18",
   "standards": [
     {
       "id": "adr-000",
@@ -460,7 +460,7 @@
   "scaffolds": [
     {
       "id": "python-cli",
-      "version": 2,
+      "version": 3,
       "title": "Python command-line tool",
       "path": [
         "python",
@@ -477,7 +477,7 @@
         "test_cmd": "uv run pytest -q",
         "lint_cmd": "uv run ruff check ."
       },
-      "hash": "2eeac93d6791",
+      "hash": "37dc2b7ec54a",
       "dir": "scaffolds/python-cli",
       "files": [
         "dot-gitignore",
@@ -490,7 +490,7 @@
     },
     {
       "id": "python-package",
-      "version": 2,
+      "version": 3,
       "title": "Python library package",
       "path": [
         "python",
@@ -506,7 +506,7 @@
         "test_cmd": "uv run pytest -q",
         "lint_cmd": "uv run ruff check ."
       },
-      "hash": "633005736cfd",
+      "hash": "7de25bcd3ae6",
       "dir": "scaffolds/python-package",
       "files": [
         "dot-gitignore",

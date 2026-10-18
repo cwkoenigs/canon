@@ -1,12 +1,12 @@
 ---
 id: python-cli
-version: 2
+version: 3
 title: Python command-line tool
 path: ["python", "cli"]
 tags: ["python", "package", "cli"]
 owner: ckoenigs
 status: accepted
-date: 2026-10-16
+date: 2026-10-18
 test_cmd: uv run pytest -q
 lint_cmd: uv run ruff check .
 ---
@@ -19,3 +19,5 @@ is tagged `package` as well as `cli` and inherits the package standards.
 
 Use it for anything people run from a terminal. For a library imported by other code, use
 `python-package`.
+
+v3: a new repo starts on `canon-lib`, the team's accepted code, as a dependency, with the canon and its index version recorded in `.ds/manifest.toml` and a note for agents in `AGENTS.md`.
