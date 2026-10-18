@@ -25,6 +25,14 @@ broadly. Review each file, narrow `applies_to`, set `status: accepted`, and bump
 until the text changes. Section 17 of the guidebook is deliberately absent: it is answered
 per repository by `ds new`.
 
+## Where this stands (2026-10-17)
+
+Tested with blind, validated judges (`~/Developer/ds-next/REPORT.md`). **canon-lib**, the accepted
+code as one package, is what pays: the same modules pulled by every build, 35 to 61% less code
+written, one place to fix a defect. The lessons as files cost 2× and bought nothing, and are being
+rewritten as short scoped decisions (see [[adr-001]]). Correctness did not move because the model
+already passed every judge without canon. Nothing here has owner review yet.
+
 ## Gotchas and accepted code
 
 `gotchas/` holds what building things here taught the hard way: each a standard with

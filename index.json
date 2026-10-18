@@ -16,6 +16,20 @@
       "path": "adr/adr-000-knowledge-system.md"
     },
     {
+      "id": "adr-001",
+      "version": 1,
+      "title": "Ship accepted code as canon-lib; redesign the lessons",
+      "applies_to": [
+        "*"
+      ],
+      "owner": "ckoenigs",
+      "supersedes": null,
+      "status": "proposed",
+      "kind": "standard",
+      "hash": "2322ba6e40ac",
+      "path": "adr/adr-001-ship-canon-lib.md"
+    },
+    {
       "id": "architecture",
       "version": 1,
       "title": "Architecture and Abstraction",
@@ -116,7 +130,7 @@
     },
     {
       "id": "gotcha-agent-trust",
-      "version": 5,
+      "version": 6,
       "title": "What to let the model decide",
       "applies_to": [
         "cortex"
@@ -125,7 +139,7 @@
       "supersedes": null,
       "status": "proposed",
       "kind": "gotcha",
-      "hash": "f1c9d46a66d5",
+      "hash": "732eb7b48461",
       "path": "gotchas/gotcha-agent-trust.md"
     },
     {
@@ -173,7 +187,7 @@
     },
     {
       "id": "gotcha-docs-staging",
-      "version": 1,
+      "version": 2,
       "title": "Staging repository docs for a site build",
       "applies_to": [
         "docs"
@@ -182,7 +196,7 @@
       "supersedes": null,
       "status": "proposed",
       "kind": "gotcha",
-      "hash": "46e46d7a67eb",
+      "hash": "b3d5c9dc4abf",
       "path": "gotchas/gotcha-docs-staging.md"
     },
     {
@@ -228,6 +242,20 @@
       "path": "gotchas/gotcha-green-means-ran.md"
     },
     {
+      "id": "gotcha-proving-claims",
+      "version": 1,
+      "title": "Proving a claim about a tool or a knowledge base",
+      "applies_to": [
+        "*"
+      ],
+      "owner": "ckoenigs",
+      "supersedes": null,
+      "status": "proposed",
+      "kind": "gotcha",
+      "hash": "6d0ee7293d62",
+      "path": "gotchas/gotcha-proving-claims.md"
+    },
+    {
       "id": "gotcha-terminal-ui",
       "version": 3,
       "title": "Claude-Code-style terminals with prompt_toolkit and rich",
@@ -240,6 +268,21 @@
       "kind": "gotcha",
       "hash": "a5e8b12caf26",
       "path": "gotchas/gotcha-terminal-ui.md"
+    },
+    {
+      "id": "gotcha-tool-arguments",
+      "version": 1,
+      "title": "Tool arguments a model will actually send",
+      "applies_to": [
+        "mcp",
+        "cli"
+      ],
+      "owner": "ckoenigs",
+      "supersedes": null,
+      "status": "proposed",
+      "kind": "gotcha",
+      "hash": "fc425264db6b",
+      "path": "gotchas/gotcha-tool-arguments.md"
     },
     {
       "id": "gotcha-validation",
@@ -910,7 +953,7 @@
       "module": "render",
       "status": "accepted",
       "kind": "constant",
-      "signature": "ACCENT, DIM = ('#d97757', 'grey50')",
+      "signature": "(ACCENT, DIM) = ('#d97757', 'grey50')",
       "summary": "",
       "needs": [
         "ACCENT",
@@ -935,7 +978,7 @@
       "module": "render",
       "status": "accepted",
       "kind": "constant",
-      "signature": "ACCENT, DIM = ('#d97757', 'grey50')",
+      "signature": "(ACCENT, DIM) = ('#d97757', 'grey50')",
       "summary": "",
       "needs": [
         "ACCENT",

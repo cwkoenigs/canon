@@ -1,6 +1,6 @@
 ---
 id: gotcha-agent-trust
-version: 5
+version: 6
 title: What to let the model decide
 applies_to: ["cortex"]
 owner: ckoenigs
@@ -41,3 +41,8 @@ source: ds-next build, 2026-10-16
 - Accepted code: [[block-cortex-session]].
 - Acceptance checks cover every spec item, including side effects such as a model turn.
 - A draft the review must object to is refused, whatever words the review used.
+8. **A lesson never overrides a ticket silently.** Given a gotcha that said only the root README
+   becomes the home page, every build that read it followed it over a ticket that said otherwise,
+   and reported "done". When a lesson contradicts the ticket, the agent follows the ticket, says
+   which lesson it set aside and why, and lets the owner decide. Only a lesson marked safety may
+   win, and then it must still be reported. (Honest test, round 2, 2026-10-17.)
