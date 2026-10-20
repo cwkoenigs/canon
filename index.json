@@ -898,7 +898,7 @@
       ],
       "owner": "ckoenigs",
       "status": "accepted",
-      "hash": "23ce9779901b",
+      "hash": "0c9c288fa98c",
       "dir": "blocks/block-tui-widgets",
       "tests": [
         "test_widgets.py"
