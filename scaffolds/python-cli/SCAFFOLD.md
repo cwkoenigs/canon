@@ -1,12 +1,12 @@
 ---
 id: python-cli
-version: 4
+version: 5
 title: Python command-line tool
 path: ["python", "cli"]
 tags: ["python", "package", "cli"]
 owner: ckoenigs
 status: accepted
-date: 2026-10-19
+date: 2026-10-20
 type: cli
 outputs: []
 test_cmd: uv run pytest -q
@@ -25,3 +25,5 @@ Use it for anything people run from a terminal. For a library imported by other 
 v3: a new repo starts on `canon-lib`, the team's accepted code, as a dependency, with the canon and its index version recorded in `.ds/manifest.toml` and a note for agents in `AGENTS.md`.
 
 v4: declares its project type (`cli`) and that it has no deployable outputs.
+
+v5: prints through `canon_lib.ui_style` ([[terminal-design]]), so a new CLI reads like every other team terminal from its first command.

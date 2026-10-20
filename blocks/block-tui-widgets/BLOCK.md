@@ -1,6 +1,6 @@
 ---
 id: block-tui-widgets
-version: 3
+version: 4
 title: Inline picker and one-screen form
 module: widgets
 requires: ["prompt-toolkit>=3.0.40"]
@@ -33,3 +33,5 @@ update as pending.
 v2: a `Field` may carry `choices`; the form shows it as `‹ label ›` and ←/→ or space cycles it, so a pick and a form fit on one screen.
 
 v3: a `Field` may carry `example` (shown while empty), `normalize` (rewrites as typed) and `check` (a live red line; Enter refuses while it fires).
+
+v4: draws with the terminal design system's roles and glyphs (`from . import ui_style`, so add `block-ui-style` first): the form sits in a square frame, labels on the 12-column grid, the submit key as the one filled band.

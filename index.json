@@ -457,6 +457,21 @@
       "path": "templates.md"
     },
     {
+      "id": "terminal-design",
+      "version": 1,
+      "title": "Terminal Design System",
+      "applies_to": [
+        "cli",
+        "terminal"
+      ],
+      "owner": "ckoenigs",
+      "supersedes": null,
+      "status": "accepted",
+      "kind": "standard",
+      "hash": "29069dd68a60",
+      "path": "terminal-design.md"
+    },
+    {
       "id": "testing",
       "version": 1,
       "title": "Testing and QA",
@@ -544,7 +559,7 @@
     },
     {
       "id": "python-cli",
-      "version": 4,
+      "version": 5,
       "title": "Python command-line tool",
       "path": [
         "python",
@@ -563,7 +578,7 @@
         "test_cmd": "uv run pytest -q",
         "lint_cmd": "uv run ruff check ."
       },
-      "hash": "f6f3c0a5e1f4",
+      "hash": "ff71858992a4",
       "dir": "scaffolds/python-cli",
       "files": [
         "dot-gitignore",
@@ -871,7 +886,7 @@
     },
     {
       "id": "block-tui-widgets",
-      "version": 3,
+      "version": 4,
       "title": "Inline picker and one-screen form",
       "module": "widgets",
       "requires": [
@@ -883,10 +898,31 @@
       ],
       "owner": "ckoenigs",
       "status": "accepted",
-      "hash": "61bd62ab1a61",
+      "hash": "daba232adefb",
       "dir": "blocks/block-tui-widgets",
       "tests": [
         "test_widgets.py"
+      ]
+    },
+    {
+      "id": "block-ui-style",
+      "version": 1,
+      "title": "Terminal design system tokens",
+      "module": "ui_style",
+      "requires": [
+        "rich>=13"
+      ],
+      "test_requires": [],
+      "tags": [
+        "cli",
+        "terminal"
+      ],
+      "owner": "ckoenigs",
+      "status": "accepted",
+      "hash": "c2ca0594694a",
+      "dir": "blocks/block-ui-style",
+      "tests": [
+        "test_ui_style.py"
       ]
     }
   ],
@@ -2462,31 +2498,10 @@
       "hash": "dd69514ba244"
     },
     {
-      "id": "block-tui-widgets:ACCENT",
-      "name": "ACCENT",
-      "block": "block-tui-widgets",
-      "version": 3,
-      "module": "widgets",
-      "status": "accepted",
-      "kind": "constant",
-      "signature": "ACCENT = '#d97757'",
-      "summary": "",
-      "needs": [],
-      "tests": [],
-      "lessons": [
-        "gotcha-terminal-ui"
-      ],
-      "tags": [
-        "cli"
-      ],
-      "lines": 1,
-      "hash": "d39998f90d83"
-    },
-    {
       "id": "block-tui-widgets:Field",
       "name": "Field",
       "block": "block-tui-widgets",
-      "version": 3,
+      "version": 4,
       "module": "widgets",
       "status": "accepted",
       "kind": "class",
@@ -2510,15 +2525,13 @@
       "id": "block-tui-widgets:STYLE",
       "name": "STYLE",
       "block": "block-tui-widgets",
-      "version": 3,
+      "version": 4,
       "module": "widgets",
       "status": "accepted",
       "kind": "constant",
-      "signature": "STYLE = Style.from_dict({'accent': f'{ACCENT} bold', 'dim': '#808080', 'error': '#e06c75', 'label': '#a0a0a0', 'focus': ",
+      "signature": "STYLE = Style.from_dict(S.pt_style())",
       "summary": "",
-      "needs": [
-        "ACCENT"
-      ],
+      "needs": [],
       "tests": [],
       "lessons": [
         "gotcha-terminal-ui"
@@ -2526,21 +2539,20 @@
       "tags": [
         "cli"
       ],
-      "lines": 4,
-      "hash": "cf252ff8448b"
+      "lines": 1,
+      "hash": "38dabf2b181f"
     },
     {
       "id": "block-tui-widgets:form",
       "name": "form",
       "block": "block-tui-widgets",
-      "version": 3,
+      "version": 4,
       "module": "widgets",
       "status": "accepted",
       "kind": "function",
       "signature": "async def form(title: str, fields: list[Field], footer: Callable[[dict[str, str]], str], validate: Callable[[dict[str, str]], tuple[str, str] | None]) -> dict[str, str] | None",
       "summary": "Every field on one screen, already filled with a suggestion. Tab/\u2193 and Shift-Tab/\u2191 move, Enter submits from any field. `validate` returns (field key, message) to refuse a submit; `footer` is recomputed on every keystroke.",
       "needs": [
-        "ACCENT",
         "Field",
         "STYLE"
       ],
@@ -2555,21 +2567,20 @@
       "tags": [
         "cli"
       ],
-      "lines": 141,
-      "hash": "04ea4697ab0a"
+      "lines": 142,
+      "hash": "f7aeaa2d0663"
     },
     {
       "id": "block-tui-widgets:pick",
       "name": "pick",
       "block": "block-tui-widgets",
-      "version": 3,
+      "version": 4,
       "module": "widgets",
       "status": "accepted",
       "kind": "function",
       "signature": "async def pick(title: str, options: list[tuple[str, str, str]]) -> str | None",
       "summary": "options: (value, label, description). \u2191/\u2193 or a digit to move, Enter to choose.",
       "needs": [
-        "ACCENT",
         "STYLE"
       ],
       "tests": [
@@ -2582,7 +2593,751 @@
         "cli"
       ],
       "lines": 43,
-      "hash": "854501a63a36"
+      "hash": "08e023b20a63"
+    },
+    {
+      "id": "block-ui-style:DESIGN_WIDTH",
+      "name": "DESIGN_WIDTH",
+      "block": "block-ui-style",
+      "version": 1,
+      "module": "ui_style",
+      "status": "accepted",
+      "kind": "constant",
+      "signature": "DESIGN_WIDTH = 80",
+      "summary": "",
+      "needs": [],
+      "tests": [],
+      "lessons": [
+        "terminal-design"
+      ],
+      "tags": [
+        "cli",
+        "terminal"
+      ],
+      "lines": 1,
+      "hash": "fe58d77c1646"
+    },
+    {
+      "id": "block-ui-style:G",
+      "name": "G",
+      "block": "block-ui-style",
+      "version": 1,
+      "module": "ui_style",
+      "status": "accepted",
+      "kind": "constant",
+      "signature": "G = _Glyphs()",
+      "summary": "",
+      "needs": [
+        "G",
+        "INDENT",
+        "RESULT_INDENT",
+        "_Glyphs",
+        "error",
+        "fold",
+        "hint",
+        "result",
+        "run"
+      ],
+      "tests": [],
+      "lessons": [
+        "terminal-design"
+      ],
+      "tags": [
+        "cli",
+        "terminal"
+      ],
+      "lines": 1,
+      "hash": "805715566d37"
+    },
+    {
+      "id": "block-ui-style:INDENT",
+      "name": "INDENT",
+      "block": "block-ui-style",
+      "version": 1,
+      "module": "ui_style",
+      "status": "accepted",
+      "kind": "constant",
+      "signature": "INDENT = 2",
+      "summary": "",
+      "needs": [],
+      "tests": [],
+      "lessons": [
+        "terminal-design"
+      ],
+      "tags": [
+        "cli",
+        "terminal"
+      ],
+      "lines": 1,
+      "hash": "df25c9b48678"
+    },
+    {
+      "id": "block-ui-style:LABEL_W",
+      "name": "LABEL_W",
+      "block": "block-ui-style",
+      "version": 1,
+      "module": "ui_style",
+      "status": "accepted",
+      "kind": "constant",
+      "signature": "LABEL_W = 12",
+      "summary": "",
+      "needs": [],
+      "tests": [],
+      "lessons": [
+        "terminal-design"
+      ],
+      "tags": [
+        "cli",
+        "terminal"
+      ],
+      "lines": 1,
+      "hash": "83607bb9a8aa"
+    },
+    {
+      "id": "block-ui-style:PALETTE",
+      "name": "PALETTE",
+      "block": "block-ui-style",
+      "version": 1,
+      "module": "ui_style",
+      "status": "accepted",
+      "kind": "constant",
+      "signature": "PALETTE = {'text': ('#e7e7ea', '#1d1f20', 'default'), 'muted': ('#98989b', '#5d5d60', 'bright_black'), 'dim': ('#7a7a7d'",
+      "summary": "",
+      "needs": [],
+      "tests": [],
+      "lessons": [
+        "terminal-design"
+      ],
+      "tags": [
+        "cli",
+        "terminal"
+      ],
+      "lines": 16,
+      "hash": "04db4c3f1092"
+    },
+    {
+      "id": "block-ui-style:RESULT_INDENT",
+      "name": "RESULT_INDENT",
+      "block": "block-ui-style",
+      "version": 1,
+      "module": "ui_style",
+      "status": "accepted",
+      "kind": "constant",
+      "signature": "RESULT_INDENT = 4",
+      "summary": "",
+      "needs": [],
+      "tests": [],
+      "lessons": [
+        "terminal-design"
+      ],
+      "tags": [
+        "cli",
+        "terminal"
+      ],
+      "lines": 1,
+      "hash": "32da3a4ad554"
+    },
+    {
+      "id": "block-ui-style:SPINNER",
+      "name": "SPINNER",
+      "block": "block-ui-style",
+      "version": 1,
+      "module": "ui_style",
+      "status": "accepted",
+      "kind": "constant",
+      "signature": "SPINNER = 'ds'",
+      "summary": "",
+      "needs": [],
+      "tests": [],
+      "lessons": [
+        "terminal-design"
+      ],
+      "tags": [
+        "cli",
+        "terminal"
+      ],
+      "lines": 1,
+      "hash": "987b94e847e3"
+    },
+    {
+      "id": "block-ui-style:_ANSI",
+      "name": "_ANSI",
+      "block": "block-ui-style",
+      "version": 1,
+      "module": "ui_style",
+      "status": "accepted",
+      "kind": "constant",
+      "signature": "_ANSI = {'black', 'red', 'green', 'yellow', 'blue', 'magenta', 'cyan', 'white'}",
+      "summary": "",
+      "needs": [],
+      "tests": [],
+      "lessons": [
+        "terminal-design"
+      ],
+      "tags": [
+        "cli",
+        "terminal"
+      ],
+      "lines": 1,
+      "hash": "9e9f434b19ce"
+    },
+    {
+      "id": "block-ui-style:agent_lines",
+      "name": "agent_lines",
+      "block": "block-ui-style",
+      "version": 1,
+      "module": "ui_style",
+      "status": "accepted",
+      "kind": "function",
+      "signature": "def agent_lines(c: Console, body: RenderableType) -> None",
+      "summary": "\u25cf on the first line, \u2502 on the rest; body may be Markdown. Wraps under col 3.",
+      "needs": [
+        "DESIGN_WIDTH",
+        "G",
+        "INDENT",
+        "RESULT_INDENT",
+        "_Glyphs",
+        "error",
+        "fold",
+        "hint",
+        "result",
+        "run",
+        "width"
+      ],
+      "tests": [],
+      "lessons": [
+        "terminal-design"
+      ],
+      "tags": [
+        "cli",
+        "terminal"
+      ],
+      "lines": 8,
+      "hash": "15272702297b"
+    },
+    {
+      "id": "block-ui-style:banner",
+      "name": "banner",
+      "block": "block-ui-style",
+      "version": 1,
+      "module": "ui_style",
+      "status": "accepted",
+      "kind": "function",
+      "signature": "def banner(version: str, facts: list[tuple[str, str]], hints: list[str], path: str, tagline: str, w: int=DESIGN_WIDTH) -> list[Text]",
+      "summary": "Two-pane frame shown once: word-mark left, facts right, path on a footer row.",
+      "needs": [
+        "DESIGN_WIDTH",
+        "LABEL_W"
+      ],
+      "tests": [],
+      "lessons": [
+        "terminal-design"
+      ],
+      "tags": [
+        "cli",
+        "terminal"
+      ],
+      "lines": 22,
+      "hash": "3021e61e7b45"
+    },
+    {
+      "id": "block-ui-style:console",
+      "name": "console",
+      "block": "block-ui-style",
+      "version": 1,
+      "module": "ui_style",
+      "status": "accepted",
+      "kind": "function",
+      "signature": "def console(*, color: bool=True, **kw) -> Console",
+      "summary": "",
+      "needs": [
+        "PALETTE",
+        "is_dark",
+        "theme",
+        "truecolor"
+      ],
+      "tests": [],
+      "lessons": [
+        "terminal-design"
+      ],
+      "tags": [
+        "cli",
+        "terminal"
+      ],
+      "lines": 2,
+      "hash": "03871bc6cc1a"
+    },
+    {
+      "id": "block-ui-style:error",
+      "name": "error",
+      "block": "block-ui-style",
+      "version": 1,
+      "module": "ui_style",
+      "status": "accepted",
+      "kind": "function",
+      "signature": "def error(what: str, fix: str='') -> list[Text]",
+      "summary": "Red only on the line that failed; the fix follows in dim.",
+      "needs": [
+        "G",
+        "INDENT",
+        "RESULT_INDENT",
+        "_Glyphs",
+        "error",
+        "fold",
+        "hint",
+        "result",
+        "run"
+      ],
+      "tests": [],
+      "lessons": [
+        "terminal-design"
+      ],
+      "tags": [
+        "cli",
+        "terminal"
+      ],
+      "lines": 6,
+      "hash": "c98bcf5f87d1"
+    },
+    {
+      "id": "block-ui-style:fold",
+      "name": "fold",
+      "block": "block-ui-style",
+      "version": 1,
+      "module": "ui_style",
+      "status": "accepted",
+      "kind": "function",
+      "signature": "def fold(text: str) -> Text",
+      "summary": "",
+      "needs": [
+        "G",
+        "INDENT",
+        "RESULT_INDENT",
+        "_Glyphs",
+        "error",
+        "fold",
+        "hint",
+        "result",
+        "run"
+      ],
+      "tests": [],
+      "lessons": [
+        "terminal-design"
+      ],
+      "tags": [
+        "cli",
+        "terminal"
+      ],
+      "lines": 2,
+      "hash": "3b3d041fb1c6"
+    },
+    {
+      "id": "block-ui-style:footer",
+      "name": "footer",
+      "block": "block-ui-style",
+      "version": 1,
+      "module": "ui_style",
+      "status": "accepted",
+      "kind": "function",
+      "signature": "def footer(*facts: str) -> Text",
+      "summary": "",
+      "needs": [
+        "G",
+        "INDENT",
+        "RESULT_INDENT",
+        "_Glyphs",
+        "error",
+        "fold",
+        "hint",
+        "result",
+        "run"
+      ],
+      "tests": [],
+      "lessons": [
+        "terminal-design"
+      ],
+      "tags": [
+        "cli",
+        "terminal"
+      ],
+      "lines": 2,
+      "hash": "b4ae73c23bed"
+    },
+    {
+      "id": "block-ui-style:frame",
+      "name": "frame",
+      "block": "block-ui-style",
+      "version": 1,
+      "module": "ui_style",
+      "status": "accepted",
+      "kind": "function",
+      "signature": "def frame(title: Text | str, rows: list[Text | None], *, kind: str='input', keys: Text | None=None, w: int=DESIGN_WIDTH, prefix: Text | None=None) -> list[Text]",
+      "summary": "Square frame, exact width. kind = input (dim edge) | approval (warn edge). `prefix` is printed before every line (the rail, inside a turn).",
+      "needs": [
+        "DESIGN_WIDTH"
+      ],
+      "tests": [],
+      "lessons": [
+        "terminal-design"
+      ],
+      "tags": [
+        "cli",
+        "terminal"
+      ],
+      "lines": 19,
+      "hash": "82be2fdc2e38"
+    },
+    {
+      "id": "block-ui-style:hint",
+      "name": "hint",
+      "block": "block-ui-style",
+      "version": 1,
+      "module": "ui_style",
+      "status": "accepted",
+      "kind": "function",
+      "signature": "def hint(text: str) -> Text",
+      "summary": "",
+      "needs": [
+        "INDENT"
+      ],
+      "tests": [],
+      "lessons": [
+        "terminal-design"
+      ],
+      "tags": [
+        "cli",
+        "terminal"
+      ],
+      "lines": 2,
+      "hash": "89f5f5feff66"
+    },
+    {
+      "id": "block-ui-style:is_dark",
+      "name": "is_dark",
+      "block": "block-ui-style",
+      "version": 1,
+      "module": "ui_style",
+      "status": "accepted",
+      "kind": "function",
+      "signature": "def is_dark() -> bool",
+      "summary": "",
+      "needs": [],
+      "tests": [],
+      "lessons": [
+        "terminal-design"
+      ],
+      "tags": [
+        "cli",
+        "terminal"
+      ],
+      "lines": 2,
+      "hash": "b7a0ce46e877"
+    },
+    {
+      "id": "block-ui-style:labelled",
+      "name": "labelled",
+      "block": "block-ui-style",
+      "version": 1,
+      "module": "ui_style",
+      "status": "accepted",
+      "kind": "function",
+      "signature": "def labelled(label: str, value: Text | str, *, indent: int=2, style: str='dim') -> Text",
+      "summary": "",
+      "needs": [
+        "LABEL_W"
+      ],
+      "tests": [],
+      "lessons": [
+        "terminal-design"
+      ],
+      "tags": [
+        "cli",
+        "terminal"
+      ],
+      "lines": 3,
+      "hash": "d323dd0a78c4"
+    },
+    {
+      "id": "block-ui-style:outcome",
+      "name": "outcome",
+      "block": "block-ui-style",
+      "version": 1,
+      "module": "ui_style",
+      "status": "accepted",
+      "kind": "function",
+      "signature": "def outcome(kind: str, subject: str, detail: str='') -> Text",
+      "summary": "kind in ok|warn|err \u2014 closes a block, never opens one. No rail: local commands are flat.",
+      "needs": [
+        "G",
+        "INDENT",
+        "RESULT_INDENT",
+        "_Glyphs",
+        "error",
+        "fold",
+        "hint",
+        "result",
+        "run"
+      ],
+      "tests": [],
+      "lessons": [
+        "terminal-design"
+      ],
+      "tags": [
+        "cli",
+        "terminal"
+      ],
+      "lines": 6,
+      "hash": "3361295bd4b2"
+    },
+    {
+      "id": "block-ui-style:pt_style",
+      "name": "pt_style",
+      "block": "block-ui-style",
+      "version": 1,
+      "module": "ui_style",
+      "status": "accepted",
+      "kind": "function",
+      "signature": "def pt_style() -> dict[str, str]",
+      "summary": "The same roles for prompt_toolkit (prompt, completion menu, widgets).",
+      "needs": [
+        "PALETTE",
+        "_ANSI",
+        "_pt",
+        "is_dark",
+        "truecolor"
+      ],
+      "tests": [],
+      "lessons": [
+        "terminal-design"
+      ],
+      "tags": [
+        "cli",
+        "terminal"
+      ],
+      "lines": 19,
+      "hash": "abe5f56d4bab"
+    },
+    {
+      "id": "block-ui-style:result",
+      "name": "result",
+      "block": "block-ui-style",
+      "version": 1,
+      "module": "ui_style",
+      "status": "accepted",
+      "kind": "function",
+      "signature": "def result(first: str, more: int=0, *, error: bool=False, key: str='ctrl-o') -> Text",
+      "summary": "",
+      "needs": [
+        "G",
+        "INDENT",
+        "RESULT_INDENT",
+        "_Glyphs",
+        "error",
+        "fold",
+        "hint",
+        "result",
+        "run"
+      ],
+      "tests": [],
+      "lessons": [
+        "terminal-design"
+      ],
+      "tags": [
+        "cli",
+        "terminal"
+      ],
+      "lines": 6,
+      "hash": "83a20b82688c"
+    },
+    {
+      "id": "block-ui-style:run",
+      "name": "run",
+      "block": "block-ui-style",
+      "version": 1,
+      "module": "ui_style",
+      "status": "accepted",
+      "kind": "function",
+      "signature": "def run(tool: str, arg: str='') -> Text",
+      "summary": "",
+      "needs": [
+        "G",
+        "INDENT",
+        "RESULT_INDENT",
+        "_Glyphs",
+        "error",
+        "fold",
+        "hint",
+        "result",
+        "run"
+      ],
+      "tests": [],
+      "lessons": [
+        "terminal-design"
+      ],
+      "tags": [
+        "cli",
+        "terminal"
+      ],
+      "lines": 5,
+      "hash": "bb9dafc2c4ed"
+    },
+    {
+      "id": "block-ui-style:status_label",
+      "name": "status_label",
+      "block": "block-ui-style",
+      "version": 1,
+      "module": "ui_style",
+      "status": "accepted",
+      "kind": "function",
+      "signature": "def status_label(step: str, secs: int) -> str",
+      "summary": "Markup for console.status: the one live line, redrawn in place.",
+      "needs": [
+        "G",
+        "INDENT",
+        "RESULT_INDENT",
+        "_Glyphs",
+        "error",
+        "fold",
+        "hint",
+        "result",
+        "run"
+      ],
+      "tests": [],
+      "lessons": [
+        "terminal-design"
+      ],
+      "tags": [
+        "cli",
+        "terminal"
+      ],
+      "lines": 3,
+      "hash": "716ffe148613"
+    },
+    {
+      "id": "block-ui-style:theme",
+      "name": "theme",
+      "block": "block-ui-style",
+      "version": 1,
+      "module": "ui_style",
+      "status": "accepted",
+      "kind": "function",
+      "signature": "def theme(*, color: bool=True) -> Theme",
+      "summary": "Rich Theme for this terminal. DS_THEME=light|dark picks the ramp.",
+      "needs": [
+        "PALETTE",
+        "is_dark",
+        "truecolor"
+      ],
+      "tests": [],
+      "lessons": [
+        "terminal-design"
+      ],
+      "tags": [
+        "cli",
+        "terminal"
+      ],
+      "lines": 10,
+      "hash": "1fd2a4aad600"
+    },
+    {
+      "id": "block-ui-style:toolbar",
+      "name": "toolbar",
+      "block": "block-ui-style",
+      "version": 1,
+      "module": "ui_style",
+      "status": "accepted",
+      "kind": "function",
+      "signature": "def toolbar(left: str, right: str, w: int) -> list[tuple[str, str]]",
+      "summary": "prompt_toolkit bottom_toolbar fragments: one quiet band, facts left, context right.",
+      "needs": [],
+      "tests": [],
+      "lessons": [
+        "terminal-design"
+      ],
+      "tags": [
+        "cli",
+        "terminal"
+      ],
+      "lines": 4,
+      "hash": "332d7faf907d"
+    },
+    {
+      "id": "block-ui-style:truecolor",
+      "name": "truecolor",
+      "block": "block-ui-style",
+      "version": 1,
+      "module": "ui_style",
+      "status": "accepted",
+      "kind": "function",
+      "signature": "def truecolor() -> bool",
+      "summary": "",
+      "needs": [],
+      "tests": [],
+      "lessons": [
+        "terminal-design"
+      ],
+      "tags": [
+        "cli",
+        "terminal"
+      ],
+      "lines": 2,
+      "hash": "b7a965f98cd3"
+    },
+    {
+      "id": "block-ui-style:width",
+      "name": "width",
+      "block": "block-ui-style",
+      "version": 1,
+      "module": "ui_style",
+      "status": "accepted",
+      "kind": "function",
+      "signature": "def width(c: Console) -> int",
+      "summary": "",
+      "needs": [
+        "DESIGN_WIDTH"
+      ],
+      "tests": [],
+      "lessons": [
+        "terminal-design"
+      ],
+      "tags": [
+        "cli",
+        "terminal"
+      ],
+      "lines": 2,
+      "hash": "0f9f75a49c59"
+    },
+    {
+      "id": "block-ui-style:you",
+      "name": "you",
+      "block": "block-ui-style",
+      "version": 1,
+      "module": "ui_style",
+      "status": "accepted",
+      "kind": "function",
+      "signature": "def you(line: str) -> Text",
+      "summary": "",
+      "needs": [
+        "G",
+        "INDENT",
+        "RESULT_INDENT",
+        "_Glyphs",
+        "error",
+        "fold",
+        "hint",
+        "result",
+        "run"
+      ],
+      "tests": [],
+      "lessons": [
+        "terminal-design"
+      ],
+      "tags": [
+        "cli",
+        "terminal"
+      ],
+      "lines": 2,
+      "hash": "1c11d277709b"
     }
   ]
 }
