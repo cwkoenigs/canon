@@ -869,7 +869,7 @@
       ],
       "owner": "ckoenigs",
       "status": "accepted",
-      "hash": "f13de533e509",
+      "hash": "b4b2f651b319",
       "dir": "blocks/block-tui-widgets",
       "tests": [
         "test_widgets.py"
@@ -2540,7 +2540,7 @@
         "cli"
       ],
       "lines": 116,
-      "hash": "802d7dd70d4e"
+      "hash": "31a780cb5b86"
     },
     {
       "id": "block-tui-widgets:pick",
