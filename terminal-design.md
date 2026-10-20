@@ -40,8 +40,9 @@ the written rationale live in ds-next under `docs/design-system/`.
 Twelve colour roles with dark and light truecolor values from the Industry steel ramp and an
 ANSI-16 fallback; eleven glyphs, each with one meaning, one colour and one column; a grid of two
 indents (column 3 for what is said or run, column 5 for what came back) and a 12-wide label
-column; frames exact at 80 columns, degrading to 60. They ship as `block-ui-style`
-(`ui_style.py`) and the picker and form that use them as `block-tui-widgets` v4.
+column; frames exact at 80 columns, degrading to 60; and the team mascot, a dog and a cat with
+their arms around each other, for a banner's left pane. They ship as `block-ui-style`
+(`ui_style.py`) and the picker and form that use them as `block-tui-widgets`.
 
 ## Apply
 
