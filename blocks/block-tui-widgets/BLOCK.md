@@ -1,6 +1,6 @@
 ---
 id: block-tui-widgets
-version: 3
+version: 4
 title: Inline picker and one-screen form
 module: widgets
 requires: ["prompt-toolkit>=3.0.40"]
@@ -33,3 +33,5 @@ update as pending.
 v2: a `Field` may carry `choices`; the form shows it as `‹ label ›` and ←/→ or space cycles it, so a pick and a form fit on one screen.
 
 v3: a `Field` may carry `example` (shown while empty), `normalize` (rewrites as typed) and `check` (a live red line; Enter refuses while it fires).
+
+v4: plain terminal colours (cyan for what is active) instead of a fixed hex accent, and a ◆ before titles, to match the team's updater.

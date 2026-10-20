@@ -871,7 +871,7 @@
     },
     {
       "id": "block-tui-widgets",
-      "version": 3,
+      "version": 4,
       "title": "Inline picker and one-screen form",
       "module": "widgets",
       "requires": [
@@ -883,7 +883,7 @@
       ],
       "owner": "ckoenigs",
       "status": "accepted",
-      "hash": "61bd62ab1a61",
+      "hash": "6a3050b2e8df",
       "dir": "blocks/block-tui-widgets",
       "tests": [
         "test_widgets.py"
@@ -2462,31 +2462,10 @@
       "hash": "dd69514ba244"
     },
     {
-      "id": "block-tui-widgets:ACCENT",
-      "name": "ACCENT",
-      "block": "block-tui-widgets",
-      "version": 3,
-      "module": "widgets",
-      "status": "accepted",
-      "kind": "constant",
-      "signature": "ACCENT = '#d97757'",
-      "summary": "",
-      "needs": [],
-      "tests": [],
-      "lessons": [
-        "gotcha-terminal-ui"
-      ],
-      "tags": [
-        "cli"
-      ],
-      "lines": 1,
-      "hash": "d39998f90d83"
-    },
-    {
       "id": "block-tui-widgets:Field",
       "name": "Field",
       "block": "block-tui-widgets",
-      "version": 3,
+      "version": 4,
       "module": "widgets",
       "status": "accepted",
       "kind": "class",
@@ -2510,15 +2489,13 @@
       "id": "block-tui-widgets:STYLE",
       "name": "STYLE",
       "block": "block-tui-widgets",
-      "version": 3,
+      "version": 4,
       "module": "widgets",
       "status": "accepted",
       "kind": "constant",
-      "signature": "STYLE = Style.from_dict({'accent': f'{ACCENT} bold', 'dim': '#808080', 'error': '#e06c75', 'label': '#a0a0a0', 'focus': ",
+      "signature": "STYLE = Style.from_dict({'accent': 'ansicyan bold', 'dim': 'ansibrightblack', 'error': 'ansired', 'label': 'ansibrightbl",
       "summary": "",
-      "needs": [
-        "ACCENT"
-      ],
+      "needs": [],
       "tests": [],
       "lessons": [
         "gotcha-terminal-ui"
@@ -2527,20 +2504,19 @@
         "cli"
       ],
       "lines": 4,
-      "hash": "cf252ff8448b"
+      "hash": "05b2a8253dd7"
     },
     {
       "id": "block-tui-widgets:form",
       "name": "form",
       "block": "block-tui-widgets",
-      "version": 3,
+      "version": 4,
       "module": "widgets",
       "status": "accepted",
       "kind": "function",
       "signature": "async def form(title: str, fields: list[Field], footer: Callable[[dict[str, str]], str], validate: Callable[[dict[str, str]], tuple[str, str] | None]) -> dict[str, str] | None",
       "summary": "Every field on one screen, already filled with a suggestion. Tab/\u2193 and Shift-Tab/\u2191 move, Enter submits from any field. `validate` returns (field key, message) to refuse a submit; `footer` is recomputed on every keystroke.",
       "needs": [
-        "ACCENT",
         "Field",
         "STYLE"
       ],
@@ -2556,20 +2532,19 @@
         "cli"
       ],
       "lines": 141,
-      "hash": "04ea4697ab0a"
+      "hash": "6e955811d825"
     },
     {
       "id": "block-tui-widgets:pick",
       "name": "pick",
       "block": "block-tui-widgets",
-      "version": 3,
+      "version": 4,
       "module": "widgets",
       "status": "accepted",
       "kind": "function",
       "signature": "async def pick(title: str, options: list[tuple[str, str, str]]) -> str | None",
       "summary": "options: (value, label, description). \u2191/\u2193 or a digit to move, Enter to choose.",
       "needs": [
-        "ACCENT",
         "STYLE"
       ],
       "tests": [
@@ -2582,7 +2557,7 @@
         "cli"
       ],
       "lines": 43,
-      "hash": "854501a63a36"
+      "hash": "311feed72aac"
     }
   ]
 }
