@@ -257,7 +257,7 @@
     },
     {
       "id": "gotcha-terminal-ui",
-      "version": 3,
+      "version": 4,
       "title": "Claude-Code-style terminals with prompt_toolkit and rich",
       "applies_to": [
         "cli"
@@ -266,7 +266,7 @@
       "supersedes": null,
       "status": "proposed",
       "kind": "gotcha",
-      "hash": "a5e8b12caf26",
+      "hash": "b99c3487c153",
       "path": "gotchas/gotcha-terminal-ui.md"
     },
     {
@@ -468,7 +468,7 @@
       "supersedes": null,
       "status": "accepted",
       "kind": "standard",
-      "hash": "9edc6bffacb1",
+      "hash": "8baa2eef8b39",
       "path": "terminal-design.md"
     },
     {
@@ -886,7 +886,7 @@
     },
     {
       "id": "block-tui-widgets",
-      "version": 6,
+      "version": 7,
       "title": "Inline picker and one-screen form",
       "module": "widgets",
       "requires": [
@@ -898,7 +898,7 @@
       ],
       "owner": "ckoenigs",
       "status": "accepted",
-      "hash": "4f7dc81d9869",
+      "hash": "335edd5dd48c",
       "dir": "blocks/block-tui-widgets",
       "tests": [
         "test_widgets.py"
@@ -906,7 +906,7 @@
     },
     {
       "id": "block-ui-style",
-      "version": 4,
+      "version": 5,
       "title": "Terminal design system tokens",
       "module": "ui_style",
       "requires": [
@@ -919,7 +919,7 @@
       ],
       "owner": "ckoenigs",
       "status": "accepted",
-      "hash": "e5f94a0dbbb0",
+      "hash": "7a7d0772c3a3",
       "dir": "blocks/block-ui-style",
       "tests": [
         "test_ui_style.py"
@@ -2501,7 +2501,7 @@
       "id": "block-tui-widgets:Field",
       "name": "Field",
       "block": "block-tui-widgets",
-      "version": 6,
+      "version": 7,
       "module": "widgets",
       "status": "accepted",
       "kind": "class",
@@ -2525,7 +2525,7 @@
       "id": "block-tui-widgets:STYLE",
       "name": "STYLE",
       "block": "block-tui-widgets",
-      "version": 6,
+      "version": 7,
       "module": "widgets",
       "status": "accepted",
       "kind": "constant",
@@ -2546,7 +2546,7 @@
       "id": "block-tui-widgets:form",
       "name": "form",
       "block": "block-tui-widgets",
-      "version": 6,
+      "version": 7,
       "module": "widgets",
       "status": "accepted",
       "kind": "function",
@@ -2555,7 +2555,12 @@
       "needs": [
         "Field",
         "STYLE",
-        "_keys"
+        "_grid",
+        "_keys",
+        "_on_grid",
+        "_on_resize",
+        "repaint",
+        "resize_safe"
       ],
       "tests": [
         "test_widgets.py::test_form_choice_field_cycles_with_arrows_and_space",
@@ -2569,13 +2574,13 @@
         "cli"
       ],
       "lines": 140,
-      "hash": "b7170760d327"
+      "hash": "e27745083d4d"
     },
     {
       "id": "block-tui-widgets:pick",
       "name": "pick",
       "block": "block-tui-widgets",
-      "version": 6,
+      "version": 7,
       "module": "widgets",
       "status": "accepted",
       "kind": "function",
@@ -2583,7 +2588,12 @@
       "summary": "options: (value, label, description). \u2191/\u2193 or a digit to move, Enter to choose.",
       "needs": [
         "STYLE",
-        "_keys"
+        "_grid",
+        "_keys",
+        "_on_grid",
+        "_on_resize",
+        "repaint",
+        "resize_safe"
       ],
       "tests": [
         "test_widgets.py::test_pick_arrows_and_enter"
@@ -2594,19 +2604,19 @@
       "tags": [
         "cli"
       ],
-      "lines": 44,
-      "hash": "f6caab483f3e"
+      "lines": 46,
+      "hash": "85e8310e8333"
     },
     {
       "id": "block-tui-widgets:prompt_frame",
       "name": "prompt_frame",
       "block": "block-tui-widgets",
-      "version": 6,
+      "version": 7,
       "module": "widgets",
       "status": "accepted",
       "kind": "function",
       "signature": "def prompt_frame(tag: str, text: str, width: int) -> list[tuple[str, str]]",
-      "summary": "The three static rows of a prompt frame, as prompt_toolkit fragments: used live by `prompt_line` and reprinted by the caller once the line is accepted.",
+      "summary": "The three static rows of a prompt frame, as prompt_toolkit fragments: what `prompt_line` draws live, and what the caller reprints once the line is accepted. Cortex Code's box: the terminal's width, rounded corners, the session tag at the right of the top rule.",
       "needs": [],
       "tests": [
         "test_widgets.py::test_prompt_frame_is_exact"
@@ -2617,21 +2627,27 @@
       "tags": [
         "cli"
       ],
-      "lines": 9,
-      "hash": "b4ed2f4be6b8"
+      "lines": 10,
+      "hash": "97823a9c6fbc"
     },
     {
       "id": "block-tui-widgets:prompt_line",
       "name": "prompt_line",
       "block": "block-tui-widgets",
-      "version": 6,
+      "version": 7,
       "module": "widgets",
       "status": "accepted",
       "kind": "function",
-      "signature": "async def prompt_line(tag: str, *, completer=None, history=None, toolbar: Callable[[], list] | None=None, width: int=S.DESIGN_WIDTH) -> str",
-      "summary": "One line of input inside a closed frame with the session tag on its top rule, the `/` menu dropping below it, \u2191\u2193 for history (or the menu when it is open), Tab to complete, Enter to accept. Raises KeyboardInterrupt on ctrl-c and EOFError on ctrl-d with an empty line. The frame erases itself; the cal",
+      "signature": "async def prompt_line(tag: str, *, completer=None, history=None, toolbar: Callable[[], list] | None=None, width: int | None=None) -> str",
+      "summary": "One line of input inside a closed frame the width of the terminal, the session tag on its top rule, the status band under it, the `/` menu dropping below, \u2191\u2193 for history (or the menu when it is open), Tab to complete, Enter to accept. Raises KeyboardInterrupt on ctrl-c and EOFError on ctrl-d with an",
       "needs": [
-        "STYLE"
+        "STYLE",
+        "_cols",
+        "_grid",
+        "_on_grid",
+        "_on_resize",
+        "repaint",
+        "resize_safe"
       ],
       "tests": [
         "test_widgets.py::test_prompt_line_accepts_completes_and_recalls_history"
@@ -2642,14 +2658,59 @@
       "tags": [
         "cli"
       ],
-      "lines": 66,
-      "hash": "46a7a611521c"
+      "lines": 81,
+      "hash": "a72884290748"
+    },
+    {
+      "id": "block-tui-widgets:repaint",
+      "name": "repaint",
+      "block": "block-tui-widgets",
+      "version": 7,
+      "module": "widgets",
+      "status": "accepted",
+      "kind": "constant",
+      "signature": "repaint: Callable[[], None] | None = None",
+      "summary": "",
+      "needs": [],
+      "tests": [],
+      "lessons": [
+        "gotcha-terminal-ui"
+      ],
+      "tags": [
+        "cli"
+      ],
+      "lines": 1,
+      "hash": "bfd89f50f461"
+    },
+    {
+      "id": "block-tui-widgets:resize_safe",
+      "name": "resize_safe",
+      "block": "block-tui-widgets",
+      "version": 7,
+      "module": "widgets",
+      "status": "accepted",
+      "kind": "function",
+      "signature": "def resize_safe(app: Application) -> Application",
+      "summary": "Give an Application the resize behaviour above. prompt_toolkit 3.0 registers `_on_resize` as its SIGWINCH handler when the app runs, so the instance attribute is what gets called.",
+      "needs": [
+        "_on_resize",
+        "repaint"
+      ],
+      "tests": [],
+      "lessons": [
+        "gotcha-terminal-ui"
+      ],
+      "tags": [
+        "cli"
+      ],
+      "lines": 5,
+      "hash": "dc870f5c8848"
     },
     {
       "id": "block-ui-style:DESIGN_WIDTH",
       "name": "DESIGN_WIDTH",
       "block": "block-ui-style",
-      "version": 4,
+      "version": 5,
       "module": "ui_style",
       "status": "accepted",
       "kind": "constant",
@@ -2671,7 +2732,7 @@
       "id": "block-ui-style:G",
       "name": "G",
       "block": "block-ui-style",
-      "version": 4,
+      "version": 5,
       "module": "ui_style",
       "status": "accepted",
       "kind": "constant",
@@ -2703,7 +2764,7 @@
       "id": "block-ui-style:INDENT",
       "name": "INDENT",
       "block": "block-ui-style",
-      "version": 4,
+      "version": 5,
       "module": "ui_style",
       "status": "accepted",
       "kind": "constant",
@@ -2725,7 +2786,7 @@
       "id": "block-ui-style:LABEL_W",
       "name": "LABEL_W",
       "block": "block-ui-style",
-      "version": 4,
+      "version": 5,
       "module": "ui_style",
       "status": "accepted",
       "kind": "constant",
@@ -2747,7 +2808,7 @@
       "id": "block-ui-style:MASCOT",
       "name": "MASCOT",
       "block": "block-ui-style",
-      "version": 4,
+      "version": 5,
       "module": "ui_style",
       "status": "accepted",
       "kind": "constant",
@@ -2769,7 +2830,7 @@
       "id": "block-ui-style:PALETTE",
       "name": "PALETTE",
       "block": "block-ui-style",
-      "version": 4,
+      "version": 5,
       "module": "ui_style",
       "status": "accepted",
       "kind": "constant",
@@ -2788,10 +2849,43 @@
       "hash": "e9fb0f585306"
     },
     {
+      "id": "block-ui-style:PromptEcho",
+      "name": "PromptEcho",
+      "block": "block-ui-style",
+      "version": 5,
+      "module": "ui_style",
+      "status": "accepted",
+      "kind": "class",
+      "signature": "class PromptEcho",
+      "summary": "The accepted frame as a renderable: drawn at the console's width each time it is printed, so the repaint after a resize fits the new width instead of re-wrapping a fixed line.",
+      "needs": [
+        "G",
+        "INDENT",
+        "RESULT_INDENT",
+        "_Glyphs",
+        "error",
+        "fold",
+        "hint",
+        "prompt_box",
+        "result",
+        "run"
+      ],
+      "tests": [],
+      "lessons": [
+        "terminal-design"
+      ],
+      "tags": [
+        "cli",
+        "terminal"
+      ],
+      "lines": 9,
+      "hash": "f4a676f450a3"
+    },
+    {
       "id": "block-ui-style:RESULT_INDENT",
       "name": "RESULT_INDENT",
       "block": "block-ui-style",
-      "version": 4,
+      "version": 5,
       "module": "ui_style",
       "status": "accepted",
       "kind": "constant",
@@ -2813,7 +2907,7 @@
       "id": "block-ui-style:SPINNER",
       "name": "SPINNER",
       "block": "block-ui-style",
-      "version": 4,
+      "version": 5,
       "module": "ui_style",
       "status": "accepted",
       "kind": "constant",
@@ -2835,7 +2929,7 @@
       "id": "block-ui-style:_ANSI",
       "name": "_ANSI",
       "block": "block-ui-style",
-      "version": 4,
+      "version": 5,
       "module": "ui_style",
       "status": "accepted",
       "kind": "constant",
@@ -2857,7 +2951,7 @@
       "id": "block-ui-style:_INK",
       "name": "_INK",
       "block": "block-ui-style",
-      "version": 4,
+      "version": 5,
       "module": "ui_style",
       "status": "accepted",
       "kind": "constant",
@@ -2879,7 +2973,7 @@
       "id": "block-ui-style:agent_lines",
       "name": "agent_lines",
       "block": "block-ui-style",
-      "version": 4,
+      "version": 5,
       "module": "ui_style",
       "status": "accepted",
       "kind": "function",
@@ -2913,7 +3007,7 @@
       "id": "block-ui-style:banner",
       "name": "banner",
       "block": "block-ui-style",
-      "version": 4,
+      "version": 5,
       "module": "ui_style",
       "status": "accepted",
       "kind": "function",
@@ -2941,7 +3035,7 @@
       "id": "block-ui-style:console",
       "name": "console",
       "block": "block-ui-style",
-      "version": 4,
+      "version": 5,
       "module": "ui_style",
       "status": "accepted",
       "kind": "function",
@@ -2968,7 +3062,7 @@
       "id": "block-ui-style:error",
       "name": "error",
       "block": "block-ui-style",
-      "version": 4,
+      "version": 5,
       "module": "ui_style",
       "status": "accepted",
       "kind": "function",
@@ -3000,7 +3094,7 @@
       "id": "block-ui-style:fold",
       "name": "fold",
       "block": "block-ui-style",
-      "version": 4,
+      "version": 5,
       "module": "ui_style",
       "status": "accepted",
       "kind": "function",
@@ -3032,7 +3126,7 @@
       "id": "block-ui-style:footer",
       "name": "footer",
       "block": "block-ui-style",
-      "version": 4,
+      "version": 5,
       "module": "ui_style",
       "status": "accepted",
       "kind": "function",
@@ -3064,7 +3158,7 @@
       "id": "block-ui-style:frame",
       "name": "frame",
       "block": "block-ui-style",
-      "version": 4,
+      "version": 5,
       "module": "ui_style",
       "status": "accepted",
       "kind": "function",
@@ -3088,7 +3182,7 @@
       "id": "block-ui-style:hint",
       "name": "hint",
       "block": "block-ui-style",
-      "version": 4,
+      "version": 5,
       "module": "ui_style",
       "status": "accepted",
       "kind": "function",
@@ -3112,7 +3206,7 @@
       "id": "block-ui-style:is_dark",
       "name": "is_dark",
       "block": "block-ui-style",
-      "version": 4,
+      "version": 5,
       "module": "ui_style",
       "status": "accepted",
       "kind": "function",
@@ -3134,7 +3228,7 @@
       "id": "block-ui-style:labelled",
       "name": "labelled",
       "block": "block-ui-style",
-      "version": 4,
+      "version": 5,
       "module": "ui_style",
       "status": "accepted",
       "kind": "function",
@@ -3158,7 +3252,7 @@
       "id": "block-ui-style:mascot_lines",
       "name": "mascot_lines",
       "block": "block-ui-style",
-      "version": 4,
+      "version": 5,
       "module": "ui_style",
       "status": "accepted",
       "kind": "function",
@@ -3183,7 +3277,7 @@
       "id": "block-ui-style:outcome",
       "name": "outcome",
       "block": "block-ui-style",
-      "version": 4,
+      "version": 5,
       "module": "ui_style",
       "status": "accepted",
       "kind": "function",
@@ -3212,10 +3306,42 @@
       "hash": "3361295bd4b2"
     },
     {
+      "id": "block-ui-style:prompt_box",
+      "name": "prompt_box",
+      "block": "block-ui-style",
+      "version": 5,
+      "module": "ui_style",
+      "status": "accepted",
+      "kind": "function",
+      "signature": "def prompt_box(tag: str, text: str, w: int) -> list[Text]",
+      "summary": "The prompt frame, three rows at width w: Cortex Code's box, rounded, the session tag at the right of the top rule. `widgets.prompt_frame` draws the same rows live; this is the static print once a line is accepted.",
+      "needs": [
+        "G",
+        "INDENT",
+        "RESULT_INDENT",
+        "_Glyphs",
+        "error",
+        "fold",
+        "hint",
+        "result",
+        "run"
+      ],
+      "tests": [],
+      "lessons": [
+        "terminal-design"
+      ],
+      "tags": [
+        "cli",
+        "terminal"
+      ],
+      "lines": 10,
+      "hash": "01b3fc719958"
+    },
+    {
       "id": "block-ui-style:pt_style",
       "name": "pt_style",
       "block": "block-ui-style",
-      "version": 4,
+      "version": 5,
       "module": "ui_style",
       "status": "accepted",
       "kind": "function",
@@ -3243,7 +3369,7 @@
       "id": "block-ui-style:result",
       "name": "result",
       "block": "block-ui-style",
-      "version": 4,
+      "version": 5,
       "module": "ui_style",
       "status": "accepted",
       "kind": "function",
@@ -3275,7 +3401,7 @@
       "id": "block-ui-style:run",
       "name": "run",
       "block": "block-ui-style",
-      "version": 4,
+      "version": 5,
       "module": "ui_style",
       "status": "accepted",
       "kind": "function",
@@ -3307,14 +3433,24 @@
       "id": "block-ui-style:session_rule",
       "name": "session_rule",
       "block": "block-ui-style",
-      "version": 4,
+      "version": 5,
       "module": "ui_style",
       "status": "accepted",
       "kind": "function",
       "signature": "def session_rule(tag: str, w: int=DESIGN_WIDTH) -> Text",
-      "summary": "The rule above the prompt with the session tag on it, printed once per prompt (static: prompt_toolkit redraws a multi-line prompt message badly, so the prompt itself stays one line).",
+      "summary": "The top rule of the prompt frame alone.",
       "needs": [
-        "DESIGN_WIDTH"
+        "DESIGN_WIDTH",
+        "G",
+        "INDENT",
+        "RESULT_INDENT",
+        "_Glyphs",
+        "error",
+        "fold",
+        "hint",
+        "prompt_box",
+        "result",
+        "run"
       ],
       "tests": [],
       "lessons": [
@@ -3324,14 +3460,14 @@
         "cli",
         "terminal"
       ],
-      "lines": 5,
-      "hash": "86fe8b292e45"
+      "lines": 3,
+      "hash": "67edd6e68d4b"
     },
     {
       "id": "block-ui-style:status_label",
       "name": "status_label",
       "block": "block-ui-style",
-      "version": 4,
+      "version": 5,
       "module": "ui_style",
       "status": "accepted",
       "kind": "function",
@@ -3363,7 +3499,7 @@
       "id": "block-ui-style:theme",
       "name": "theme",
       "block": "block-ui-style",
-      "version": 4,
+      "version": 5,
       "module": "ui_style",
       "status": "accepted",
       "kind": "function",
@@ -3389,7 +3525,7 @@
       "id": "block-ui-style:toolbar",
       "name": "toolbar",
       "block": "block-ui-style",
-      "version": 4,
+      "version": 5,
       "module": "ui_style",
       "status": "accepted",
       "kind": "function",
@@ -3411,7 +3547,7 @@
       "id": "block-ui-style:truecolor",
       "name": "truecolor",
       "block": "block-ui-style",
-      "version": 4,
+      "version": 5,
       "module": "ui_style",
       "status": "accepted",
       "kind": "function",
@@ -3433,7 +3569,7 @@
       "id": "block-ui-style:width",
       "name": "width",
       "block": "block-ui-style",
-      "version": 4,
+      "version": 5,
       "module": "ui_style",
       "status": "accepted",
       "kind": "function",
@@ -3457,7 +3593,7 @@
       "id": "block-ui-style:you",
       "name": "you",
       "block": "block-ui-style",
-      "version": 4,
+      "version": 5,
       "module": "ui_style",
       "status": "accepted",
       "kind": "function",

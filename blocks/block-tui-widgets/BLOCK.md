@@ -1,13 +1,13 @@
 ---
 id: block-tui-widgets
-version: 6
+version: 7
 title: Inline picker and one-screen form
 module: widgets
 requires: ["prompt-toolkit>=3.0.40"]
 tags: ["cli"]
 owner: ckoenigs
 status: accepted
-date: 2026-10-19
+date: 2026-10-20
 ---
 
 # Inline picker and one-screen form
@@ -39,3 +39,5 @@ v4: draws with the terminal design system's roles and glyphs (`from . import ui_
 v5: the picker sits in a frame too; `form(width=...)`; the key line shares one helper; a live rule break is marked ✗.
 
 v6: `prompt_line`, a closed frame around the line being typed (session tag on the top rule, completion menu below, history on ↑↓), and `prompt_frame` to reprint it with the accepted text.
+
+v7: `prompt_line` is Cortex Code's box: the terminal's width, rounded corners, the `/` menu a row under it, the status band after; `resize_safe` on every Application, which answers a terminal resize by clearing the screen and scrollback, calling the host's `repaint` and drawing fresh (VS Code's terminal re-wraps rows on a column change and moved every redraw under a ghost of the last); framed widgets held to the grid inside a filler VSplit, since the root container is always written full width.

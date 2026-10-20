@@ -26,12 +26,17 @@ agent through building to it.
    (`→` and `⎿`, muted and dim). Colour names a voice or an outcome, never decoration. Only
    `✓ ⚠ ✗` use ok, warn and err, plus the one line that explains them.
 3. **A frame means "needs you".** Boxes are rare and always mean input: a form, an approval, a
-   question. Output is never boxed. The banner is the one decorative exception, shown once.
+   question. Output is never boxed. The banner is the one decorative exception, shown once. The
+   prompt is a closed box the width of the terminal, Cortex Code's: rounded corners, the session
+   tag at the right of its top rule, the status band under it, the `/` menu dropping below.
 4. **Everything is addressable.** Tool results collapse to one line with a count and the key that
    opens them; standards and files are written as ids you can type back; `/last` prints the last
    result in full.
 5. **Append, don't reflow.** Nothing printed is reprinted. The status line is the only live line
    and it sits at the rail tip. Widgets erase themselves whole and leave one static line behind.
+   The one exception is a terminal resize: VS Code's terminal re-wraps rows and moves the cursor,
+   so a widget that is open clears the screen and scrollback and prints the transcript again at
+   the new width, as Cortex Code and Claude Code do. Nothing else may clear the screen.
 6. **Same grammar without the model.** The CLI in CI prints the same glyphs and columns as the
    terminal, minus colour when stdout is not a TTY. One renderer, two outputs.
 7. **Errors say the fix.** Red only on the line that failed, followed by what to do in dim. Never
@@ -51,7 +56,7 @@ spinners, rounded panels.
 Twelve colour roles with dark and light truecolor values from the Industry steel ramp and an
 ANSI-16 fallback; eleven glyphs, each with one meaning, one colour and one column; a grid of two
 indents (column 3 for what is said or run, column 5 for what came back) and a 12-wide label
-column; frames exact at 80 columns, degrading to 60; and the team mascot, a dog and a cat with
+column; frames exact at 80 columns, degrading to 60, the prompt box the terminal's width; and the team mascot, a dog and a cat with
 their arms around each other, for a banner's left pane. They ship as `block-ui-style`
 (`ui_style.py`) and the picker and form that use them as `block-tui-widgets`.
 

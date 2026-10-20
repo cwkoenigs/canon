@@ -1,12 +1,12 @@
 ---
 id: gotcha-terminal-ui
-version: 3
+version: 4
 title: Claude-Code-style terminals with prompt_toolkit and rich
 applies_to: ["cli"]
 owner: ckoenigs
 status: proposed
 kind: gotcha
-date: 2026-10-17
+date: 2026-10-20
 source: ds-next build, 2026-10-16
 ---
 
@@ -38,6 +38,15 @@ source: ds-next build, 2026-10-16
    Owner comes from `git config user.name`; the form refuses a blank owner before any model turn.
    A rebuild left owner blank, so its review rightly refused a good draft: the person learned
    about a missing field one model turn late, from the model.
+
+11. **A resize stacks frames in VS Code's terminal; typing never does.** When the column count
+   changes, xterm.js re-wraps every row that reaches the last column (a right edge, a full-width
+   band) and moves the cursor with it, and prompt_toolkit's next redraw starts under a ghost of
+   the last one: one copy per resize step, and a sidebar opening or closing is a resize. Fake
+   ttys and real pty tests never show it. Cortex Code and Claude Code answer a resize by clearing
+   the screen and scrollback and printing the transcript again; `widgets.resize_safe` does the
+   same for every Application, with the host's `widgets.repaint`. Verify terminal rendering in
+   headless xterm.js (ds-next `bench/xterm`), not in a fake tty.
 
 ## Check
 
