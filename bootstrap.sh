@@ -52,7 +52,7 @@ say "agents: Cortex Code"
 "$DEV/ds-next/.venv/bin/ds-next" setup || true
 
 say "check"
-"$DEV/ds-next/.venv/bin/ds-next" --help | head -3
+"$DEV/ds-next/.venv/bin/python" -c "import ds_next; print('ds-next', ds_next.__version__, 'at', '$DEV/ds-next')"
 cat <<DONE
 
 Done. Next:
