@@ -11,7 +11,7 @@ in blocks/<id>/: BLOCK.md (front matter: id, version, title, module, requires, t
 optional status), code/<module>.py and tests/test_*.py; scripts/test_blocks.py runs them.
 
 Scaffolds live in scaffolds/<id>/: SCAFFOLD.md (front matter: id, version, title, path, tags,
-owner; optional status, test_cmd, lint_cmd) and files/, the templates. Only an accepted scaffold
+owner; optional status, type, outputs, test_cmd, lint_cmd) and files/, the templates. Only an accepted scaffold
 may be used to create a repository. Its hash covers every template, so a template edited without
 a version bump makes the index stale.
 """
@@ -57,6 +57,8 @@ def parse_scaffold(path: Path) -> dict:
         "id": fm["id"], "version": int(fm["version"]), "title": fm["title"],
         "path": json.loads(fm["path"]), "tags": json.loads(fm["tags"]), "owner": fm["owner"],
         "status": fm.get("status", "proposed"),
+        "type": fm.get("type", ""),
+        "outputs": json.loads(fm["outputs"]) if fm.get("outputs") else [],
         "defaults": {k: fm[k] for k in ("test_cmd", "lint_cmd") if fm.get(k)},
         "hash": digest.hexdigest()[:12], "dir": path.parent.relative_to(ROOT).as_posix(),
         "files": [f.relative_to(path.parent / "files").as_posix() for f in files],

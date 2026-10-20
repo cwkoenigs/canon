@@ -1,0 +1,18 @@
+# ds:inherited [[cicd]]
+stages: [check]
+
+test:
+  stage: check
+  image: ghcr.io/astral-sh/uv:python3.12-bookworm
+  script:
+    - uv sync
+    # JSON strings are valid YAML double-quoted scalars, so any command stays one string
+    - {{test_cmd_json}}
+    - {{lint_cmd_json}}
+
+reconcile:
+  stage: check
+  image: ghcr.io/astral-sh/uv:python3.12-bookworm
+  script:
+    - uvx --from ds-next ds-next reconcile
+  allow_failure: true   # until ds-next is published where the runner can reach it

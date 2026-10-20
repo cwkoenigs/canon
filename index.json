@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-18",
+  "generated": "2026-10-19",
   "standards": [
     {
       "id": "adr-000",
@@ -459,8 +459,78 @@
   ],
   "scaffolds": [
     {
+      "id": "analysis",
+      "version": 1,
+      "title": "Analysis",
+      "path": [
+        "analysis"
+      ],
+      "tags": [
+        "python",
+        "analysis"
+      ],
+      "owner": "ckoenigs",
+      "status": "accepted",
+      "type": "analysis",
+      "outputs": [
+        "report"
+      ],
+      "defaults": {
+        "test_cmd": "uv run pytest -q",
+        "lint_cmd": "uv run ruff check ."
+      },
+      "hash": "4e054d9650e5",
+      "dir": "scaffolds/analysis",
+      "files": [
+        "dot-gitignore",
+        "dot-gitlab-ci.yml",
+        "pyproject.toml",
+        "reports/README.md",
+        "src/__package__/__init__.py",
+        "src/__package__/report.py",
+        "tests/test_report.py"
+      ]
+    },
+    {
+      "id": "ml-pipeline",
+      "version": 1,
+      "title": "ML pipeline",
+      "path": [
+        "ml-pipeline"
+      ],
+      "tags": [
+        "python",
+        "package",
+        "ml",
+        "pipeline",
+        "snowflake"
+      ],
+      "owner": "ckoenigs",
+      "status": "accepted",
+      "type": "ml-pipeline",
+      "outputs": [
+        "model",
+        "features"
+      ],
+      "defaults": {
+        "test_cmd": "uv run pytest -q",
+        "lint_cmd": "uv run ruff check ."
+      },
+      "hash": "2b7ca807207b",
+      "dir": "scaffolds/ml-pipeline",
+      "files": [
+        "dot-gitignore",
+        "dot-gitlab-ci.yml",
+        "pyproject.toml",
+        "src/__package__/__init__.py",
+        "src/__package__/features.py",
+        "src/__package__/train.py",
+        "tests/test_pipeline.py"
+      ]
+    },
+    {
       "id": "python-cli",
-      "version": 3,
+      "version": 4,
       "title": "Python command-line tool",
       "path": [
         "python",
@@ -473,11 +543,13 @@
       ],
       "owner": "ckoenigs",
       "status": "accepted",
+      "type": "cli",
+      "outputs": [],
       "defaults": {
         "test_cmd": "uv run pytest -q",
         "lint_cmd": "uv run ruff check ."
       },
-      "hash": "37dc2b7ec54a",
+      "hash": "f6f3c0a5e1f4",
       "dir": "scaffolds/python-cli",
       "files": [
         "dot-gitignore",
@@ -490,7 +562,7 @@
     },
     {
       "id": "python-package",
-      "version": 3,
+      "version": 4,
       "title": "Python library package",
       "path": [
         "python",
@@ -502,11 +574,13 @@
       ],
       "owner": "ckoenigs",
       "status": "accepted",
+      "type": "library",
+      "outputs": [],
       "defaults": {
         "test_cmd": "uv run pytest -q",
         "lint_cmd": "uv run ruff check ."
       },
-      "hash": "7de25bcd3ae6",
+      "hash": "abb7677c933e",
       "dir": "scaffolds/python-package",
       "files": [
         "dot-gitignore",
@@ -514,6 +588,41 @@
         "pyproject.toml",
         "src/__package__/__init__.py",
         "tests/test_package.py"
+      ]
+    },
+    {
+      "id": "streamlit-app",
+      "version": 1,
+      "title": "Streamlit app",
+      "path": [
+        "streamlit-app"
+      ],
+      "tags": [
+        "python",
+        "package",
+        "streamlit",
+        "app"
+      ],
+      "owner": "ckoenigs",
+      "status": "accepted",
+      "type": "streamlit-app",
+      "outputs": [
+        "dashboard"
+      ],
+      "defaults": {
+        "test_cmd": "uv run pytest -q",
+        "lint_cmd": "uv run ruff check ."
+      },
+      "hash": "bc60d98f3825",
+      "dir": "scaffolds/streamlit-app",
+      "files": [
+        "app.py",
+        "dot-gitignore",
+        "dot-gitlab-ci.yml",
+        "pyproject.toml",
+        "src/__package__/__init__.py",
+        "src/__package__/data.py",
+        "tests/test_data.py"
       ]
     }
   ],
@@ -953,7 +1062,7 @@
       "module": "render",
       "status": "accepted",
       "kind": "constant",
-      "signature": "(ACCENT, DIM) = ('#d97757', 'grey50')",
+      "signature": "ACCENT, DIM = ('#d97757', 'grey50')",
       "summary": "",
       "needs": [
         "ACCENT",
@@ -978,7 +1087,7 @@
       "module": "render",
       "status": "accepted",
       "kind": "constant",
-      "signature": "(ACCENT, DIM) = ('#d97757', 'grey50')",
+      "signature": "ACCENT, DIM = ('#d97757', 'grey50')",
       "summary": "",
       "needs": [
         "ACCENT",

@@ -1,12 +1,14 @@
 ---
 id: python-cli
-version: 3
+version: 4
 title: Python command-line tool
 path: ["python", "cli"]
 tags: ["python", "package", "cli"]
 owner: ckoenigs
 status: accepted
-date: 2026-10-18
+date: 2026-10-19
+type: cli
+outputs: []
 test_cmd: uv run pytest -q
 lint_cmd: uv run ruff check .
 ---
@@ -21,3 +23,5 @@ Use it for anything people run from a terminal. For a library imported by other 
 `python-package`.
 
 v3: a new repo starts on `canon-lib`, the team's accepted code, as a dependency, with the canon and its index version recorded in `.ds/manifest.toml` and a note for agents in `AGENTS.md`.
+
+v4: declares its project type (`cli`) and that it has no deployable outputs.
