@@ -16,5 +16,5 @@ Built from canon/blocks by scripts/build_lib.py; do not edit here.
 - `canon_lib.scaffoldrender`: Render an accepted canon scaffold  (from block-scaffold-render v1)
 - `canon_lib.textsafe`: Text safety for generated files  (from block-text-safety v1)
 - `canon_lib.widgets`: Inline picker and one-screen form  (from block-tui-widgets v4)
-- `canon_lib.ui_style`: Terminal design system tokens  (from block-ui-style v2)
+- `canon_lib.ui_style`: Terminal design system tokens  (from block-ui-style v3)
 """

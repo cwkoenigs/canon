@@ -1,6 +1,6 @@
 ---
 id: block-ui-style
-version: 2
+version: 3
 title: Terminal design system tokens
 module: ui_style
 requires: ["rich>=13"]
@@ -29,3 +29,5 @@ The one module a terminal prints through, so every team CLI reads the same way (
 Taken from ds-next's `ui_style.py`; `block-tui-widgets` v4 imports it as `from . import ui_style`.
 
 v2: `session_rule()` for a static rule above a one-line prompt (a multi-line prompt message redraws badly); banner chrome in the bright accent with a visible edge.
+
+v3: `MARK` and `mark_lines()`, the team's ds mark for a banner's left pane; `banner(art=...)` takes it.
