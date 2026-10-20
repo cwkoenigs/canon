@@ -71,3 +71,17 @@ def test_form_choice_field_cycles_with_arrows_and_space():
     # → once picks ml; a space typed in the name field is still a space
     out = drive(lambda: form("t", fields(), footer, lambda v: None), "\x1b[C\ta b\r")
     assert out == {"type": "ml", "name": "a b"}
+
+
+def test_form_normalizes_and_checks_as_you_type():
+    import re
+    normalize_name = lambda t: re.sub(r"-{2,}", "-", re.sub(r"[^a-z0-9-]", "", re.sub(r"[\s_]+", "-", t.lower()))).lstrip("-")
+    name_problem = lambda n: None if re.fullmatch(r"[a-z][a-z0-9-]{1,40}", n) and not n.endswith("-") else "2 to 41 lowercase-with-hyphens"
+    fields = lambda: [Field("name", "name", "", required=True, example="feed-model",
+                            normalize=normalize_name, check=name_problem)]
+    out = drive(lambda: form("t", fields(), lambda v: "", lambda v: None), "Feed Model_v2\r")
+    assert out == {"name": "feed-model-v2"}
+    # a trailing hyphen breaks the rule: Enter is refused, backspace fixes it, Enter goes through
+    out = drive(lambda: form("t", fields(), lambda v: "", lambda v: None), "feed-\r\x7f\r")
+    assert out == {"name": "feed"}
+

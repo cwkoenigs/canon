@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-19",
+  "generated": "2026-10-20",
   "standards": [
     {
       "id": "adr-000",
@@ -399,6 +399,20 @@
       "kind": "standard",
       "hash": "5c77e71305d1",
       "path": "operating-principles.md"
+    },
+    {
+      "id": "repo-naming",
+      "version": 1,
+      "title": "Repository Names",
+      "applies_to": [
+        "*"
+      ],
+      "owner": "ckoenigs",
+      "supersedes": null,
+      "status": "accepted",
+      "kind": "standard",
+      "hash": "041ebc8438a8",
+      "path": "repo-naming.md"
     },
     {
       "id": "review-cadence",
@@ -857,7 +871,7 @@
     },
     {
       "id": "block-tui-widgets",
-      "version": 2,
+      "version": 3,
       "title": "Inline picker and one-screen form",
       "module": "widgets",
       "requires": [
@@ -869,7 +883,7 @@
       ],
       "owner": "ckoenigs",
       "status": "accepted",
-      "hash": "b4b2f651b319",
+      "hash": "61bd62ab1a61",
       "dir": "blocks/block-tui-widgets",
       "tests": [
         "test_widgets.py"
@@ -2451,7 +2465,7 @@
       "id": "block-tui-widgets:ACCENT",
       "name": "ACCENT",
       "block": "block-tui-widgets",
-      "version": 2,
+      "version": 3,
       "module": "widgets",
       "status": "accepted",
       "kind": "constant",
@@ -2472,7 +2486,7 @@
       "id": "block-tui-widgets:Field",
       "name": "Field",
       "block": "block-tui-widgets",
-      "version": 2,
+      "version": 3,
       "module": "widgets",
       "status": "accepted",
       "kind": "class",
@@ -2480,7 +2494,8 @@
       "summary": "",
       "needs": [],
       "tests": [
-        "test_widgets.py::test_form_choice_field_cycles_with_arrows_and_space"
+        "test_widgets.py::test_form_choice_field_cycles_with_arrows_and_space",
+        "test_widgets.py::test_form_normalizes_and_checks_as_you_type"
       ],
       "lessons": [
         "gotcha-terminal-ui"
@@ -2488,14 +2503,14 @@
       "tags": [
         "cli"
       ],
-      "lines": 7,
-      "hash": "4671a0ea19e5"
+      "lines": 10,
+      "hash": "80fdf4c827ab"
     },
     {
       "id": "block-tui-widgets:STYLE",
       "name": "STYLE",
       "block": "block-tui-widgets",
-      "version": 2,
+      "version": 3,
       "module": "widgets",
       "status": "accepted",
       "kind": "constant",
@@ -2518,7 +2533,7 @@
       "id": "block-tui-widgets:form",
       "name": "form",
       "block": "block-tui-widgets",
-      "version": 2,
+      "version": 3,
       "module": "widgets",
       "status": "accepted",
       "kind": "function",
@@ -2531,6 +2546,7 @@
       ],
       "tests": [
         "test_widgets.py::test_form_choice_field_cycles_with_arrows_and_space",
+        "test_widgets.py::test_form_normalizes_and_checks_as_you_type",
         "test_widgets.py::test_form_validate_can_refuse"
       ],
       "lessons": [
@@ -2539,14 +2555,14 @@
       "tags": [
         "cli"
       ],
-      "lines": 116,
-      "hash": "31a780cb5b86"
+      "lines": 141,
+      "hash": "04ea4697ab0a"
     },
     {
       "id": "block-tui-widgets:pick",
       "name": "pick",
       "block": "block-tui-widgets",
-      "version": 2,
+      "version": 3,
       "module": "widgets",
       "status": "accepted",
       "kind": "function",

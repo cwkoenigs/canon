@@ -1,6 +1,6 @@
 ---
 id: block-tui-widgets
-version: 2
+version: 3
 title: Inline picker and one-screen form
 module: widgets
 requires: ["prompt-toolkit>=3.0.40"]
@@ -31,3 +31,5 @@ place: change the block in the canon and bump its version, and every repo using 
 update as pending.
 
 v2: a `Field` may carry `choices`; the form shows it as `‹ label ›` and ←/→ or space cycles it, so a pick and a form fit on one screen.
+
+v3: a `Field` may carry `example` (shown while empty), `normalize` (rewrites as typed) and `check` (a live red line; Enter refuses while it fires).
