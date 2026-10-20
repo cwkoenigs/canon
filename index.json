@@ -886,7 +886,7 @@
     },
     {
       "id": "block-tui-widgets",
-      "version": 4,
+      "version": 5,
       "title": "Inline picker and one-screen form",
       "module": "widgets",
       "requires": [
@@ -898,7 +898,7 @@
       ],
       "owner": "ckoenigs",
       "status": "accepted",
-      "hash": "daba232adefb",
+      "hash": "98941a8ed308",
       "dir": "blocks/block-tui-widgets",
       "tests": [
         "test_widgets.py"
@@ -906,7 +906,7 @@
     },
     {
       "id": "block-ui-style",
-      "version": 3,
+      "version": 4,
       "title": "Terminal design system tokens",
       "module": "ui_style",
       "requires": [
@@ -919,7 +919,7 @@
       ],
       "owner": "ckoenigs",
       "status": "accepted",
-      "hash": "4ddd5fa61df4",
+      "hash": "e5f94a0dbbb0",
       "dir": "blocks/block-ui-style",
       "tests": [
         "test_ui_style.py"
@@ -2501,7 +2501,7 @@
       "id": "block-tui-widgets:Field",
       "name": "Field",
       "block": "block-tui-widgets",
-      "version": 4,
+      "version": 5,
       "module": "widgets",
       "status": "accepted",
       "kind": "class",
@@ -2519,13 +2519,13 @@
         "cli"
       ],
       "lines": 10,
-      "hash": "80fdf4c827ab"
+      "hash": "92c8f66538e4"
     },
     {
       "id": "block-tui-widgets:STYLE",
       "name": "STYLE",
       "block": "block-tui-widgets",
-      "version": 4,
+      "version": 5,
       "module": "widgets",
       "status": "accepted",
       "kind": "constant",
@@ -2546,15 +2546,16 @@
       "id": "block-tui-widgets:form",
       "name": "form",
       "block": "block-tui-widgets",
-      "version": 4,
+      "version": 5,
       "module": "widgets",
       "status": "accepted",
       "kind": "function",
-      "signature": "async def form(title: str, fields: list[Field], footer: Callable[[dict[str, str]], str], validate: Callable[[dict[str, str]], tuple[str, str] | None]) -> dict[str, str] | None",
-      "summary": "Every field on one screen, already filled with a suggestion. Tab/\u2193 and Shift-Tab/\u2191 move, Enter submits from any field. `validate` returns (field key, message) to refuse a submit; `footer` is recomputed on every keystroke.",
+      "signature": "async def form(title: str, fields: list[Field], footer: Callable[[dict[str, str]], str], validate: Callable[[dict[str, str]], tuple[str, str] | None], width: int=S.DESIGN_WIDTH) -> dict[str, str] | None",
+      "summary": "Every field on one screen, already filled with a suggestion, inside a square frame. Tab/\u2193 and Shift-Tab/\u2191 move, Enter submits from any field. Labels sit on the LABEL_W grid.",
       "needs": [
         "Field",
-        "STYLE"
+        "STYLE",
+        "_keys"
       ],
       "tests": [
         "test_widgets.py::test_form_choice_field_cycles_with_arrows_and_space",
@@ -2567,21 +2568,22 @@
       "tags": [
         "cli"
       ],
-      "lines": 142,
-      "hash": "f7aeaa2d0663"
+      "lines": 140,
+      "hash": "b7170760d327"
     },
     {
       "id": "block-tui-widgets:pick",
       "name": "pick",
       "block": "block-tui-widgets",
-      "version": 4,
+      "version": 5,
       "module": "widgets",
       "status": "accepted",
       "kind": "function",
       "signature": "async def pick(title: str, options: list[tuple[str, str, str]]) -> str | None",
       "summary": "options: (value, label, description). \u2191/\u2193 or a digit to move, Enter to choose.",
       "needs": [
-        "STYLE"
+        "STYLE",
+        "_keys"
       ],
       "tests": [
         "test_widgets.py::test_pick_arrows_and_enter"
@@ -2592,14 +2594,14 @@
       "tags": [
         "cli"
       ],
-      "lines": 43,
-      "hash": "08e023b20a63"
+      "lines": 44,
+      "hash": "f6caab483f3e"
     },
     {
       "id": "block-ui-style:DESIGN_WIDTH",
       "name": "DESIGN_WIDTH",
       "block": "block-ui-style",
-      "version": 3,
+      "version": 4,
       "module": "ui_style",
       "status": "accepted",
       "kind": "constant",
@@ -2621,7 +2623,7 @@
       "id": "block-ui-style:G",
       "name": "G",
       "block": "block-ui-style",
-      "version": 3,
+      "version": 4,
       "module": "ui_style",
       "status": "accepted",
       "kind": "constant",
@@ -2653,7 +2655,7 @@
       "id": "block-ui-style:INDENT",
       "name": "INDENT",
       "block": "block-ui-style",
-      "version": 3,
+      "version": 4,
       "module": "ui_style",
       "status": "accepted",
       "kind": "constant",
@@ -2675,7 +2677,7 @@
       "id": "block-ui-style:LABEL_W",
       "name": "LABEL_W",
       "block": "block-ui-style",
-      "version": 3,
+      "version": 4,
       "module": "ui_style",
       "status": "accepted",
       "kind": "constant",
@@ -2694,14 +2696,14 @@
       "hash": "83607bb9a8aa"
     },
     {
-      "id": "block-ui-style:MARK",
-      "name": "MARK",
+      "id": "block-ui-style:MASCOT",
+      "name": "MASCOT",
       "block": "block-ui-style",
-      "version": 3,
+      "version": 4,
       "module": "ui_style",
       "status": "accepted",
       "kind": "constant",
-      "signature": "MARK = ('          \u2584\u2584    *         ', '     *    \u2588\u2588      \u2584\u2584\u2584\u2584\u2584\u2584  ', '   \u2584\u2584\u2584\u2584\u2584\u2584 \u2588\u2588     \u2588\u2588       ', '  \u2588\u2588    \u2588\u2588\u2588\u2588  *   \u2580\u2580\u2580",
+      "signature": "MASCOT = '............................\\n................C......C....\\n....DDDDDD......CC....CC....\\n..DDDDDDDDDD....CCCC",
       "summary": "",
       "needs": [],
       "tests": [],
@@ -2712,14 +2714,14 @@
         "cli",
         "terminal"
       ],
-      "lines": 8,
-      "hash": "b44752cd1f02"
+      "lines": 22,
+      "hash": "0068afe0a101"
     },
     {
       "id": "block-ui-style:PALETTE",
       "name": "PALETTE",
       "block": "block-ui-style",
-      "version": 3,
+      "version": 4,
       "module": "ui_style",
       "status": "accepted",
       "kind": "constant",
@@ -2734,14 +2736,14 @@
         "cli",
         "terminal"
       ],
-      "lines": 16,
-      "hash": "04db4c3f1092"
+      "lines": 20,
+      "hash": "e9fb0f585306"
     },
     {
       "id": "block-ui-style:RESULT_INDENT",
       "name": "RESULT_INDENT",
       "block": "block-ui-style",
-      "version": 3,
+      "version": 4,
       "module": "ui_style",
       "status": "accepted",
       "kind": "constant",
@@ -2763,7 +2765,7 @@
       "id": "block-ui-style:SPINNER",
       "name": "SPINNER",
       "block": "block-ui-style",
-      "version": 3,
+      "version": 4,
       "module": "ui_style",
       "status": "accepted",
       "kind": "constant",
@@ -2785,7 +2787,7 @@
       "id": "block-ui-style:_ANSI",
       "name": "_ANSI",
       "block": "block-ui-style",
-      "version": 3,
+      "version": 4,
       "module": "ui_style",
       "status": "accepted",
       "kind": "constant",
@@ -2804,10 +2806,32 @@
       "hash": "9e9f434b19ce"
     },
     {
+      "id": "block-ui-style:_INK",
+      "name": "_INK",
+      "block": "block-ui-style",
+      "version": 4,
+      "module": "ui_style",
+      "status": "accepted",
+      "kind": "constant",
+      "signature": "_INK = {'D': 'brand', 'C': 'strong', 'k': 'eye'}",
+      "summary": "",
+      "needs": [],
+      "tests": [],
+      "lessons": [
+        "terminal-design"
+      ],
+      "tags": [
+        "cli",
+        "terminal"
+      ],
+      "lines": 1,
+      "hash": "250952ec21ab"
+    },
+    {
       "id": "block-ui-style:agent_lines",
       "name": "agent_lines",
       "block": "block-ui-style",
-      "version": 3,
+      "version": 4,
       "module": "ui_style",
       "status": "accepted",
       "kind": "function",
@@ -2841,7 +2865,7 @@
       "id": "block-ui-style:banner",
       "name": "banner",
       "block": "block-ui-style",
-      "version": 3,
+      "version": 4,
       "module": "ui_style",
       "status": "accepted",
       "kind": "function",
@@ -2849,7 +2873,10 @@
       "summary": "Two-pane frame shown once: the mark and word-mark left, facts right, path on a footer row.",
       "needs": [
         "DESIGN_WIDTH",
-        "LABEL_W"
+        "LABEL_W",
+        "MASCOT",
+        "_INK",
+        "mascot_lines"
       ],
       "tests": [],
       "lessons": [
@@ -2860,13 +2887,13 @@
         "terminal"
       ],
       "lines": 23,
-      "hash": "82aeb3488fc6"
+      "hash": "93f0d403989d"
     },
     {
       "id": "block-ui-style:console",
       "name": "console",
       "block": "block-ui-style",
-      "version": 3,
+      "version": 4,
       "module": "ui_style",
       "status": "accepted",
       "kind": "function",
@@ -2893,7 +2920,7 @@
       "id": "block-ui-style:error",
       "name": "error",
       "block": "block-ui-style",
-      "version": 3,
+      "version": 4,
       "module": "ui_style",
       "status": "accepted",
       "kind": "function",
@@ -2925,7 +2952,7 @@
       "id": "block-ui-style:fold",
       "name": "fold",
       "block": "block-ui-style",
-      "version": 3,
+      "version": 4,
       "module": "ui_style",
       "status": "accepted",
       "kind": "function",
@@ -2957,7 +2984,7 @@
       "id": "block-ui-style:footer",
       "name": "footer",
       "block": "block-ui-style",
-      "version": 3,
+      "version": 4,
       "module": "ui_style",
       "status": "accepted",
       "kind": "function",
@@ -2989,7 +3016,7 @@
       "id": "block-ui-style:frame",
       "name": "frame",
       "block": "block-ui-style",
-      "version": 3,
+      "version": 4,
       "module": "ui_style",
       "status": "accepted",
       "kind": "function",
@@ -3013,7 +3040,7 @@
       "id": "block-ui-style:hint",
       "name": "hint",
       "block": "block-ui-style",
-      "version": 3,
+      "version": 4,
       "module": "ui_style",
       "status": "accepted",
       "kind": "function",
@@ -3037,7 +3064,7 @@
       "id": "block-ui-style:is_dark",
       "name": "is_dark",
       "block": "block-ui-style",
-      "version": 3,
+      "version": 4,
       "module": "ui_style",
       "status": "accepted",
       "kind": "function",
@@ -3059,7 +3086,7 @@
       "id": "block-ui-style:labelled",
       "name": "labelled",
       "block": "block-ui-style",
-      "version": 3,
+      "version": 4,
       "module": "ui_style",
       "status": "accepted",
       "kind": "function",
@@ -3080,17 +3107,18 @@
       "hash": "d323dd0a78c4"
     },
     {
-      "id": "block-ui-style:mark_lines",
-      "name": "mark_lines",
+      "id": "block-ui-style:mascot_lines",
+      "name": "mascot_lines",
       "block": "block-ui-style",
-      "version": 3,
+      "version": 4,
       "module": "ui_style",
       "status": "accepted",
       "kind": "function",
-      "signature": "def mark_lines() -> list[Text]",
-      "summary": "",
+      "signature": "def mascot_lines() -> list[Text]",
+      "summary": "MASCOT as 10 Rich lines of \u2580\u2584\u2588: top pixel = foreground, bottom pixel = background.",
       "needs": [
-        "MARK"
+        "MASCOT",
+        "_INK"
       ],
       "tests": [],
       "lessons": [
@@ -3100,14 +3128,14 @@
         "cli",
         "terminal"
       ],
-      "lines": 8,
-      "hash": "ac025d659c67"
+      "lines": 19,
+      "hash": "54b74e90d937"
     },
     {
       "id": "block-ui-style:outcome",
       "name": "outcome",
       "block": "block-ui-style",
-      "version": 3,
+      "version": 4,
       "module": "ui_style",
       "status": "accepted",
       "kind": "function",
@@ -3139,7 +3167,7 @@
       "id": "block-ui-style:pt_style",
       "name": "pt_style",
       "block": "block-ui-style",
-      "version": 3,
+      "version": 4,
       "module": "ui_style",
       "status": "accepted",
       "kind": "function",
@@ -3167,7 +3195,7 @@
       "id": "block-ui-style:result",
       "name": "result",
       "block": "block-ui-style",
-      "version": 3,
+      "version": 4,
       "module": "ui_style",
       "status": "accepted",
       "kind": "function",
@@ -3199,7 +3227,7 @@
       "id": "block-ui-style:run",
       "name": "run",
       "block": "block-ui-style",
-      "version": 3,
+      "version": 4,
       "module": "ui_style",
       "status": "accepted",
       "kind": "function",
@@ -3231,7 +3259,7 @@
       "id": "block-ui-style:session_rule",
       "name": "session_rule",
       "block": "block-ui-style",
-      "version": 3,
+      "version": 4,
       "module": "ui_style",
       "status": "accepted",
       "kind": "function",
@@ -3255,7 +3283,7 @@
       "id": "block-ui-style:status_label",
       "name": "status_label",
       "block": "block-ui-style",
-      "version": 3,
+      "version": 4,
       "module": "ui_style",
       "status": "accepted",
       "kind": "function",
@@ -3287,7 +3315,7 @@
       "id": "block-ui-style:theme",
       "name": "theme",
       "block": "block-ui-style",
-      "version": 3,
+      "version": 4,
       "module": "ui_style",
       "status": "accepted",
       "kind": "function",
@@ -3313,7 +3341,7 @@
       "id": "block-ui-style:toolbar",
       "name": "toolbar",
       "block": "block-ui-style",
-      "version": 3,
+      "version": 4,
       "module": "ui_style",
       "status": "accepted",
       "kind": "function",
@@ -3335,7 +3363,7 @@
       "id": "block-ui-style:truecolor",
       "name": "truecolor",
       "block": "block-ui-style",
-      "version": 3,
+      "version": 4,
       "module": "ui_style",
       "status": "accepted",
       "kind": "function",
@@ -3357,7 +3385,7 @@
       "id": "block-ui-style:width",
       "name": "width",
       "block": "block-ui-style",
-      "version": 3,
+      "version": 4,
       "module": "ui_style",
       "status": "accepted",
       "kind": "function",
@@ -3381,7 +3409,7 @@
       "id": "block-ui-style:you",
       "name": "you",
       "block": "block-ui-style",
-      "version": 3,
+      "version": 4,
       "module": "ui_style",
       "status": "accepted",
       "kind": "function",
