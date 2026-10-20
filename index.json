@@ -857,7 +857,7 @@
     },
     {
       "id": "block-tui-widgets",
-      "version": 1,
+      "version": 2,
       "title": "Inline picker and one-screen form",
       "module": "widgets",
       "requires": [
@@ -869,7 +869,7 @@
       ],
       "owner": "ckoenigs",
       "status": "accepted",
-      "hash": "21761bb93ea8",
+      "hash": "f13de533e509",
       "dir": "blocks/block-tui-widgets",
       "tests": [
         "test_widgets.py"
@@ -2451,7 +2451,7 @@
       "id": "block-tui-widgets:ACCENT",
       "name": "ACCENT",
       "block": "block-tui-widgets",
-      "version": 1,
+      "version": 2,
       "module": "widgets",
       "status": "accepted",
       "kind": "constant",
@@ -2472,28 +2472,30 @@
       "id": "block-tui-widgets:Field",
       "name": "Field",
       "block": "block-tui-widgets",
-      "version": 1,
+      "version": 2,
       "module": "widgets",
       "status": "accepted",
       "kind": "class",
       "signature": "class Field",
       "summary": "",
       "needs": [],
-      "tests": [],
+      "tests": [
+        "test_widgets.py::test_form_choice_field_cycles_with_arrows_and_space"
+      ],
       "lessons": [
         "gotcha-terminal-ui"
       ],
       "tags": [
         "cli"
       ],
-      "lines": 6,
-      "hash": "7f9709a82762"
+      "lines": 7,
+      "hash": "4671a0ea19e5"
     },
     {
       "id": "block-tui-widgets:STYLE",
       "name": "STYLE",
       "block": "block-tui-widgets",
-      "version": 1,
+      "version": 2,
       "module": "widgets",
       "status": "accepted",
       "kind": "constant",
@@ -2516,7 +2518,7 @@
       "id": "block-tui-widgets:form",
       "name": "form",
       "block": "block-tui-widgets",
-      "version": 1,
+      "version": 2,
       "module": "widgets",
       "status": "accepted",
       "kind": "function",
@@ -2528,6 +2530,7 @@
         "STYLE"
       ],
       "tests": [
+        "test_widgets.py::test_form_choice_field_cycles_with_arrows_and_space",
         "test_widgets.py::test_form_validate_can_refuse"
       ],
       "lessons": [
@@ -2536,14 +2539,14 @@
       "tags": [
         "cli"
       ],
-      "lines": 69,
-      "hash": "0f56763e7628"
+      "lines": 116,
+      "hash": "802d7dd70d4e"
     },
     {
       "id": "block-tui-widgets:pick",
       "name": "pick",
       "block": "block-tui-widgets",
-      "version": 1,
+      "version": 2,
       "module": "widgets",
       "status": "accepted",
       "kind": "function",

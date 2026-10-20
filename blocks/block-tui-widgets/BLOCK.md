@@ -1,13 +1,13 @@
 ---
 id: block-tui-widgets
-version: 1
+version: 2
 title: Inline picker and one-screen form
 module: widgets
 requires: ["prompt-toolkit>=3.0.40"]
 tags: ["cli"]
 owner: ckoenigs
 status: accepted
-date: 2026-10-16
+date: 2026-10-19
 ---
 
 # Inline picker and one-screen form
@@ -29,3 +29,5 @@ regression tests for those findings.
 tests into `tests/`, and records the version in `.ds/manifest.toml`. Do not edit the copy in
 place: change the block in the canon and bump its version, and every repo using it sees the
 update as pending.
+
+v2: a `Field` may carry `choices`; the form shows it as `‹ label ›` and ←/→ or space cycles it, so a pick and a form fit on one screen.
