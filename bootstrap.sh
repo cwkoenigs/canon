@@ -22,7 +22,11 @@ command -v cortex >/dev/null 2>&1 || echo "note: Cortex Code is not on PATH; the
 
 sync_repo() {   # name url dest
   if [ -d "$3/.git" ]; then
-    say "$1: pulling $3"; git -C "$3" pull --ff-only || echo "note: $1 not pulled (local changes or no remote); using it as is"
+    if git -C "$3" rev-parse --abbrev-ref '@{upstream}' >/dev/null 2>&1; then
+      say "$1: pulling $3"; git -C "$3" pull -q --ff-only || echo "note: $1 not pulled (local changes); using it as is"
+    else
+      say "$1: at $3 (no upstream to pull; using it as is)"
+    fi
   elif [ -d "$2/.git" ] && [ "$(cd "$2" && pwd)" = "$3" ]; then
     say "$1: already at $3"
   else
@@ -37,7 +41,7 @@ say "canon-lib: install and test"
 (cd "$DEV/canon/lib" && uv sync -q --all-extras && uv run -q pytest -q | tail -1)
 
 say "ds-next: install into its own venv"
-(cd "$DEV/ds-next" && uv venv -q -p 3.12 .venv && uv pip install -q -p .venv/bin/python -e ".[test]" && .venv/bin/pytest -q | tail -1)
+(cd "$DEV/ds-next" && { [ -x .venv/bin/python ] || uv venv -q -p 3.12 .venv; } && uv pip install -q -p .venv/bin/python -e ".[test]" && .venv/bin/pytest -q | tail -1)
 
 say "ds-next on PATH"
 mkdir -p "$HOME/.local/bin"
