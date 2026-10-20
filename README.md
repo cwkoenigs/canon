@@ -17,10 +17,11 @@ read-only tools allowed). It needs git, [uv](https://docs.astral.sh/uv/) and Cor
 curl -fsSL https://raw.githubusercontent.com/cwkoenigs/canon/main/install.sh | bash
 ```
 
-`install.sh` clones canon, ds-next, skills-os and docs-ds, drops the GitHub remote from each
-(GitHub is where the first copy comes from; `TEAM_HOST=https://gitlab.example.com/group` points
-the clones at the team's GitLab instead, `KEEP_ORIGIN=1` keeps GitHub), then runs
-`bootstrap.sh`. From a checkout, `bash ~/Developer/canon/bootstrap.sh` does the install step
+`install.sh` clones canon, ds-next, skills-os and docs-ds, then asks where the team's copies
+live (a GitLab group URL, or Enter for nowhere yet; it works it out by itself from a clone
+already on the machine, a `glab` login or `TEAM_HOST`). Every clone's origin is pointed there,
+or dropped: GitHub is only where the first copy comes from. Team copies that do not exist yet
+are pushed on a yes. `KEEP_ORIGIN=1` keeps GitHub. Then it runs `bootstrap.sh`. From a checkout, `bash ~/Developer/canon/bootstrap.sh` does the install step
 alone. Rerunning either pulls where there is an upstream and re-checks. `CANON_URL` and `DS_NEXT_URL` override where the two
 repositories come from; `DEV` where they go (default `~/Developer`). Then `ds-next` in any
 directory, or `cortex` and `/ds-new`.
