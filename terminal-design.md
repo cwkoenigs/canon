@@ -12,8 +12,10 @@ date: 2026-10-20
 
 One rail, three voices, nothing moves that didn't change. Every terminal the team ships, from
 `ds-next` to a one-command tool from the `python-cli` type, prints through the same roles, glyphs
-and grid, so a person who has read one of them can read all of them. The reference screens and
-the written rationale live in ds-next under `docs/design-system/`.
+and grid, so a person who has read one of them can read all of them. The reference screens, the
+written rationale and the full package (tokens, specimen cards, component specs) live in ds-next
+under `docs/design-system/`; the `ds-terminal-design` skill, installed by `ds-next setup`, walks an
+agent through building to it.
 
 ## Principles
 
@@ -34,6 +36,15 @@ the written rationale live in ds-next under `docs/design-system/`.
    terminal, minus colour when stdout is not a TTY. One renderer, two outputs.
 7. **Errors say the fix.** Red only on the line that failed, followed by what to do in dim. Never
    a stack trace for a user mistake.
+
+## Content
+
+Lowercase, terse, no trailing periods on single lines: `16 adopted · 0 pending`. Facts are joined
+with ` · `. Hints are second person and imperative: `/new starts a project · /help lists commands`.
+Errors name what failed and then the fix, never a stack trace. Tool names are bold and exactly as
+the tool is called; arguments are muted. No emoji; the twelve glyphs and nothing else. Keys are
+written `Tab next · ↑ back` with the one submit key as a filled band. Retired: `◆`, `▼`, braille
+spinners, rounded panels.
 
 ## Tokens
 

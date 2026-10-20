@@ -468,7 +468,7 @@
       "supersedes": null,
       "status": "accepted",
       "kind": "standard",
-      "hash": "e0e01a92dd89",
+      "hash": "9edc6bffacb1",
       "path": "terminal-design.md"
     },
     {
@@ -898,7 +898,7 @@
       ],
       "owner": "ckoenigs",
       "status": "accepted",
-      "hash": "d4821dd51fd1",
+      "hash": "4f7dc81d9869",
       "dir": "blocks/block-tui-widgets",
       "tests": [
         "test_widgets.py"
