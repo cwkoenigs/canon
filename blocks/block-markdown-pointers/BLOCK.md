@@ -6,7 +6,7 @@ module: pointers
 requires: []
 tags: ["python"]
 owner: ckoenigs
-status: accepted
+status: proposed
 date: 2026-10-17
 ---
 

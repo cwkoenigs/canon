@@ -6,7 +6,7 @@ module: cortex_session
 requires: ["snowflake-cortex-agent-sdk==0.0.2"]
 tags: ["cortex"]
 owner: ckoenigs
-status: accepted
+status: retired
 date: 2026-10-17
 ---
 

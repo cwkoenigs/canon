@@ -6,7 +6,7 @@ module: scaffoldrender
 requires: []
 tags: ["python"]
 owner: ckoenigs
-status: accepted
+status: retired
 date: 2026-10-16
 ---
 

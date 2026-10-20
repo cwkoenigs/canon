@@ -7,6 +7,20 @@ Repositories never copy a standard's text; they point at it with `[[id]]`, and t
 reason, or pending. `index.json` is generated from the front matter and is the only thing
 `ds` reads for lookups.
 
+## Install
+
+One command puts the system on a Mac: this repository, `ds-next` (the terminal and the MCP
+server, `ds-next` on PATH) and Cortex Code wired to both (the `ds` tool server, `/ds-new`,
+read-only tools allowed). It needs git, [uv](https://docs.astral.sh/uv/) and Cortex Code.
+
+```sh
+git clone <this repository> ~/Developer/canon && bash ~/Developer/canon/bootstrap.sh
+```
+
+Rerunning it pulls and re-checks. `CANON_URL` and `DS_NEXT_URL` override where the two
+repositories come from; `DEV` where they go (default `~/Developer`). Then `ds-next` in any
+directory, or `cortex` and `/ds-new`.
+
 To propose a standard or change one, open a merge request: add or edit the file, bump
 `version` when the text changes meaning, run `python scripts/build_index.py`, and commit
 `index.json` with it. The listed owner approves. A standard may `supersede` another; adopting
@@ -25,13 +39,15 @@ broadly. Review each file, narrow `applies_to`, set `status: accepted`, and bump
 until the text changes. Section 17 of the guidebook is deliberately absent: it is answered
 per repository by `ds new`.
 
-## Where this stands (2026-10-17)
+## Where this stands (2026-10-20, v0.1.0)
 
-Tested with blind, validated judges (`~/Developer/ds-next/REPORT.md`). **canon-lib**, the accepted
-code as one package, is what pays: the same modules pulled by every build, 35 to 61% less code
-written, one place to fix a defect. The lessons as files cost 2× and bought nothing, and are being
-rewritten as short scoped decisions (see [[adr-001]]). Correctness did not move because the model
-already passed every judge without canon. Nothing here has owner review yet.
+The first release a team can install. Five accepted project types (`/new` offers nothing
+else), two accepted standards (`repo-naming`, `terminal-design`), the rest `proposed` for
+review. canon-lib carries the eight modules a team CLI would import; the blocks that were
+ds-next's own internals are `retired` (files kept, not served). What the owner has not read is
+marked so: `proposed` blocks are built but hidden from `block_list` until accepted, and the
+`analysis`, `streamlit-app` and `ml-pipeline` scaffolds are accepted on the owner's request and
+await their review. The proof behind it is in `~/Developer/ds-next/REPORT.md` and [[adr-001]].
 
 ## Gotchas and accepted code
 

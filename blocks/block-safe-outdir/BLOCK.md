@@ -6,7 +6,7 @@ module: outdir
 requires: []
 tags: ["python", "docs"]
 owner: ckoenigs
-status: accepted
+status: proposed
 date: 2026-10-16
 ---
 

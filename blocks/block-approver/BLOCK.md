@@ -6,7 +6,7 @@ module: approver
 requires: ["snowflake-cortex-agent-sdk==0.0.2"]
 tags: ["cortex", "cli"]
 owner: ckoenigs
-status: accepted
+status: retired
 date: 2026-10-16
 ---
 

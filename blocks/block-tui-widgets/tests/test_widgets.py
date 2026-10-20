@@ -20,8 +20,9 @@ def drive(coro_fn, keys: str):
     return asyncio.run(go())
 
 
-FIELDS = lambda: [Field("name", "name", "", required=True), Field("purpose", "purpose", "", required=True),
-                  Field("owner", "owner", "ck")]
+def FIELDS():
+    return [Field("name", "name", "", required=True), Field("purpose", "purpose", "", required=True),
+            Field("owner", "owner", "ck")]
 
 
 def make_form(seen):
@@ -75,8 +76,12 @@ def test_form_choice_field_cycles_with_arrows_and_space():
 
 def test_form_normalizes_and_checks_as_you_type():
     import re
-    normalize_name = lambda t: re.sub(r"-{2,}", "-", re.sub(r"[^a-z0-9-]", "", re.sub(r"[\s_]+", "-", t.lower()))).lstrip("-")
-    name_problem = lambda n: None if re.fullmatch(r"[a-z][a-z0-9-]{1,40}", n) and not n.endswith("-") else "2 to 41 lowercase-with-hyphens"
+
+    def normalize_name(t):
+        return re.sub(r"-{2,}", "-", re.sub(r"[^a-z0-9-]", "", re.sub(r"[\s_]+", "-", t.lower()))).lstrip("-")
+
+    def name_problem(n):
+        return None if re.fullmatch(r"[a-z][a-z0-9-]{1,40}", n) and not n.endswith("-") else "2 to 41 lowercase-with-hyphens"
     fields = lambda: [Field("name", "name", "", required=True, example="feed-model",
                             normalize=normalize_name, check=name_problem)]
     out = drive(lambda: form("t", fields(), lambda v: "", lambda v: None), "Feed Model_v2\r")
@@ -88,8 +93,9 @@ def test_form_normalizes_and_checks_as_you_type():
 
 def test_prompt_line_accepts_completes_and_recalls_history():
     import pytest
-    from prompt_toolkit.history import InMemoryHistory
     from prompt_toolkit.completion import WordCompleter
+    from prompt_toolkit.history import InMemoryHistory
+
     comp = WordCompleter(["/help", "/new"], WORD=True)   # the slash is part of the word
     hist = InMemoryHistory()
     hist.append_string("/status")
@@ -118,6 +124,7 @@ def test_resize_clears_screen_and_scrollback_then_repaints():
     redraw that cannot stack is one from a clean screen with the transcript printed again."""
     from prompt_toolkit.application import Application
     from prompt_toolkit.layout import Layout, Window
+
     from {{package}} import widgets
 
     writes: list[str] = []

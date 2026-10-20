@@ -6,13 +6,21 @@
 #   Cortex Code                               the ds server registered, /ds-new added, read-only tools allowed
 #
 # Safe to rerun: it pulls what is there and skips what is done. Needs git, uv and Cortex Code.
-# Override the sources with CANON_URL / DS_NEXT_URL (git URLs or local paths) and the locations
-# with DEV (default ~/Developer).
+# Override the sources with CANON_URL / DS_NEXT_URL (git URLs, bundles or local paths) and the
+# locations with DEV (default ~/Developer). Run from a checkout, or `curl -fsSL <raw url> | bash`.
 set -euo pipefail
 
 DEV="${DEV:-$HOME/Developer}"
-CANON_URL="${CANON_URL:-$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)}"
-DS_NEXT_URL="${DS_NEXT_URL:-$DEV/ds-next}"
+DEFAULT_CANON_URL="https://github.com/cwkoenigs/canon.git"     # change this when the canon moves
+here="$(cd "$(dirname "${BASH_SOURCE[0]:-.}")" 2>/dev/null && pwd || pwd)"
+if [ -z "${CANON_URL:-}" ]; then
+  if [ -f "$here/scripts/build_index.py" ]; then CANON_URL="$here"; else CANON_URL="$DEFAULT_CANON_URL"; fi
+fi
+if [ -z "${DS_NEXT_URL:-}" ]; then      # ds-next lives beside the canon: same host, same group
+  if [ -d "$DEV/ds-next/.git" ]; then DS_NEXT_URL="$DEV/ds-next"
+  else origin="$(git -C "$CANON_URL" remote get-url origin 2>/dev/null || echo "$CANON_URL")"
+       DS_NEXT_URL="${origin%canon*}ds-next${origin##*canon}"; fi
+fi
 say() { printf '\n==> %s\n' "$*"; }
 need() { command -v "$1" >/dev/null 2>&1 || { echo "missing: $1 ($2)"; exit 1; }; }
 

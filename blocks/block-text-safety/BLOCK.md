@@ -7,7 +7,7 @@ requires: []
 test_requires: ["pyyaml>=6"]
 tags: ["python"]
 owner: ckoenigs
-status: accepted
+status: proposed
 date: 2026-10-16
 ---
 
