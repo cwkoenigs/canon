@@ -886,7 +886,7 @@
     },
     {
       "id": "block-tui-widgets",
-      "version": 5,
+      "version": 6,
       "title": "Inline picker and one-screen form",
       "module": "widgets",
       "requires": [
@@ -898,7 +898,7 @@
       ],
       "owner": "ckoenigs",
       "status": "accepted",
-      "hash": "98941a8ed308",
+      "hash": "d4821dd51fd1",
       "dir": "blocks/block-tui-widgets",
       "tests": [
         "test_widgets.py"
@@ -2501,7 +2501,7 @@
       "id": "block-tui-widgets:Field",
       "name": "Field",
       "block": "block-tui-widgets",
-      "version": 5,
+      "version": 6,
       "module": "widgets",
       "status": "accepted",
       "kind": "class",
@@ -2525,7 +2525,7 @@
       "id": "block-tui-widgets:STYLE",
       "name": "STYLE",
       "block": "block-tui-widgets",
-      "version": 5,
+      "version": 6,
       "module": "widgets",
       "status": "accepted",
       "kind": "constant",
@@ -2546,7 +2546,7 @@
       "id": "block-tui-widgets:form",
       "name": "form",
       "block": "block-tui-widgets",
-      "version": 5,
+      "version": 6,
       "module": "widgets",
       "status": "accepted",
       "kind": "function",
@@ -2575,7 +2575,7 @@
       "id": "block-tui-widgets:pick",
       "name": "pick",
       "block": "block-tui-widgets",
-      "version": 5,
+      "version": 6,
       "module": "widgets",
       "status": "accepted",
       "kind": "function",
@@ -2596,6 +2596,54 @@
       ],
       "lines": 44,
       "hash": "f6caab483f3e"
+    },
+    {
+      "id": "block-tui-widgets:prompt_frame",
+      "name": "prompt_frame",
+      "block": "block-tui-widgets",
+      "version": 6,
+      "module": "widgets",
+      "status": "accepted",
+      "kind": "function",
+      "signature": "def prompt_frame(tag: str, text: str, width: int) -> list[tuple[str, str]]",
+      "summary": "The three static rows of a prompt frame, as prompt_toolkit fragments: used live by `prompt_line` and reprinted by the caller once the line is accepted.",
+      "needs": [],
+      "tests": [
+        "test_widgets.py::test_prompt_frame_is_exact"
+      ],
+      "lessons": [
+        "gotcha-terminal-ui"
+      ],
+      "tags": [
+        "cli"
+      ],
+      "lines": 9,
+      "hash": "b4ed2f4be6b8"
+    },
+    {
+      "id": "block-tui-widgets:prompt_line",
+      "name": "prompt_line",
+      "block": "block-tui-widgets",
+      "version": 6,
+      "module": "widgets",
+      "status": "accepted",
+      "kind": "function",
+      "signature": "async def prompt_line(tag: str, *, completer=None, history=None, toolbar: Callable[[], list] | None=None, width: int=S.DESIGN_WIDTH) -> str",
+      "summary": "One line of input inside a closed frame with the session tag on its top rule, the `/` menu dropping below it, \u2191\u2193 for history (or the menu when it is open), Tab to complete, Enter to accept. Raises KeyboardInterrupt on ctrl-c and EOFError on ctrl-d with an empty line. The frame erases itself; the cal",
+      "needs": [
+        "STYLE"
+      ],
+      "tests": [
+        "test_widgets.py::test_prompt_line_accepts_completes_and_recalls_history"
+      ],
+      "lessons": [
+        "gotcha-terminal-ui"
+      ],
+      "tags": [
+        "cli"
+      ],
+      "lines": 66,
+      "hash": "46a7a611521c"
     },
     {
       "id": "block-ui-style:DESIGN_WIDTH",

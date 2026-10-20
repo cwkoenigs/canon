@@ -5,7 +5,7 @@ from prompt_toolkit.application import create_app_session
 from prompt_toolkit.input import create_pipe_input
 from prompt_toolkit.output import DummyOutput
 
-from {{package}}.widgets import Field, form, pick
+from {{package}}.widgets import Field, form, pick, prompt_frame, prompt_line
 
 
 def drive(coro_fn, keys: str):
@@ -85,3 +85,25 @@ def test_form_normalizes_and_checks_as_you_type():
     out = drive(lambda: form("t", fields(), lambda v: "", lambda v: None), "feed-\r\x7f\r")
     assert out == {"name": "feed"}
 
+
+def test_prompt_line_accepts_completes_and_recalls_history():
+    import pytest
+    from prompt_toolkit.history import InMemoryHistory
+    from prompt_toolkit.completion import WordCompleter
+    comp = WordCompleter(["/help", "/new"], WORD=True)   # the slash is part of the word
+    hist = InMemoryHistory()
+    hist.append_string("/status")
+    assert drive(lambda: prompt_line("New session", completer=comp, history=hist, width=60), "hello\r") == "hello"
+    assert drive(lambda: prompt_line("#2", completer=comp, history=hist, width=60), "/he\t\r") == "/help"
+    assert drive(lambda: prompt_line("#3", completer=comp, history=hist, width=60), "\x1b[A\r") == "/status"
+    with pytest.raises(KeyboardInterrupt):
+        drive(lambda: prompt_line("#4", completer=comp, history=hist, width=60), "abc\x03")
+    with pytest.raises(EOFError):
+        drive(lambda: prompt_line("#5", completer=comp, history=hist, width=60), "\x04")
+
+
+def test_prompt_frame_is_exact():
+    frags = prompt_frame("New session", "/new feed-model", 60)
+    lines = "".join(txt for _, txt in frags).split("\n")
+    assert [len(ln) for ln in lines] == [60, 60, 60], lines
+    assert lines[0].endswith(" New session ─┐") and lines[1].startswith("│ › /new feed-model")
