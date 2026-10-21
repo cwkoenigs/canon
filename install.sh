@@ -10,11 +10,11 @@
 #        ds-next    the terminal, the MCP server, `ds-next` on PATH    (required)
 #        skills-os  the /so-* procedures ds-next and Cortex read       (optional, skipped if the clone fails)
 #        docs-ds    the docs renderer behind /docs                     (optional, same)
-#   3. asks where the team's copies live. GitHub is only where the first copy comes from; the
-#      team's home is its own GitLab. It works the answer out when it can (TEAM_HOST, a clone
-#      already in DEV with a remote, a glab login) and otherwise asks on the terminal, Enter for
-#      "nowhere yet". Every clone's origin is pointed at that group, or dropped. If the team
-#      copies do not exist yet it offers to push and create them. KEEP_ORIGIN=1 keeps GitHub.
+#   3. asks whether these live somewhere other than GitHub. On a personal machine, Enter: the
+#      clones keep GitHub as origin and reruns pull from it. At work, answer with the GitLab
+#      group URL (or set TEAM_HOST; a clone already in DEV with a remote, or a glab login, answers
+#      it too): every clone's origin is pointed there, and team copies that do not exist yet are
+#      pushed on a yes.
 #   4. runs canon/bootstrap.sh: canon-lib and ds-next installed and tested, `ds-next` linked
 #      into ~/.local/bin, docs-ds's npm dependencies installed, Cortex Code wired (ds server,
 #      /ds-new, read-only tools allowed)
@@ -56,20 +56,19 @@ ask() {  # prompt default -> REPLY
 team_host() {  # the group URL the team's repositories live under, or empty
   [ -n "${TEAM_HOST:-}" ] && { echo "${TEAM_HOST%/}"; return; }
   local u
-  for r in canon ds-next; do        # a copy already here that knows its home
+  for r in canon ds-next; do        # a copy already here that knows its home, unless that is GitHub
     u="$(git -C "$DEV/$r" remote get-url origin 2>/dev/null || true)"
-    case "$u" in */$r.git|*/$r) echo "${u%/$r*}"; return;; esac
+    case "$u" in *github.com*) ;; */$r.git|*/$r) echo "${u%/$r*}"; return;; esac
   done
   if command -v glab >/dev/null 2>&1; then   # a GitLab CLI login names the host, the group is asked
     u="$(glab auth status 2>&1 | sed -n 's/.*Logged in to \([^ ]*\) .*/\1/p' | head -1)"
-    [ -n "$u" ] && { ask "GitLab at $u. Group these repositories live under (e.g. data-science), Enter for none: " ""
+    [ -n "$u" ] && { ask "GitLab at $u. Group these repositories live under (e.g. data-science), Enter to stay on GitHub: " ""
                      [ -n "$REPLY" ] && { echo "https://$u/${REPLY#/}"; return; }; return; }
   fi
-  ask "Where will the team's copies live? Group URL (e.g. https://gitlab.corp.com/data-science), Enter for nowhere yet: " ""
+  ask "Do these live somewhere other than GitHub? A group URL (e.g. https://gitlab.corp.com/data-science), Enter to stay on GitHub: " ""
   echo "${REPLY%/}"
 }
-rehome() {  # name dest: the clone's remote after the download
-  if [ -n "${KEEP_ORIGIN:-}" ]; then return; fi
+rehome() {  # name dest: the clone's remote after the download; GitHub stays unless a team host was given
   if [ -n "$HOME_URL" ]; then
     git -C "$2" remote set-url origin "$HOME_URL/$1.git"; echo "$1: origin -> $HOME_URL/$1.git"
     if git -C "$2" ls-remote -q --exit-code origin HEAD >/dev/null 2>&1; then
@@ -77,8 +76,6 @@ rehome() {  # name dest: the clone's remote after the download
     else
       TO_SEED="$TO_SEED $1"
     fi
-  else
-    git -C "$2" remote remove origin; echo "$1: GitHub remote dropped (no team host yet)"
   fi
 }
 seed() {  # push the clones whose team copies do not exist yet, if asked
@@ -99,7 +96,7 @@ clone() {   # name url dest required
 }
 say "team host"
 HOME_URL="$(team_host)"; TO_SEED=""
-[ -n "$HOME_URL" ] && echo "team copies under $HOME_URL" || echo "none yet: the clones keep no remote (rerun with TEAM_HOST=... once there is one)"
+[ -n "$HOME_URL" ] && echo "team copies under $HOME_URL" || echo "GitHub stays the home: reruns pull from it"
 
 say "repositories -> $DEV"
 clone canon     "$CANON_URL"   "$DEV/canon"     required

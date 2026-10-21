@@ -17,12 +17,12 @@ read-only tools allowed). It needs git, [uv](https://docs.astral.sh/uv/) and Cor
 curl -fsSL https://raw.githubusercontent.com/cwkoenigs/canon/main/install.sh | bash
 ```
 
-`install.sh` clones canon, ds-next, skills-os and docs-ds, then asks where the team's copies
-live (a GitLab group URL, or Enter for nowhere yet; it works it out by itself from a clone
-already on the machine, a `glab` login or `TEAM_HOST`). Every clone's origin is pointed there,
-or dropped: GitHub is only where the first copy comes from. Team copies that do not exist yet
-are pushed on a yes. `KEEP_ORIGIN=1` keeps GitHub. Then it runs `bootstrap.sh`, which also
-installs docs-ds's Node dependencies (Node.js 26) so `/docs` renders.
+`install.sh` clones canon, ds-next, skills-os and docs-ds, then asks one question: do these
+live somewhere other than GitHub? On a personal machine press Enter and GitHub stays the home.
+At work answer with the GitLab group URL (or set `TEAM_HOST`; a clone already on the machine
+with a non-GitHub remote, or a `glab` login, answers it too): every clone's origin is pointed
+there, and team copies that do not exist yet are pushed on a yes. Then it runs `bootstrap.sh`,
+which also installs docs-ds's Node dependencies (Node.js 26) so `/docs` renders.
 
 **Updating:** rerun the same line, or `bash ~/Developer/canon/bootstrap.sh`. Both pull every
 repository that has an upstream, including skills-os and docs-ds, and redo the install steps. From a checkout, `bash ~/Developer/canon/bootstrap.sh` does the install step
