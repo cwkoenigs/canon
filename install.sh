@@ -16,7 +16,11 @@
 #      "nowhere yet". Every clone's origin is pointed at that group, or dropped. If the team
 #      copies do not exist yet it offers to push and create them. KEEP_ORIGIN=1 keeps GitHub.
 #   4. runs canon/bootstrap.sh: canon-lib and ds-next installed and tested, `ds-next` linked
-#      into ~/.local/bin, Cortex Code wired (ds server, /ds-new, read-only tools allowed)
+#      into ~/.local/bin, docs-ds's npm dependencies installed, Cortex Code wired (ds server,
+#      /ds-new, read-only tools allowed)
+#
+# Updating later: rerun this line, or `bash ~/Developer/canon/bootstrap.sh`. Both pull every
+# repository that has an upstream (the team host, once there is one) and redo the install steps.
 # Override any source with CANON_URL, DS_NEXT_URL, SKILLS_URL, DOCS_URL (git URLs, bundles or paths).
 set -euo pipefail
 
@@ -37,6 +41,7 @@ if ! command -v uv >/dev/null 2>&1; then
 fi
 command -v cortex >/dev/null 2>&1 && echo "git, uv, cortex: ok" \
   || echo "git, uv: ok. Cortex Code is not on PATH: the agent step will be skipped; install it and rerun"
+command -v npm >/dev/null 2>&1 || echo "Node.js 26 is not on PATH: /docs (docs-ds) will not render until it is; everything else works"
 
 TTY_IN="${TTY_IN:-/dev/tty}"; TTY_OUT="${TTY_OUT:-/dev/tty}"   # questions reach the terminal even under `curl | bash`
 ask() {  # prompt default -> REPLY

@@ -3,6 +3,8 @@
 #
 #   canon      -> ~/Developer/canon          the standards, scaffolds and canon-lib (this repo)
 #   ds-next    -> ~/Developer/ds-next        the terminal, the MCP server and `ds-next` on PATH
+#   skills-os  -> ~/Developer/skills-os      pulled if it is there (install.sh clones it): the /so-* procedures
+#   docs-ds    -> ~/Developer/docs-ds        pulled if it is there, and `npm ci` run: the renderer behind /docs
 #   Cortex Code                               the ds server registered, /ds-new added, read-only tools allowed
 #
 # Safe to rerun: it pulls what is there and skips what is done. Needs git, uv and Cortex Code.
@@ -44,12 +46,24 @@ sync_repo() {   # name url dest
 
 sync_repo canon "$CANON_URL" "$DEV/canon"
 sync_repo ds-next "$DS_NEXT_URL" "$DEV/ds-next"
+for extra in skills-os docs-ds; do          # optional companions: updated when present, never cloned here
+  [ -d "$DEV/$extra/.git" ] && sync_repo "$extra" "$DEV/$extra" "$DEV/$extra"
+done
 
 say "canon-lib: install and test"
 (cd "$DEV/canon/lib" && uv sync -q --all-extras && uv run -q pytest -q | tail -1)
 
 say "ds-next: install into its own venv"
 (cd "$DEV/ds-next" && { [ -x .venv/bin/python ] || uv venv -q -p 3.12 .venv; } && uv pip install -q -p .venv/bin/python -e ".[test]" && .venv/bin/pytest -q | tail -1)
+
+if [ -d "$DEV/docs-ds/.git" ]; then
+  say "docs-ds: the renderer behind /docs"
+  if command -v npm >/dev/null 2>&1; then
+    (cd "$DEV/docs-ds" && npm ci --silent --no-audit --no-fund 2>&1 | tail -2) && echo "docs-ds: dependencies installed (node $(node -v))"
+  else
+    echo "note: Node.js 26 and npm are not on PATH; /docs will not render until they are and this is rerun"
+  fi
+fi
 
 say "ds-next on PATH"
 mkdir -p "$HOME/.local/bin"

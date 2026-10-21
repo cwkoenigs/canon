@@ -21,7 +21,11 @@ curl -fsSL https://raw.githubusercontent.com/cwkoenigs/canon/main/install.sh | b
 live (a GitLab group URL, or Enter for nowhere yet; it works it out by itself from a clone
 already on the machine, a `glab` login or `TEAM_HOST`). Every clone's origin is pointed there,
 or dropped: GitHub is only where the first copy comes from. Team copies that do not exist yet
-are pushed on a yes. `KEEP_ORIGIN=1` keeps GitHub. Then it runs `bootstrap.sh`. From a checkout, `bash ~/Developer/canon/bootstrap.sh` does the install step
+are pushed on a yes. `KEEP_ORIGIN=1` keeps GitHub. Then it runs `bootstrap.sh`, which also
+installs docs-ds's Node dependencies (Node.js 26) so `/docs` renders.
+
+**Updating:** rerun the same line, or `bash ~/Developer/canon/bootstrap.sh`. Both pull every
+repository that has an upstream, including skills-os and docs-ds, and redo the install steps. From a checkout, `bash ~/Developer/canon/bootstrap.sh` does the install step
 alone. Rerunning either pulls where there is an upstream and re-checks. `CANON_URL` and `DS_NEXT_URL` override where the two
 repositories come from; `DEV` where they go (default `~/Developer`). Then `ds-next` in any
 directory, or `cortex` and `/ds-new`.
