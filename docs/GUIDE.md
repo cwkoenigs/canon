@@ -60,12 +60,12 @@ It needs git and a terminal. The installer gets [uv](https://docs.astral.sh/uv/)
 
 **A new machine at work:**
 
-1. In GitLab, make a folder (a group or subgroup) and five **empty** projects in it, with no README: `canon`, `ds-next`, `skills-os`, `docs-ds`, `ds-code`.
-2. Run the installer with that folder's URL as `TEAM_HOST`:
+1. In GitLab, create five **empty** projects (no README): `canon`, `ds-next`, `skills-os`, `docs-ds`, `ds-code`. Put them anywhere you can create projects, your own space or a team group, but all in the same place.
+2. Run the installer with `TEAM_HOST` set to the address the five share, which is a project's address without its name. For `https://gitlab.example.com/you/canon`, that's `https://gitlab.example.com/you`:
 
    ```sh
    curl -fsSL https://raw.githubusercontent.com/cwkoenigs/canon/main/install.sh \
-     | TEAM_HOST=<your GitLab folder's URL> bash
+     | TEAM_HOST=https://<your GitLab>/<where the projects are> bash
    ```
 
 3. When it lists the projects that are empty and asks to push, say **yes**.
