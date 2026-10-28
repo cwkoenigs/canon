@@ -276,15 +276,16 @@ def frame(title: Text | str, rows: list[Text | None], *, kind: str = "input", ke
 
 
 def banner(version: str, facts: list[tuple[str, str]], hints: list[str], path: str, tagline: str,
-           w: int = DESIGN_WIDTH, art: list[Text] | None = None) -> list[Text]:
-    """Two-pane frame shown once: the mark and word-mark left, facts right, path on a footer row."""
+           w: int = DESIGN_WIDTH, art: list[Text] | None = None, name: str = "ds-next") -> list[Text]:
+    """Two-pane frame shown once: the mark and word-mark left, facts right, path on a footer row.
+    `name` is the product's word-mark, in the title and under the mark."""
     li = 30
     ri = w - 3 - li
-    title = Text.assemble(("ds-next", "strong"), (f" {version}", "accent"))
+    title = Text.assemble((name, "strong"), (f" {version}", "accent"))
     e = "muted"            # the one decorative frame: a visible edge, a bright title, as Cortex draws it
     out = [Text.assemble(("┌─ ", e), title, (" " + "─" * (li - 3 - title.cell_len) + "┬" + "─" * ri + "┐", e))]
     left: list[Text] = [*(art if art is not None else mascot_lines()), Text(),
-                        Text.assemble("  ", ("ds-next", "strong")), Text("  " + tagline, style="accent")]
+                        Text.assemble("  ", (name, "strong")), Text("  " + tagline, style="accent")]
     right: list[Text] = [Text()] + [Text.assemble(("  " + f"{k:<{LABEL_W}} ", "accent"), v) for k, v in facts] + [Text()]
     right += [Text("  " + h, style="muted") for h in hints]
     for i in range(max(len(left), len(right))):

@@ -1,13 +1,13 @@
 ---
 id: gotcha-approvals
-version: 3
+version: 4
 title: Approving what a model wants to do
 applies_to: ["cortex", "cli"]
 owner: ckoenigs
 status: proposed
 kind: gotcha
-date: 2026-10-17
-source: ds-next build, 2026-10-16
+date: 2026-10-28
+source: ds-next build, 2026-10-16; rule-cli and ds-next reviews, 2026-10-26
 ---
 
 # Approving what a model wants to do
@@ -38,8 +38,23 @@ source: ds-next build, 2026-10-16
    read outside it (`~/.ssh`, `/etc`, a `..` pattern) still asks, so a person sees the model
    reach out. Commands, writes and edits always ask. Accepted code: [[block-cortex-session]].
 
+9. **No settings file approves or runs anything on its own.** A cloned repo's hooks ran in a
+   session: Claude Code ran `.claude/settings.json` hooks, and Cortex Code ran the hooks in both
+   `.cortex/settings.json` and `.claude/settings.json` on the first prompt, with nothing asked. An
+   allow rule in the person's own Claude settings ran a command without the approval callback being
+   called. For Claude, pass `settings='{"disableAllHooks": true}'` and a `PreToolUse` callback that
+   answers "ask" for every tool but Claude Code's own reads. Cortex has no switch that works
+   ([[gotcha-cortex-sdk]] rule 12): before a session in a repo whose settings define hooks, show every
+   hook's command whole and ask. (ds-next local-001; rule-cli, now ds-code, local-015 to local-017.)
+10. **Draw control characters; never pass them through.** A dialog that prints a command as the
+   model wrote it lets escape codes in it style the terminal: SGR "conceal" hid part of a command
+   in the approval. Turn C0 control characters other than tab and newline into Unicode control
+   pictures (`␛`) before drawing anything a model or a repo wrote. (rule-cli local-013.)
+
 ## Check
 
 - Tests: concurrent requests never overlap; a 4,000-character command reaches the prompt whole;
   `"", "", "n"` denies after three asks.
+- Tests, offline with the real Claude Code and a stand-in API: a repo's hook does not run, and a
+  command the person's settings allow still asks. A command holding `\x1b[8m` shows `␛[8m`.
 - Accepted code: [[block-approver]].

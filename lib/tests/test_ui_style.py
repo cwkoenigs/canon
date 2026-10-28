@@ -20,6 +20,13 @@ def test_frames_are_exact_at_80_and_60():
         assert len(lines) == 2 and all(width_of(ln) == w for ln in lines)
 
 
+def test_banner_takes_the_products_name():
+    lines = S.banner("v1", [("cwd", "~/x")], ["hint"], "~/Developer/canon", "tagline", w=60, name="atlas")
+    text = "\n".join(ln.plain for ln in lines)
+    assert all(width_of(ln) == 60 for ln in lines)
+    assert "atlas v1" in text and "ds-next" not in text
+
+
 def test_banner_is_exact_and_names_the_facts():
     lines = S.banner("v0.1.0", [("cwd", "~/x"), ("canon", "33 standards · 5 project types")],
                      ["/new starts a project"], "~/Developer/canon", "start, check and grow", w=80)

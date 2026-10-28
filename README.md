@@ -72,6 +72,17 @@ and `tests/test_*.py` written against `{{package}}`. `ds-next` adds a block with
 records its version in the repo's manifest, and reports it pending when the canon's version
 moves. `python scripts/test_blocks.py` runs every block's tests as they run inside a repo. Change
 a block here, bump its version, rebuild the index; never edit a repo's copy in place.
+A repo's manifest records each block it took as `[blocks.<id>]`, with its `version` and
+`files = [...]`, every file `block_add` wrote; an update replaces only those files and refuses any
+other in its way.
+
+`lib/` is canon-lib: the served blocks built into one package by `scripts/build_lib.py`
+(`--check` reports drift), with the terminal look under the `tui` extra. Each release is tagged
+`canon-lib-v<version>`, and a repo takes it from git at that tag, under `[tool.uv.sources]`:
+`canon-lib = { git = "<canon's remote>", tag = "canon-lib-v0.2.0", subdirectory = "lib" }`.
+`ds-next new` writes that line from the canon checkout's own origin, so a repo made at work points
+at the team's copy; push the tag along with the commit (`git push origin canon-lib-v0.2.0`). Without
+the tag it falls back to the checkout's path, which only works on the machine that made the repo.
 
 ## Scaffolds
 
