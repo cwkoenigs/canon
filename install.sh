@@ -87,6 +87,25 @@ seed() {  # push the clones whose team copies do not exist yet, if asked
   *) for r in $TO_SEED; do echo "later: git -C $DEV/$r push -u origin main --tags"; done;;
   esac
 }
+write_world() {  # what differs between worlds, in the machine's one config; never over an existing [world]
+  local cfg="${DS_CONFIG:-$HOME/.ds/config.toml}" host group token
+  if [ -f "$cfg" ] && grep -q '^\[world\]' "$cfg"; then echo "world: kept the [world] in $cfg"; return 0; fi
+  if [ -n "$HOME_URL" ]; then host=gitlab group="$HOME_URL" token=GITLAB_TOKEN
+  else host=github group="$HOST" token=""; fi
+  mkdir -p "$(dirname "$cfg")"
+  { [ -s "$cfg" ] && echo
+    echo "[world]                       # where this machine's team repos live (canon install.sh wrote it)"
+    echo "host      = \"$host\""
+    echo "group     = \"$group\""
+    echo "token_env = \"$token\"            # GitLab: the variable holding a token; GitHub uses gh's login"
+    echo
+    echo "[capture]                     # where /so-capture sends captures"
+    echo 'repo   = "canon"'
+    echo 'branch = "main"'
+    echo 'dir    = "captures"'
+  } >> "$cfg"
+  echo "world: $host, $group -> $cfg"
+}
 clone() {   # name url dest required
   if [ -d "$3/.git" ]; then echo "$1: already at $3"; return 0; fi
   mkdir -p "$DEV"
@@ -97,6 +116,7 @@ clone() {   # name url dest required
 say "team host"
 HOME_URL="$(team_host)"; TO_SEED=""
 [ -n "$HOME_URL" ] && echo "team copies under $HOME_URL" || echo "GitHub stays the home: reruns pull from it"
+write_world
 
 say "repositories -> $DEV"
 clone canon     "$CANON_URL"   "$DEV/canon"     required
