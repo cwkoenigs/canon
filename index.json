@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-20",
+  "generated": "2026-10-28",
   "standards": [
     {
       "id": "adr-000",
@@ -144,7 +144,7 @@
     },
     {
       "id": "gotcha-approvals",
-      "version": 3,
+      "version": 4,
       "title": "Approving what a model wants to do",
       "applies_to": [
         "cortex",
@@ -154,7 +154,7 @@
       "supersedes": null,
       "status": "proposed",
       "kind": "gotcha",
-      "hash": "80a1fefe3080",
+      "hash": "aac5cd26b995",
       "path": "gotchas/gotcha-approvals.md"
     },
     {
@@ -173,7 +173,7 @@
     },
     {
       "id": "gotcha-cortex-sdk",
-      "version": 3,
+      "version": 4,
       "title": "Cortex Code SDK behaviour that is not in its docs",
       "applies_to": [
         "cortex"
@@ -182,7 +182,7 @@
       "supersedes": null,
       "status": "proposed",
       "kind": "gotcha",
-      "hash": "968c0723dda2",
+      "hash": "52548df1a720",
       "path": "gotchas/gotcha-cortex-sdk.md"
     },
     {
@@ -458,7 +458,7 @@
     },
     {
       "id": "terminal-design",
-      "version": 1,
+      "version": 2,
       "title": "Terminal Design System",
       "applies_to": [
         "cli",
@@ -468,7 +468,7 @@
       "supersedes": null,
       "status": "accepted",
       "kind": "standard",
-      "hash": "8baa2eef8b39",
+      "hash": "4f2be655bbdc",
       "path": "terminal-design.md"
     },
     {
@@ -885,6 +885,26 @@
       ]
     },
     {
+      "id": "block-tui-picker",
+      "version": 1,
+      "title": "Filterable picker for long lists",
+      "module": "picker",
+      "requires": [
+        "prompt-toolkit>=3.0.40"
+      ],
+      "test_requires": [],
+      "tags": [
+        "cli"
+      ],
+      "owner": "ckoenigs",
+      "status": "proposed",
+      "hash": "6e309f6b6eb9",
+      "dir": "blocks/block-tui-picker",
+      "tests": [
+        "test_picker.py"
+      ]
+    },
+    {
       "id": "block-tui-widgets",
       "version": 7,
       "title": "Inline picker and one-screen form",
@@ -906,7 +926,7 @@
     },
     {
       "id": "block-ui-style",
-      "version": 5,
+      "version": 6,
       "title": "Terminal design system tokens",
       "module": "ui_style",
       "requires": [
@@ -919,7 +939,7 @@
       ],
       "owner": "ckoenigs",
       "status": "accepted",
-      "hash": "7a7d0772c3a3",
+      "hash": "ce85a4b99d4a",
       "dir": "blocks/block-ui-style",
       "tests": [
         "test_ui_style.py"
@@ -2498,6 +2518,57 @@
       "hash": "dd69514ba244"
     },
     {
+      "id": "block-tui-picker:Item",
+      "name": "Item",
+      "block": "block-tui-picker",
+      "version": 1,
+      "module": "picker",
+      "status": "proposed",
+      "kind": "class",
+      "signature": "class Item",
+      "summary": "",
+      "needs": [],
+      "tests": [],
+      "lessons": [
+        "gotcha-terminal-ui"
+      ],
+      "tags": [
+        "cli"
+      ],
+      "lines": 7,
+      "hash": "28c1f8c486c6"
+    },
+    {
+      "id": "block-tui-picker:browse",
+      "name": "browse",
+      "block": "block-tui-picker",
+      "version": 1,
+      "module": "picker",
+      "status": "proposed",
+      "kind": "function",
+      "signature": "async def browse(title: str, items: list[Item], *, visible: int=10, width: int=S.DESIGN_WIDTH) -> str | None",
+      "summary": "Returns the chosen Item.value, or None on Esc / Ctrl-C.",
+      "needs": [
+        "Item",
+        "_clip",
+        "_matches"
+      ],
+      "tests": [
+        "test_picker.py::test_arrows_move_and_wrap",
+        "test_picker.py::test_enter_chooses_the_first_match",
+        "test_picker.py::test_enter_on_no_match_does_nothing_until_widened",
+        "test_picker.py::test_escape_quits_with_nothing"
+      ],
+      "lessons": [
+        "gotcha-terminal-ui"
+      ],
+      "tags": [
+        "cli"
+      ],
+      "lines": 77,
+      "hash": "553caab8271b"
+    },
+    {
       "id": "block-tui-widgets:Field",
       "name": "Field",
       "block": "block-tui-widgets",
@@ -2710,7 +2781,7 @@
       "id": "block-ui-style:DESIGN_WIDTH",
       "name": "DESIGN_WIDTH",
       "block": "block-ui-style",
-      "version": 5,
+      "version": 6,
       "module": "ui_style",
       "status": "accepted",
       "kind": "constant",
@@ -2732,7 +2803,7 @@
       "id": "block-ui-style:G",
       "name": "G",
       "block": "block-ui-style",
-      "version": 5,
+      "version": 6,
       "module": "ui_style",
       "status": "accepted",
       "kind": "constant",
@@ -2764,7 +2835,7 @@
       "id": "block-ui-style:INDENT",
       "name": "INDENT",
       "block": "block-ui-style",
-      "version": 5,
+      "version": 6,
       "module": "ui_style",
       "status": "accepted",
       "kind": "constant",
@@ -2786,7 +2857,7 @@
       "id": "block-ui-style:LABEL_W",
       "name": "LABEL_W",
       "block": "block-ui-style",
-      "version": 5,
+      "version": 6,
       "module": "ui_style",
       "status": "accepted",
       "kind": "constant",
@@ -2808,7 +2879,7 @@
       "id": "block-ui-style:MASCOT",
       "name": "MASCOT",
       "block": "block-ui-style",
-      "version": 5,
+      "version": 6,
       "module": "ui_style",
       "status": "accepted",
       "kind": "constant",
@@ -2830,7 +2901,7 @@
       "id": "block-ui-style:PALETTE",
       "name": "PALETTE",
       "block": "block-ui-style",
-      "version": 5,
+      "version": 6,
       "module": "ui_style",
       "status": "accepted",
       "kind": "constant",
@@ -2852,7 +2923,7 @@
       "id": "block-ui-style:PromptEcho",
       "name": "PromptEcho",
       "block": "block-ui-style",
-      "version": 5,
+      "version": 6,
       "module": "ui_style",
       "status": "accepted",
       "kind": "class",
@@ -2885,7 +2956,7 @@
       "id": "block-ui-style:RESULT_INDENT",
       "name": "RESULT_INDENT",
       "block": "block-ui-style",
-      "version": 5,
+      "version": 6,
       "module": "ui_style",
       "status": "accepted",
       "kind": "constant",
@@ -2907,7 +2978,7 @@
       "id": "block-ui-style:SPINNER",
       "name": "SPINNER",
       "block": "block-ui-style",
-      "version": 5,
+      "version": 6,
       "module": "ui_style",
       "status": "accepted",
       "kind": "constant",
@@ -2929,7 +3000,7 @@
       "id": "block-ui-style:_ANSI",
       "name": "_ANSI",
       "block": "block-ui-style",
-      "version": 5,
+      "version": 6,
       "module": "ui_style",
       "status": "accepted",
       "kind": "constant",
@@ -2951,7 +3022,7 @@
       "id": "block-ui-style:_INK",
       "name": "_INK",
       "block": "block-ui-style",
-      "version": 5,
+      "version": 6,
       "module": "ui_style",
       "status": "accepted",
       "kind": "constant",
@@ -2973,7 +3044,7 @@
       "id": "block-ui-style:agent_lines",
       "name": "agent_lines",
       "block": "block-ui-style",
-      "version": 5,
+      "version": 6,
       "module": "ui_style",
       "status": "accepted",
       "kind": "function",
@@ -3007,12 +3078,12 @@
       "id": "block-ui-style:banner",
       "name": "banner",
       "block": "block-ui-style",
-      "version": 5,
+      "version": 6,
       "module": "ui_style",
       "status": "accepted",
       "kind": "function",
-      "signature": "def banner(version: str, facts: list[tuple[str, str]], hints: list[str], path: str, tagline: str, w: int=DESIGN_WIDTH, art: list[Text] | None=None) -> list[Text]",
-      "summary": "Two-pane frame shown once: the mark and word-mark left, facts right, path on a footer row.",
+      "signature": "def banner(version: str, facts: list[tuple[str, str]], hints: list[str], path: str, tagline: str, w: int=DESIGN_WIDTH, art: list[Text] | None=None, name: str='ds-next') -> list[Text]",
+      "summary": "Two-pane frame shown once: the mark and word-mark left, facts right, path on a footer row. `name` is the product's word-mark, in the title and under the mark.",
       "needs": [
         "DESIGN_WIDTH",
         "LABEL_W",
@@ -3028,14 +3099,14 @@
         "cli",
         "terminal"
       ],
-      "lines": 23,
-      "hash": "93f0d403989d"
+      "lines": 24,
+      "hash": "f2e5baf9e6c4"
     },
     {
       "id": "block-ui-style:console",
       "name": "console",
       "block": "block-ui-style",
-      "version": 5,
+      "version": 6,
       "module": "ui_style",
       "status": "accepted",
       "kind": "function",
@@ -3062,7 +3133,7 @@
       "id": "block-ui-style:error",
       "name": "error",
       "block": "block-ui-style",
-      "version": 5,
+      "version": 6,
       "module": "ui_style",
       "status": "accepted",
       "kind": "function",
@@ -3094,7 +3165,7 @@
       "id": "block-ui-style:fold",
       "name": "fold",
       "block": "block-ui-style",
-      "version": 5,
+      "version": 6,
       "module": "ui_style",
       "status": "accepted",
       "kind": "function",
@@ -3126,7 +3197,7 @@
       "id": "block-ui-style:footer",
       "name": "footer",
       "block": "block-ui-style",
-      "version": 5,
+      "version": 6,
       "module": "ui_style",
       "status": "accepted",
       "kind": "function",
@@ -3158,7 +3229,7 @@
       "id": "block-ui-style:frame",
       "name": "frame",
       "block": "block-ui-style",
-      "version": 5,
+      "version": 6,
       "module": "ui_style",
       "status": "accepted",
       "kind": "function",
@@ -3182,7 +3253,7 @@
       "id": "block-ui-style:hint",
       "name": "hint",
       "block": "block-ui-style",
-      "version": 5,
+      "version": 6,
       "module": "ui_style",
       "status": "accepted",
       "kind": "function",
@@ -3206,7 +3277,7 @@
       "id": "block-ui-style:is_dark",
       "name": "is_dark",
       "block": "block-ui-style",
-      "version": 5,
+      "version": 6,
       "module": "ui_style",
       "status": "accepted",
       "kind": "function",
@@ -3228,7 +3299,7 @@
       "id": "block-ui-style:labelled",
       "name": "labelled",
       "block": "block-ui-style",
-      "version": 5,
+      "version": 6,
       "module": "ui_style",
       "status": "accepted",
       "kind": "function",
@@ -3252,7 +3323,7 @@
       "id": "block-ui-style:mascot_lines",
       "name": "mascot_lines",
       "block": "block-ui-style",
-      "version": 5,
+      "version": 6,
       "module": "ui_style",
       "status": "accepted",
       "kind": "function",
@@ -3277,7 +3348,7 @@
       "id": "block-ui-style:outcome",
       "name": "outcome",
       "block": "block-ui-style",
-      "version": 5,
+      "version": 6,
       "module": "ui_style",
       "status": "accepted",
       "kind": "function",
@@ -3309,7 +3380,7 @@
       "id": "block-ui-style:prompt_box",
       "name": "prompt_box",
       "block": "block-ui-style",
-      "version": 5,
+      "version": 6,
       "module": "ui_style",
       "status": "accepted",
       "kind": "function",
@@ -3341,7 +3412,7 @@
       "id": "block-ui-style:pt_style",
       "name": "pt_style",
       "block": "block-ui-style",
-      "version": 5,
+      "version": 6,
       "module": "ui_style",
       "status": "accepted",
       "kind": "function",
@@ -3369,7 +3440,7 @@
       "id": "block-ui-style:result",
       "name": "result",
       "block": "block-ui-style",
-      "version": 5,
+      "version": 6,
       "module": "ui_style",
       "status": "accepted",
       "kind": "function",
@@ -3401,7 +3472,7 @@
       "id": "block-ui-style:run",
       "name": "run",
       "block": "block-ui-style",
-      "version": 5,
+      "version": 6,
       "module": "ui_style",
       "status": "accepted",
       "kind": "function",
@@ -3433,7 +3504,7 @@
       "id": "block-ui-style:session_rule",
       "name": "session_rule",
       "block": "block-ui-style",
-      "version": 5,
+      "version": 6,
       "module": "ui_style",
       "status": "accepted",
       "kind": "function",
@@ -3467,7 +3538,7 @@
       "id": "block-ui-style:status_label",
       "name": "status_label",
       "block": "block-ui-style",
-      "version": 5,
+      "version": 6,
       "module": "ui_style",
       "status": "accepted",
       "kind": "function",
@@ -3499,7 +3570,7 @@
       "id": "block-ui-style:theme",
       "name": "theme",
       "block": "block-ui-style",
-      "version": 5,
+      "version": 6,
       "module": "ui_style",
       "status": "accepted",
       "kind": "function",
@@ -3525,7 +3596,7 @@
       "id": "block-ui-style:toolbar",
       "name": "toolbar",
       "block": "block-ui-style",
-      "version": 5,
+      "version": 6,
       "module": "ui_style",
       "status": "accepted",
       "kind": "function",
@@ -3547,7 +3618,7 @@
       "id": "block-ui-style:truecolor",
       "name": "truecolor",
       "block": "block-ui-style",
-      "version": 5,
+      "version": 6,
       "module": "ui_style",
       "status": "accepted",
       "kind": "function",
@@ -3569,7 +3640,7 @@
       "id": "block-ui-style:width",
       "name": "width",
       "block": "block-ui-style",
-      "version": 5,
+      "version": 6,
       "module": "ui_style",
       "status": "accepted",
       "kind": "function",
@@ -3593,7 +3664,7 @@
       "id": "block-ui-style:you",
       "name": "you",
       "block": "block-ui-style",
-      "version": 5,
+      "version": 6,
       "module": "ui_style",
       "status": "accepted",
       "kind": "function",

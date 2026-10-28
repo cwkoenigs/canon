@@ -1,13 +1,13 @@
 ---
 id: gotcha-cortex-sdk
-version: 3
+version: 4
 title: Cortex Code SDK behaviour that is not in its docs
 applies_to: ["cortex"]
 owner: ckoenigs
 status: proposed
 kind: gotcha
-date: 2026-10-16
-source: ds-next build, 2026-10-16
+date: 2026-10-28
+source: ds-next build, 2026-10-16; rule-cli build and review, 2026-10-25 and 2026-10-26
 ---
 
 # Cortex Code SDK behaviour that is not in its docs
@@ -63,9 +63,21 @@ Facts about driving Cortex Code 1.2.14 from Python, each found the hard way and 
     subscription. Your limit will reset in N hours" arrives as a turn result, not an exception;
     show it as the reason, not as a failed task.
 
+12. **A repo's hooks run, and no session option stops them.** Cortex Code 1.2.18 ran the
+    `UserPromptSubmit` hooks in both `.cortex/settings.json` and `.claude/settings.json` of the working
+    folder on the first prompt. `setting_sources=["user"]` left them running and stopped Cortex reading
+    the repo's `AGENTS.md` and `CLAUDE.md`; `disableAllHooks` through `--config` left them running too.
+    Ask first: [[gotcha-approvals]] rule 9. Checked live on 2026-10-26.
+13. **A missing `cortex` CLI hangs the session without a word.** The Node SDK
+    (`@snowflake/cortex-agent-sdk` 0.0.2 and 0.0.3) records the spawn error and never reports it.
+    Look for the CLI where the SDK will (`CORTEX_CODE_CLI_PATH`, then `cortex` on the PATH) and say
+    what is missing before starting; a timeout cannot tell a slow start from a missing CLI.
+
 ## Check
 
 - `grep -rn allowed_tools` finds nothing in code that creates options.
 - A tool error test asserts the text starts with `ERROR:`.
 - Accepted code: [[block-cortex-session]].
 - A test connects and closes a fake client and asserts both ran in the caller's task.
+- A test opens a session in a folder whose `.cortex/settings.json` defines a hook: the person is
+  asked, with the hook's command, and a no starts nothing.

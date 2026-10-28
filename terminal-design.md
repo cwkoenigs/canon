@@ -1,21 +1,23 @@
 ---
 id: terminal-design
-version: 1
+version: 2
 title: Terminal Design System
 applies_to: ["cli", "terminal"]
 owner: ckoenigs
 status: accepted
-date: 2026-10-20
+date: 2026-10-28
 ---
 
 # Terminal Design System
 
 One rail, three voices, nothing moves that didn't change. Every terminal the team ships, from
 `ds-next` to a one-command tool from the `python-cli` type, prints through the same roles, glyphs
-and grid, so a person who has read one of them can read all of them. The reference screens, the
-written rationale and the full package (tokens, specimen cards, component specs) live in ds-next
-under `docs/design-system/`; the `ds-terminal-design` skill, installed by `ds-next setup`, walks an
-agent through building to it.
+and grid, so a person who has read one of them can read all of them. The code is canon-lib's
+`ui_style`, `widgets` and `picker` (the blocks below). The design exports from Claude Design
+(tokens, specimen cards, component specs) live in
+[ds-cli-design](https://github.com/cwkoenigs/ds-cli-design), which checks `tokens.json` against
+that code; the `ds-terminal-design` skill, installed by `ds-next setup`, walks an agent through
+building to it.
 
 ## Principles
 
@@ -58,11 +60,14 @@ ANSI-16 fallback; eleven glyphs, each with one meaning, one colour and one colum
 indents (column 3 for what is said or run, column 5 for what came back) and a 12-wide label
 column; frames exact at 80 columns, degrading to 60, the prompt box the terminal's width; and the team mascot, a dog and a cat with
 their arms around each other, for a banner's left pane. They ship as `block-ui-style`
-(`ui_style.py`) and the picker and form that use them as `block-tui-widgets`.
+(`ui_style.py`), the picker and form that use them as `block-tui-widgets`, and the filterable
+picker for long lists as `block-tui-picker`.
 
 ## Apply
 
 A new CLI from the `python-cli` type already prints through `canon_lib.ui_style`. In an existing
 repo: `block_add block-ui-style`, then route every print through its builders (`outcome`, `error`,
 `labelled`, `hint`; `run`, `result`, `footer` for an agent); use `console(color=sys.stdout.isatty())`
-so logs stay readable. A picker or form comes from `block-tui-widgets` v4.
+so logs stay readable. A picker or form comes from `block-tui-widgets` v4, a long list from
+`block-tui-picker`. Or depend on canon-lib with its `tui` extra and import `canon_lib.ui_style`,
+`canon_lib.widgets` and `canon_lib.picker`.

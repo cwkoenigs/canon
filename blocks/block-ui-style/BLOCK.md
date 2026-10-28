@@ -1,13 +1,13 @@
 ---
 id: block-ui-style
-version: 5
+version: 6
 title: Terminal design system tokens
 module: ui_style
 requires: ["rich>=13"]
 tags: ["cli", "terminal"]
 owner: ckoenigs
 status: accepted
-date: 2026-10-20
+date: 2026-10-28
 ---
 
 # Terminal design system tokens
@@ -35,3 +35,5 @@ v3: a mark for the banner's left pane.
 v4: the mark is the team mascot, `MASCOT` and `mascot_lines()`, a dog (brand) and a cat (strong) with their arms around each other, drawn in half-blocks; `banner()` shows it unless `art` is given. Roles `eye`, `on_brand`, `on_strong`, `on_eye` for it.
 
 v5: `prompt_box()` draws the prompt frame's three rows at a width and `PromptEcho` is that frame as a renderable, drawn at the console's width each time it is printed, so the transcript repaints to fit after a resize; `session_rule()` is its top rule, rounded like the rest.
+
+v6: `banner(name=...)` takes the product's word-mark (default `ds-next`), so another team CLI (atlas) draws the same banner under its own name. Taken from ds-cli-design 1.1.0, the last copy that had it.
