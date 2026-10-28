@@ -21,7 +21,10 @@ curl -fsSL https://raw.githubusercontent.com/cwkoenigs/canon/main/install.sh | b
 live somewhere other than GitHub? On a personal machine press Enter and GitHub stays the home.
 At work answer with the GitLab group URL (or set `TEAM_HOST`; a clone already on the machine
 with a non-GitHub remote, or a `glab` login, answers it too): every clone's origin is pointed
-there, and team copies that do not exist yet are pushed on a yes. Then it runs `bootstrap.sh`,
+there, and team copies that do not exist yet are pushed on a yes. What it settled goes into the
+machine's one config, `~/.ds/config.toml`, as `[world]` (`host`, `group`, `token_env`) and
+`[capture]` (where `/so-capture` sends captures), unless that file already has a `[world]`; edit it
+there when a machine's world differs. Then it runs `bootstrap.sh`,
 which also installs docs-ds's Node dependencies (Node.js 26) so `/docs` renders.
 
 **Updating:** rerun the same line, or `bash ~/Developer/canon/bootstrap.sh`. Both pull every
