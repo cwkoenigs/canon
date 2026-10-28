@@ -5,9 +5,11 @@
 #   ds-next    -> ~/Developer/ds-next        the terminal, the MCP server and `ds-next` on PATH
 #   skills-os  -> ~/Developer/skills-os      pulled if it is there (install.sh clones it): the /so-* procedures
 #   docs-ds    -> ~/Developer/docs-ds        pulled if it is there, and `npm ci` run: the renderer behind /docs
-#   Cortex Code                               the ds server registered, /ds-new added, read-only tools allowed
+#   ds-code    -> ~/Developer/ds-code        pulled if it is there, built and linked: the code tools ds-next attaches
+#   agents                                    every agent CLI on PATH (Cortex Code, Claude Code, Codex): the ds server
+#                                             registered, /ds-new added, read-only tools allowed
 #
-# Safe to rerun: it pulls what is there and skips what is done. Needs git, uv and Cortex Code.
+# Safe to rerun: it pulls what is there and skips what is done. Needs git and uv; Node.js for docs-ds and ds-code.
 # Override the sources with CANON_URL / DS_NEXT_URL (git URLs, bundles or local paths) and the
 # locations with DEV (default ~/Developer). Run from a checkout, or `curl -fsSL <raw url> | bash`.
 set -euo pipefail
@@ -46,7 +48,7 @@ sync_repo() {   # name url dest
 
 sync_repo canon "$CANON_URL" "$DEV/canon"
 sync_repo ds-next "$DS_NEXT_URL" "$DEV/ds-next"
-for extra in skills-os docs-ds; do          # optional companions: updated when present, never cloned here
+for extra in skills-os docs-ds ds-code; do  # optional companions: updated when present, never cloned here
   [ -d "$DEV/$extra/.git" ] && sync_repo "$extra" "$DEV/$extra" "$DEV/$extra"
 done
 
@@ -65,12 +67,25 @@ if [ -d "$DEV/docs-ds/.git" ]; then
   fi
 fi
 
+if [ -d "$DEV/ds-code/.git" ]; then
+  say "ds-code: the code tools ds-next attaches (definitions, references, callers, change impact)"
+  if command -v npm >/dev/null 2>&1; then
+    if (cd "$DEV/ds-code" && npm ci --silent --no-audit --no-fund 2>&1 | tail -2 && npm link --silent --no-audit --no-fund 2>&1 | tail -1); then
+      echo "ds-code: $(command -v ds-code || echo "linked; add npm's global bin ($(npm prefix -g)/bin) to PATH")"
+    else
+      echo "note: ds-code did not install; ds-next runs without the code tools until it does and this is rerun"
+    fi
+  else
+    echo "note: Node.js and npm are not on PATH; ds-next runs without the code tools until they are and this is rerun"
+  fi
+fi
+
 say "ds-next on PATH"
 mkdir -p "$HOME/.local/bin"
 ln -sf "$DEV/ds-next/.venv/bin/ds-next" "$HOME/.local/bin/ds-next"
 case ":$PATH:" in *":$HOME/.local/bin:"*) ;; *) echo "note: add ~/.local/bin to PATH to run ds-next by name";; esac
 
-say "agents: Cortex Code"
+say "agents: Cortex Code, Claude Code, Codex (whichever are on PATH)"
 "$DEV/ds-next/.venv/bin/ds-next" setup || true
 
 say "check"

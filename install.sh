@@ -21,7 +21,7 @@
 #
 # Updating later: rerun this line, or `bash ~/Developer/canon/bootstrap.sh`. Both pull every
 # repository that has an upstream (the team host, once there is one) and redo the install steps.
-# Override any source with CANON_URL, DS_NEXT_URL, SKILLS_URL, DOCS_URL (git URLs, bundles or paths).
+# Override any source with CANON_URL, DS_NEXT_URL, SKILLS_URL, DOCS_URL, DS_CODE_URL (git URLs, bundles or paths).
 set -euo pipefail
 
 HOST="${HOST_URL:-https://github.com/cwkoenigs}"
@@ -30,6 +30,7 @@ CANON_URL="${CANON_URL:-$HOST/canon.git}"
 DS_NEXT_URL="${DS_NEXT_URL:-$HOST/ds-next.git}"
 SKILLS_URL="${SKILLS_URL:-$HOST/skills-os.git}"
 DOCS_URL="${DOCS_URL:-$HOST/docs-ds.git}"
+DS_CODE_URL="${DS_CODE_URL:-$HOST/ds-code.git}"
 say() { printf '\n==> %s\n' "$*"; }
 
 say "tools"
@@ -123,6 +124,7 @@ clone canon     "$CANON_URL"   "$DEV/canon"     required
 clone ds-next   "$DS_NEXT_URL" "$DEV/ds-next"   required
 clone skills-os "$SKILLS_URL"  "$DEV/skills-os" optional
 clone docs-ds   "$DOCS_URL"    "$DEV/docs-ds"   optional
+clone ds-code   "$DS_CODE_URL" "$DEV/ds-code"   optional
 seed
 
 say "bootstrap"
