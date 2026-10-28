@@ -56,7 +56,11 @@ say "canon-lib: install and test"
 (cd "$DEV/canon/lib" && uv sync -q --all-extras && uv run -q pytest -q | tail -1)
 
 say "ds-next: install into its own venv"
-(cd "$DEV/ds-next" && { [ -x .venv/bin/python ] || uv venv -q -p 3.12 .venv; } && uv pip install -q -p .venv/bin/python -e ".[test]" && .venv/bin/pytest -q | tail -1)
+# canon-lib comes from this canon checkout, not from the GitHub URL in ds-next's pyproject, so a
+# machine whose repos live on the team's host never reaches back to GitHub
+OVERRIDE="$(mktemp)"; printf 'canon-lib[tui] @ file://%s/canon/lib\n' "$(cd "$DEV" && pwd)" > "$OVERRIDE"
+(cd "$DEV/ds-next" && { [ -x .venv/bin/python ] || uv venv -q -p 3.12 .venv; } && uv pip install -q -p .venv/bin/python --override "$OVERRIDE" -e ".[test]" && .venv/bin/pytest -q | tail -1)
+rm -f "$OVERRIDE"
 
 if [ -d "$DEV/docs-ds/.git" ]; then
   say "docs-ds: the renderer behind /docs"

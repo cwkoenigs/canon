@@ -7,6 +7,8 @@ Repositories never copy a standard's text; they point at it with `[[id]]`, and t
 reason, or pending. `index.json` is generated from the front matter and is the only thing
 `ds` reads for lookups.
 
+New here? [docs/GUIDE.md](docs/GUIDE.md) is the map of the whole system and how to set up and use it.
+
 ## Install
 
 One command puts the system on a Mac: this repository, `ds-next` (the terminal and the MCP
@@ -38,19 +40,18 @@ To propose a standard or change one, open a merge request: add or edit the file,
 `version` when the text changes meaning, run `python scripts/build_index.py`, and commit
 `index.json` with it. The listed owner approves. A standard may `supersede` another; adopting
 the new one resolves the old. Where a standard has a mechanical step, put it under an
-`## Apply` heading so `ds reconcile` can show or run it; without one, adoption is a
+`## Apply` heading, which says what adopting it takes; without one, adoption is a
 documentation change.
 
 A standard reaches repositories by itself: the next push in any repository whose tags match
-prints a one-line nudge, and `ds reconcile` lets the owner adopt or decline. There is no
-announcement and no migration project. The adoption table shows who adopted, who declined
-and why, and who has not decided.
+prints a one-line nudge (`ds-next reconcile` in the pre-push hook), and `/status` in ds-next
+lets the repo owner adopt or decline, recorded in its `.ds/manifest.toml`. There is no
+announcement and no migration project.
 
-Status of this checkout: seeded from the skills-os guidebook v1.1 by
-`scripts/split_guidebook.py`, every standard marked `proposed` with `applies_to` set
-broadly. Review each file, narrow `applies_to`, set `status: accepted`, and bump nothing
-until the text changes. Section 17 of the guidebook is deliberately absent: it is answered
-per repository by `ds new`.
+Most standards were seeded from the skills-os guidebook v1.1 by `scripts/split_guidebook.py`,
+marked `proposed` with `applies_to` set broadly. Review each one, narrow `applies_to`, set
+`status: accepted`, and bump nothing until the text changes. Section 17 of the guidebook is
+deliberately absent: `/new` answers it per repository.
 
 ## Where this stands (2026-10-28, v0.2.0)
 
@@ -110,11 +111,14 @@ templates and are marked accepted so it works today; the owner should review the
 
 ## Portal pipeline
 
-`.gitlab-ci.yml` has a `portal` job (main and schedules) that clones the docs shell and every
+Not running yet. `.gitlab-ci.yml` has a `check_index` job (refuses a stale index or a malformed
+standard) and a `portal` job (main and schedules) that clones the docs shell and every
 repository in `repos.txt`, runs `ds docs portal`, and keeps `site/` as an artifact. The publish
 step to SPCS is written as comments and is unverified: it needs the Snowflake image repository,
 `docker`, and `snow` on the runner, and should reuse `ds deploy service` rather than a bespoke
-`ALTER SERVICE`. `docs-ds/Dockerfile.static` packages a prebuilt `site/` with nginx.
+`ALTER SERVICE`. `docs-ds/Dockerfile.static` packages a prebuilt `site/` with nginx. Both jobs carry a placeholder
+runner tag (`<docs-runner-tag>`), and `portal` calls the older `ds` CLI rather than ds-next, so on
+GitLab set a real runner tag before expecting a pipeline.
 
 ## Design documents
 

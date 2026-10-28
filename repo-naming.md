@@ -18,7 +18,7 @@ characters. No capitals, spaces, underscores, dots or trailing hyphens.
 |---|---|
 | `feed-model` | yes |
 | `barn-board` | yes |
-| `Feed Model`, `feed_model`, `FeedModel` | no: `ds new` rewrites them to `feed-model` |
+| `Feed Model`, `feed_model`, `FeedModel` | no: `/new` rewrites them to `feed-model` |
 | `-feed`, `feed-`, `feed--model` | no |
 | `class`, `import` | no: the package name would be a Python keyword |
 
@@ -32,6 +32,6 @@ package description.
 
 ## Apply
 
-`ds new` enforces this as you type: it lowercases, turns spaces and underscores into hyphens,
+`/new` in ds-next (and `ds-next new`) enforces this as you type: it lowercases, turns spaces and underscores into hyphens,
 and refuses anything that still does not match. Nothing to do in an existing repository; a
 rename is a decision for its owner.
