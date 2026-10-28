@@ -10,14 +10,15 @@ reason, or pending. `index.json` is generated from the front matter and is the o
 ## Install
 
 One command puts the system on a Mac: this repository, `ds-next` (the terminal and the MCP
-server, `ds-next` on PATH) and Cortex Code wired to both (the `ds` tool server, `/ds-new`,
-read-only tools allowed). It needs git, [uv](https://docs.astral.sh/uv/) and Cortex Code.
+server, `ds-next` on PATH), `ds-code` (the code tools ds-next attaches) and every agent CLI on PATH
+(Cortex Code, Claude Code, Codex) wired to them (the `ds` tool server, `/ds-new`, read-only tools
+allowed). It needs git and [uv](https://docs.astral.sh/uv/); Node.js for docs-ds and ds-code.
 
 ```sh
 curl -fsSL https://raw.githubusercontent.com/cwkoenigs/canon/main/install.sh | bash
 ```
 
-`install.sh` clones canon, ds-next, skills-os and docs-ds, then asks one question: do these
+`install.sh` clones canon, ds-next, skills-os, docs-ds and ds-code, then asks one question: do these
 live somewhere other than GitHub? On a personal machine press Enter and GitHub stays the home.
 At work answer with the GitLab group URL (or set `TEAM_HOST`; a clone already on the machine
 with a non-GitHub remote, or a `glab` login, answers it too): every clone's origin is pointed
@@ -51,15 +52,19 @@ broadly. Review each file, narrow `applies_to`, set `status: accepted`, and bump
 until the text changes. Section 17 of the guidebook is deliberately absent: it is answered
 per repository by `ds new`.
 
-## Where this stands (2026-10-20, v0.1.0)
+## Where this stands (2026-10-28, v0.2.0)
 
-The first release a team can install. Five accepted project types (`/new` offers nothing
-else), two accepted standards (`repo-naming`, `terminal-design`), the rest `proposed` for
-review. canon-lib carries the eight modules a team CLI would import; the blocks that were
-ds-next's own internals are `retired` (files kept, not served). What the owner has not read is
-marked so: `proposed` blocks are built but hidden from `block_list` until accepted, and the
-`analysis`, `streamlit-app` and `ml-pipeline` scaffolds are accepted on the owner's request and
-await their review. The proof behind it is in `~/Developer/ds-next/REPORT.md` and [[adr-001]].
+canon is the source of truth; canon-lib carries the code projects import (the terminal look
+included: `ui_style`, `widgets`, `picker` under the `tui` extra), and the MCP carries the knowledge
+([[adr-001]], still `proposed` until the owner accepts it). canon-lib is released by tag
+(`canon-lib-v0.2.0`), and new repos take it from git at that tag. Five accepted project types
+(`/new` offers nothing else), two accepted standards (`repo-naming`, `terminal-design`), the rest
+`proposed` for review; `proposed` blocks (`block-tui-picker` among them) are built into canon-lib,
+marked unreviewed, and hidden from `block_list` until accepted. What differs between machines
+(home on GitHub, work on the team's GitLab) is in `~/.ds/config.toml`. The proof behind the
+package-first design is in `~/Developer/ds-next/REPORT.md`.
+
+v0.1.0 (2026-10-20) was the first release a team could install.
 
 ## Gotchas and accepted code
 
