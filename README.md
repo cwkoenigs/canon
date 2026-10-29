@@ -30,11 +30,19 @@ machine's one config, `~/.ds/config.toml`, as `[world]` (`host`, `group`, `token
 there when a machine's world differs. Then it runs `bootstrap.sh`,
 which also installs docs-ds's Node dependencies (Node.js 26) so `/docs` renders.
 
+Or clone first and run the same script from the clone: `git clone https://github.com/cwkoenigs/canon
+~/Developer/canon && bash ~/Developer/canon/install.sh`.
+
 **Updating:** rerun the same line, or `bash ~/Developer/canon/bootstrap.sh`. Both pull every
 repository that has an upstream, including skills-os and docs-ds, and redo the install steps. From a checkout, `bash ~/Developer/canon/bootstrap.sh` does the install step
 alone. Rerunning either pulls where there is an upstream and re-checks. `CANON_URL` and `DS_NEXT_URL` override where the two
 repositories come from; `DEV` where they go (default `~/Developer`). Then `ds-next` in any
 directory, or `cortex` and `/ds-new`.
+
+**Removing:** `bash ~/Developer/canon/uninstall.sh`. It unwires the agents (`ds-next setup --remove`:
+the `ds` and `code` servers, the skills, the allow rules), takes `ds-next` and `ds-code` off PATH, then
+asks before removing the five clones (one with unsaved or unpushed work stays) and `~/.ds`. uv, Node and
+the agent CLIs are left. Reinstalling is the install line again.
 
 To propose a standard or change one, open a merge request: add or edit the file, bump
 `version` when the text changes meaning, run `python scripts/build_index.py`, and commit

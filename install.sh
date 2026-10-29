@@ -21,6 +21,7 @@
 #
 # Updating later: rerun this line, or `bash ~/Developer/canon/bootstrap.sh`. Both pull every
 # repository that has an upstream (the team host, once there is one) and redo the install steps.
+# Removing: `bash ~/Developer/canon/uninstall.sh` (the agents unwired, the commands unlinked, then it asks about the clones and ~/.ds).
 # Override any source with CANON_URL, DS_NEXT_URL, SKILLS_URL, DOCS_URL, DS_CODE_URL (git URLs, bundles or paths).
 set -euo pipefail
 
