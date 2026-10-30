@@ -136,11 +136,29 @@ id and version in the repository's manifest. Adding or changing one is a merge r
 standard. The two seeded here, `python-cli` and `python-package`, came from ds-next's built-in
 templates and are marked accepted so it works today; the owner should review them.
 
+## Registry and the cross-repo graph
+
+`repos/<name>.toml` is the registry: one file per repository in the system, with its `group/project`
+on the host. `adopt_repo` will write it; until then, add the file by merge request and delete it when
+the repository is archived. Each repository declares in its own `.ds/manifest.toml` what it offers
+(`[provides]`: commands, names, paths) and what it depends on (`[uses]`, one key per registered
+repository). `scripts/build_repos.py <checkouts>` reads every registered clone, scans the others for
+mentions of what each provides, and writes the `repos` section of `index.json`: the repositories,
+the edges between them (declared, mentioned or both, with file and line) and a report of contracts
+nobody uses, dependencies nobody declared, and `[uses]` entries that resolve to nothing. Entries
+are matched as text, so declare the words other repositories write when they use yours, and make
+them distinctive: `index.json` matches every index.json. The
+pipeline runs it; on a machine with the clones side by side, `python scripts/build_repos.py
+~/Developer` prints the same. [[adr-002]] is the decision; `project_status` and `change_impact`
+reading the section are the next steps there.
+
 ## Portal pipeline
 
 Not running yet. `.gitlab-ci.yml` has a `check_index` job (refuses a stale index or a malformed
 standard) and a `portal` job (main and schedules) that clones the docs shell and every
-repository in `repos.txt`, runs `ds docs portal`, and keeps `site/` as an artifact. The publish
+repository the registry names, runs `ds docs portal`, compiles the cross-repo graph into
+`index.json` (`scripts/build_repos.py`), and keeps both as artifacts; committing the section back to
+main needs a `CANON_PUSH_TOKEN` and is unverified. The publish
 step to SPCS is written as comments and is unverified: it needs the Snowflake image repository,
 `docker`, and `snow` on the runner, and should reuse `ds deploy service` rather than a bespoke
 `ALTER SERVICE`. `docs-ds/Dockerfile.static` packages a prebuilt `site/` with nginx. Both jobs carry a placeholder

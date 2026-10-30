@@ -1,3 +1,0 @@
-# One GitLab path per line: the repositories the portal renders. Lines starting with # are ignored.
-# <group>/<subgroup>/ds-operations
-# <group>/<subgroup>/ds-cli
