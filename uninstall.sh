@@ -135,4 +135,5 @@ cat <<DONE
 
 Done. uv, Node.js and the agent CLIs are still yours. To put the system back:
   curl -fsSL https://raw.githubusercontent.com/cwkoenigs/canon/main/install.sh | bash
+(or clone canon again and run its ds-system)
 DONE

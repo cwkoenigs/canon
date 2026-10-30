@@ -191,13 +191,17 @@ changes go in its `CHANGELOG.md` (`/so-changes changelog`).
 
 ## Install, update, reinstall, remove
 
-One line each. Every one is safe to run twice. The scripts are in canon, so a clone is enough to start:
+One command knows them all. After a clone of canon, run it with nothing after it: it reports what the
+machine has and offers the step that fits (install, update or remove), Enter takes it.
 
 ```sh
 git clone https://github.com/cwkoenigs/canon ~/Developer/canon
-bash ~/Developer/canon/install.sh        # the full setup: the other repos, the installs, the agents
-bash ~/Developer/canon/uninstall.sh      # the full take-down, when you want it gone
+bash ~/Developer/canon/ds-system             # status, then: install on a bare machine, update on an installed one, r removes
+bash ~/Developer/canon/ds-system status      # the report alone
 ```
+
+The verbs (`ds-system install | update | remove`) skip the menu and run the scripts below directly.
+Every one is safe to run twice.
 
 | | Command | What happens |
 |---|---|---|

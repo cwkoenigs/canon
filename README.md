@@ -9,13 +9,21 @@ reason, or pending. `index.json` is generated from the front matter and is the o
 
 ## Start here
 
-Three scripts in this folder run the system's whole life on a Mac. Each prints what it will do with `--help`.
+```sh
+git clone https://github.com/cwkoenigs/canon ~/Developer/canon
+bash ~/Developer/canon/ds-system
+```
 
-| Run | When | What it does |
+`ds-system` is the one command. It reports what this machine has (the five repos, `ds-next`, `ds-code`,
+each agent's wiring, the config) and offers the one step that fits: install on a bare machine, update
+on an installed one, remove on either. The verbs work without the menu, for scripts and for people who
+know: `ds-system status | install | update | remove`. Under it are three scripts, each with `--help`:
+
+| Script | When | What it does |
 |---|---|---|
-| `bash install.sh` | Once, on a new machine | Clones the other four repos beside this one, asks one question (where the team's repos live), writes `~/.ds/config.toml`, then runs `bootstrap.sh`. |
-| `bash bootstrap.sh` | Whenever you want the latest | Pulls every repo, reinstalls and tests canon-lib and ds-next, builds docs-ds and ds-code, wires every agent CLI on PATH (Claude Code, Cortex Code, Codex). `install.sh` ends by running it. |
-| `bash uninstall.sh` | When it should be gone | Unwires the agents, takes `ds-next` and `ds-code` off PATH, then asks before removing the clones and `~/.ds`. |
+| `install.sh` | Once, on a new machine | Clones the other four repos beside this one, asks one question (where the team's repos live), writes `~/.ds/config.toml`, then runs `bootstrap.sh`. |
+| `bootstrap.sh` | Whenever you want the latest | Pulls every repo, reinstalls and tests canon-lib and ds-next, builds docs-ds and ds-code, wires every agent CLI on PATH (Claude Code, Cortex Code, Codex). `install.sh` ends by running it. |
+| `uninstall.sh` | When it should be gone | Unwires the agents, takes `ds-next` and `ds-code` off PATH, then asks before removing the clones and `~/.ds`. |
 
 Why three: install needs to ask about your world once; update must never ask; removal must ask before
 deleting anything. [docs/GUIDE.md](docs/GUIDE.md) is the map of the whole system and how to use it day to day.
