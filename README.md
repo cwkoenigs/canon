@@ -7,7 +7,18 @@ Repositories never copy a standard's text; they point at it with `[[id]]`, and t
 reason, or pending. `index.json` is generated from the front matter and is the only thing
 `ds` reads for lookups.
 
-New here? [docs/GUIDE.md](docs/GUIDE.md) is the map of the whole system and how to set up and use it.
+## Start here
+
+Three scripts in this folder run the system's whole life on a Mac. Each prints what it will do with `--help`.
+
+| Run | When | What it does |
+|---|---|---|
+| `bash install.sh` | Once, on a new machine | Clones the other four repos beside this one, asks one question (where the team's repos live), writes `~/.ds/config.toml`, then runs `bootstrap.sh`. |
+| `bash bootstrap.sh` | Whenever you want the latest | Pulls every repo, reinstalls and tests canon-lib and ds-next, builds docs-ds and ds-code, wires every agent CLI on PATH (Claude Code, Cortex Code, Codex). `install.sh` ends by running it. |
+| `bash uninstall.sh` | When it should be gone | Unwires the agents, takes `ds-next` and `ds-code` off PATH, then asks before removing the clones and `~/.ds`. |
+
+Why three: install needs to ask about your world once; update must never ask; removal must ask before
+deleting anything. [docs/GUIDE.md](docs/GUIDE.md) is the map of the whole system and how to use it day to day.
 
 ## Install
 

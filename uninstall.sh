@@ -23,7 +23,7 @@ YES=no; KEEP_REPOS=no; KEEP_CONFIG=no
 for a in "$@"; do
   case "$a" in
     --yes|-y) YES=yes;; --keep-repos) KEEP_REPOS=yes;; --keep-config) KEEP_CONFIG=yes;;
-    -h|--help) sed -n '2,18p' "$0"; exit 0;;
+    -h|--help) sed -n '2,18p' "$0" | sed 's/^# \{0,1\}//'; exit 0;;
     *) echo "unknown option: $a (see --help)"; exit 2;;
   esac
 done
