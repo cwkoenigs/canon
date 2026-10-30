@@ -149,8 +149,9 @@ nobody uses, dependencies nobody declared, and `[uses]` entries that resolve to 
 are matched as text, so declare the words other repositories write when they use yours, and make
 them distinctive: `index.json` matches every index.json. The
 pipeline runs it; on a machine with the clones side by side, `python scripts/build_repos.py
-~/Developer` prints the same. [[adr-002]] is the decision; `project_status` and `change_impact`
-reading the section are the next steps there.
+~/Developer` prints the same. [[adr-002]] is the decision. ds-next reads the section (`project_status`, the
+`repo_graph` tool, `reconcile` checking `[uses]`, and `ds-next mcp` fast-forwarding this clone first) and
+ds-code's `change_impact` ends with the contracts a change touches and who uses them.
 
 ## Portal pipeline
 
