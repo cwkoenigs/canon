@@ -17,54 +17,38 @@
 #   4. ~/.ds: config.toml, history, usage
 # uv, Node.js and the agent CLIs are not touched: they are yours, not the system's.
 set -uo pipefail
+here="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
+. "$here/lib.sh"                               # say, usage, ask, real, within
 
 DEV="${DEV:-$HOME/Developer}"
+DEVP="$(cd "$DEV" 2>/dev/null && pwd -P || echo "$DEV")"
 REPOS="canon ds-next skills-os docs-ds ds-code"
 YES=no; KEEP_REPOS=no; KEEP_CONFIG=no
 for a in "$@"; do
   case "$a" in
     --yes|-y) YES=yes;; --keep-repos) KEEP_REPOS=yes;; --keep-config) KEEP_CONFIG=yes;;
-    -h|--help) sed -n '2,18p' "$0" | sed 's/^# \{0,1\}//'; exit 0;;
+    -h|--help) usage "$0"; exit 0;;
     *) echo "unknown option: $a (see --help)"; exit 2;;
   esac
 done
-say() { printf '\n==> %s\n' "$*"; }
-TTY_IN="${TTY_IN:-/dev/tty}"; TTY_OUT="${TTY_OUT:-/dev/tty}"
-ask() {  # prompt default -> REPLY; --yes answers y
-  REPLY="$2"
-  [ "$YES" = yes ] && { REPLY=y; return; }
-  if [ -z "${ASK_FD:-}" ] && [ -r "$TTY_IN" ]; then exec 3< "$TTY_IN" && ASK_FD=3; fi
-  if [ -n "${ASK_FD:-}" ]; then
-    { printf '%s' "$1" > "$TTY_OUT"; } 2>/dev/null || true
-    IFS= read -r -u 3 REPLY || REPLY="$2"
-    [ -n "$REPLY" ] || REPLY="$2"
-  fi
-}
-real() {  # the path with every symlink resolved, without needing realpath
-  local p="$1" d
-  while [ -L "$p" ]; do d="$(dirname "$p")"; p="$(readlink "$p")"; case "$p" in /*) ;; *) p="$d/$p";; esac; done
-  d="$(cd "$(dirname "$p")" 2>/dev/null && pwd -P)" || return 1
-  printf '%s/%s' "$d" "$(basename "$p")"
-}
-DEVP="$(cd "$DEV" 2>/dev/null && pwd -P || echo "$DEV")"
-within() { case "$(real "$1")" in "$2"/*) return 0;; *) return 1;; esac; }   # path dir: is path, resolved, under dir?
-our_skill() {  # link or path: does it point into ds-next's skills or skills-os (resolved, or as written when dangling)?
-  within "$1" "$DEVP/ds-next/skills" && return 0
-  within "$1" "$DEVP/skills-os" && return 0
-  case "$(readlink "$1" 2>/dev/null || echo "$1")" in
-    "$DEV"/ds-next/skills/*|"$DEV"/skills-os/so-*|"$DEVP"/ds-next/skills/*|"$DEVP"/skills-os/so-*) return 0;;
-  esac
+our_skill() {  # link or path: does it point into ds-next's skills or skills-os? Resolved, or as written when dangling.
+  local p
+  for p in "$(real "$1" 2>/dev/null)" "$(readlink "$1" 2>/dev/null || echo "$1")"; do
+    case "$p" in "$DEV"/ds-next/skills/*|"$DEV"/skills-os/*|"$DEVP"/ds-next/skills/*|"$DEVP"/skills-os/*) return 0;; esac
+  done
   return 1
 }
 unsafe() {  # clone: prints why it must stay, or nothing
-  local d="$1" out b
+  local d="$1" out line
   out="$(git -C "$d" status --porcelain --untracked-files=normal 2>/dev/null)" || { echo "git status failed"; return; }
   [ -n "$out" ] && { echo "uncommitted changes"; return; }
   [ -n "$(git -C "$d" stash list 2>/dev/null)" ] && { echo "stashed work"; return; }
-  for b in $(git -C "$d" for-each-ref --format='%(refname:short)' refs/heads/ 2>/dev/null); do
-    git -C "$d" rev-parse -q --verify "$b@{u}" >/dev/null 2>&1 || { echo "branch $b has no upstream"; return; }
-    [ "$(git -C "$d" rev-list --count "$b@{u}..$b" 2>/dev/null || echo 1)" = 0 ] || { echo "branch $b has commits not pushed"; return; }
-  done
+  git -C "$d" for-each-ref --format='%(refname:short) [%(upstream)] %(upstream:track)' refs/heads/ 2>/dev/null | while read -r line; do
+    case "$line" in                           # read drops trailing blanks: an empty track leaves the line ending in []
+      *"[]")    echo "branch ${line%% *} has no upstream";;
+      *ahead*)  echo "branch ${line%% *} has commits not pushed";;
+    esac
+  done | head -1
 }
 FAILED=no
 
