@@ -1,6 +1,6 @@
 # Two jobs. `check_index` runs on every merge request and refuses a stale index or a malformed
-# standard. `portal` builds the team portal from every registered repository and keeps it as an
-# artifact; publishing to SPCS is the commented step at the end and is unverified until the
+# standard. `portal` builds the team portal from every registered repository, compiles the cross-repo
+# graph (adr-002) into index.json, and keeps both as artifacts; publishing to SPCS is the commented step at the end and is unverified until the
 # runner has the Snowflake image repository and `ds deploy` wired. Plain syntax for an older
 # GitLab; the runner needs Python 3, Node 26, `ds` (pipx), and the docs shell checkout.
 stages:
@@ -30,10 +30,22 @@ portal:
     # the shell: the docs-ds repository, same host, read-only token in CI variables
     - git clone --depth 1 "https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}/${DOCS_SHELL_PATH}.git" .shell
     - (cd .shell && npm ci --no-fund --no-audit)
-    # every registered repository, shallow; repos.txt is one `group/project` per line
+    # every registered repository, shallow: repos/<name>.toml holds its `group/project`; one that
+    # cannot be cloned is named here and in the graph's report, and the job goes on
     - mkdir -p checkouts
-    - grep -v "^#" repos.txt | while read -r p; do [ -n "$p" ] && git clone --depth 1 "https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}/${p}.git" "checkouts/$(basename "$p")"; done
+    - for f in repos/*.toml; do n=$(basename "$f" .toml); p=$(sed -n 's/^path *= *"\([^"]*\)".*/\1/p' "$f"); git clone --depth 1 "https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}/${p}.git" "checkouts/$n" || echo "could not clone $p"; done
     - ds docs portal checkouts --canon . --out site
+    # the cross-repo graph (adr-002): declared contracts and mentions across the checkouts, into
+    # index.json's repos section; Python 3.11 or newer
+    - python3 scripts/build_repos.py checkouts --write
+    # UNVERIFIED: commit the section back to main. CANON_PUSH_TOKEN is a project access token with
+    # write_repository; without it the section is only in this job's log and artifact.
+    - |
+      if [ -n "${CANON_PUSH_TOKEN:-}" ] && ! git diff --quiet index.json; then
+        git config user.name canon-pipeline && git config user.email canon-pipeline@users.noreply.invalid
+        git commit -qm "index: repos section from pipeline $CI_PIPELINE_ID [skip ci]" index.json
+        git push -q "https://oauth2:${CANON_PUSH_TOKEN}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git" "HEAD:$CI_COMMIT_REF_NAME"
+      fi
     # UNVERIFIED: package and publish. The static container is docs-ds/Dockerfile.static.
     # - docker build -f .shell/Dockerfile.static --build-arg SITE_DIR=site -t "$SNOWFLAKE_REGISTRY/ds_portal:$CI_COMMIT_SHORT_SHA" .shell
     # - docker push "$SNOWFLAKE_REGISTRY/ds_portal:$CI_COMMIT_SHORT_SHA"
@@ -41,4 +53,5 @@ portal:
   artifacts:
     paths:
       - site/
+      - index.json
     expire_in: 1 week

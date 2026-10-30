@@ -14,6 +14,9 @@ Scaffolds live in scaffolds/<id>/: SCAFFOLD.md (front matter: id, version, title
 owner; optional status, type, outputs, test_cmd, lint_cmd) and files/, the templates. Only an accepted scaffold
 may be used to create a repository. Its hash covers every template, so a template edited without
 a version bump makes the index stale.
+
+The `repos` section (the cross-repo graph, adr-002) is written by scripts/build_repos.py from the
+registered repos' checkouts; this script carries it over untouched.
 """
 from __future__ import annotations
 
@@ -212,8 +215,10 @@ def main() -> int:
         print(f"error: {e}", file=sys.stderr)
         return 1
     out = ROOT / "index.json"
+    current = json.loads(out.read_text()) if out.exists() else {}
+    if "repos" in current:
+        index["repos"] = current["repos"]       # the pipeline's section (scripts/build_repos.py); a rebuild keeps it
     if check:
-        current = json.loads(out.read_text()) if out.exists() else {}
         if any(current.get(k) != index[k] for k in ("standards", "scaffolds", "blocks", "code")):
             print("index.json is stale: run python scripts/build_index.py and commit it", file=sys.stderr)
             return 1

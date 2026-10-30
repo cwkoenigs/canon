@@ -1,0 +1,4 @@
+# the standards, the accepted code (canon-lib), the lifecycle scripts and this registry
+[repo]
+name = "canon"
+path = "cwkoenigs/canon"   # <group>/<project> on the host in ~/.ds/config.toml [world]

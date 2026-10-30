@@ -1,0 +1,4 @@
+# the terminal and the ds MCP server; `ds-next setup` wires the agents
+[repo]
+name = "ds-next"
+path = "cwkoenigs/ds-next"   # <group>/<project> on the host in ~/.ds/config.toml [world]

@@ -3706,5 +3706,81 @@
       "lines": 2,
       "hash": "1c11d277709b"
     }
-  ]
+  ],
+  "repos": {
+    "generated": "2026-10-30",
+    "built_by": "local",
+    "repos": [
+      {
+        "name": "canon",
+        "path": "cwkoenigs/canon",
+        "commit": "3bb9b3f",
+        "manifest": false,
+        "tags": [],
+        "provides": {},
+        "uses": {}
+      },
+      {
+        "name": "docs-ds",
+        "path": "cwkoenigs/docs-ds",
+        "commit": "2e8e396",
+        "manifest": false,
+        "tags": [],
+        "provides": {},
+        "uses": {}
+      },
+      {
+        "name": "ds-code",
+        "path": "cwkoenigs/ds-code",
+        "commit": "202ce09",
+        "manifest": true,
+        "tags": [
+          "cli",
+          "mcp",
+          "node",
+          "package",
+          "typescript"
+        ],
+        "provides": {},
+        "uses": {}
+      },
+      {
+        "name": "ds-next",
+        "path": "cwkoenigs/ds-next",
+        "commit": "16e36a5",
+        "manifest": true,
+        "tags": [
+          "python",
+          "package",
+          "cli"
+        ],
+        "provides": {},
+        "uses": {}
+      },
+      {
+        "name": "skills-os",
+        "path": "cwkoenigs/skills-os",
+        "commit": "d539e54",
+        "manifest": false,
+        "tags": [],
+        "provides": {},
+        "uses": {}
+      }
+    ],
+    "edges": [],
+    "report": {
+      "unused": [],
+      "undeclared": [],
+      "unresolved": [],
+      "unscanned": [],
+      "unreadable": [],
+      "silent": [
+        "canon",
+        "docs-ds",
+        "ds-code",
+        "ds-next",
+        "skills-os"
+      ]
+    }
+  }
 }

@@ -1,0 +1,4 @@
+# the code tools: one MCP server answered by the language servers
+[repo]
+name = "ds-code"
+path = "cwkoenigs/ds-code"   # <group>/<project> on the host in ~/.ds/config.toml [world]
