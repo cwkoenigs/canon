@@ -12,7 +12,7 @@
 set -uo pipefail
 
 here="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
-DEV="${DEV:-$(dirname "$here")}"          # the repos live beside this clone
+export DEV="${DEV:-$(dirname "$here")}"   # the repos live beside this clone; the workers get the same answer
 REPOS="canon ds-next skills-os docs-ds ds-code"
 TTY_IN="${TTY_IN:-/dev/tty}"; TTY_OUT="${TTY_OUT:-/dev/tty}"
 
@@ -87,8 +87,8 @@ echo
 case "$INSTALLED" in
   no)     echo "Not installed. Enter installs it (install.sh: one question, then everything); r removes leftovers; q quits."
           ask "[Install] r q: " install;;
-  partly) echo "Partly installed. Enter updates it (bootstrap.sh: pulls, reinstalls, rewires; asks nothing); r removes; q quits."
-          ask "[Update] r q: " update;;
+  partly) echo "Partly installed. Enter completes it (install.sh: fills in what is missing, keeps what is there); r removes; q quits."
+          ask "[Install] r q: " install;;
   yes)    echo "Installed. Enter updates it (bootstrap.sh: pulls, reinstalls, rewires; asks nothing); r removes it; q quits."
           ask "[Update] r q: " update;;
 esac
