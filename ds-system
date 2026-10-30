@@ -1,0 +1,102 @@
+#!/usr/bin/env bash
+# ds-system: the one command for the knowledge system on this Mac. Run it and it tells you.
+#
+#   bash ~/Developer/canon/ds-system             what is installed here, then a choice: install, update or remove
+#   bash ~/Developer/canon/ds-system status      the report alone
+#   bash ~/Developer/canon/ds-system install     set up (install.sh): the other repos, the installs, every agent wired
+#   bash ~/Developer/canon/ds-system update      pull and redo everything (bootstrap.sh); never asks
+#   bash ~/Developer/canon/ds-system remove      take it down (uninstall.sh); asks before deleting the clones and ~/.ds
+#
+# After `git clone https://github.com/cwkoenigs/canon ~/Developer/canon`, this is the only command to know.
+# Anything after the verb goes to the script that does the work (remove --yes, remove --keep-config).
+set -uo pipefail
+
+here="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
+export DEV="${DEV:-$(dirname "$here")}"   # the repos live beside this clone; the workers get the same answer
+REPOS="canon ds-next skills-os docs-ds ds-code"
+TTY_IN="${TTY_IN:-/dev/tty}"; TTY_OUT="${TTY_OUT:-/dev/tty}"
+
+ask() {  # prompt default -> REPLY
+  REPLY="$2"
+  if [ -z "${ASK_FD:-}" ] && [ -r "$TTY_IN" ]; then exec 3< "$TTY_IN" && ASK_FD=3; fi
+  if [ -n "${ASK_FD:-}" ]; then
+    { printf '%s' "$1" > "$TTY_OUT"; } 2>/dev/null || true
+    IFS= read -r -u 3 REPLY || REPLY="$2"
+    [ -n "$REPLY" ] || REPLY="$2"
+  fi
+}
+row() { printf '  %-10s %s\n' "$1" "$2"; }
+
+real() {  # the path with every symlink resolved, without needing realpath
+  local p="$1" d
+  while [ -L "$p" ]; do d="$(dirname "$p")"; p="$(readlink "$p")"; case "$p" in /*) ;; *) p="$d/$p";; esac; done
+  d="$(cd "$(dirname "$p")" 2>/dev/null && pwd -P)" || return 1
+  printf '%s/%s' "$d" "$(basename "$p")"
+}
+ours() { case "$(real "$1" 2>/dev/null)" in "$DEV"/*) return 0;; *) return 1;; esac; }   # does this command resolve into DEV?
+
+status() {  # prints the report; sets INSTALLED (yes/partly/no)
+  local missing=no r v b
+  echo "knowledge system on this machine ($DEV)"
+  for r in $REPOS; do
+    if [ -d "$DEV/$r/.git" ]; then row "$r" "cloned"; else row "$r" "not here"; missing=yes; fi
+  done
+  if v="$("$DEV/ds-next/.venv/bin/python" -c 'import ds_next; print(ds_next.__version__)' 2>/dev/null)"; then
+    if b="$(command -v ds-next 2>/dev/null)" && ours "$b"; then row "ds-next" "$v, on PATH"
+    else row "ds-next" "$v in its venv; not on PATH (a new terminal, or update, puts ~/.local/bin/ds-next back)"; fi
+  else row "ds-next" "not installed"; missing=yes; fi
+  if b="$(command -v ds-code 2>/dev/null)" && ours "$b" && v="$(ds-code --version 2>/dev/null)"; then row "ds-code" "$v, on PATH"
+  elif [ -n "${b:-}" ]; then row "ds-code" "not installed from here (another ds-code is on PATH: $b)"; missing=yes
+  else row "ds-code" "not installed"; missing=yes; fi
+  local any=no cli wired
+  for cli in claude cortex codex; do
+    command -v "$cli" >/dev/null 2>&1 || continue
+    any=yes; wired=""
+    for s in ds code; do "$cli" mcp get "$s" >/dev/null 2>&1 && wired="$wired $s"; done
+    if [ "$wired" = " ds code" ]; then row "$cli" "wired: ds and code tools"
+    elif [ -n "$wired" ]; then row "$cli" "partly wired:$wired (update fixes it)"; missing=yes
+    else row "$cli" "not wired"; missing=yes; fi
+  done
+  [ "$any" = no ] && row "agents" "none on PATH (Claude Code, Cortex Code or Codex); install one, then update"
+  if [ -f "$HOME/.ds/config.toml" ]; then row "config" "~/.ds/config.toml"; else row "config" "none yet (install writes it)"; missing=yes; fi
+  if [ ! -d "$DEV/ds-next/.git" ]; then INSTALLED=no          # ds-next is the system; without it nothing was installed
+  elif [ "$missing" = yes ]; then INSTALLED=partly
+  else INSTALLED=yes; fi
+}
+
+run() {  # verb args...: the worker, from this clone
+  local verb="$1"; shift
+  case "$verb" in
+    install) exec bash "$here/install.sh" "$@";;
+    update)  exec bash "$here/bootstrap.sh" "$@";;
+    remove)  exec bash "$here/uninstall.sh" "$@";;
+  esac
+}
+
+verb="${1:-}"; [ $# -gt 0 ] && shift
+case "$verb" in
+  -h|--help) sed -n '2,11p' "$0" | sed 's/^# \{0,1\}//'; exit 0;;
+  status) status; exit 0;;
+  install|update|remove) run "$verb" "$@";;
+  "") ;;
+  *) echo "ds-system: '$verb' is not a verb. status, install, update or remove (--help)"; exit 2;;
+esac
+
+status
+echo
+case "$INSTALLED" in
+  no)     echo "Not installed. Enter installs it (install.sh: one question, then everything); r removes leftovers; q quits."
+          ask "[Install] r q: " install;;
+  partly) echo "Partly installed. Enter completes it (install.sh: fills in what is missing, keeps what is there); r removes; q quits."
+          ask "[Install] r q: " install;;
+  yes)    echo "Installed. Enter updates it (bootstrap.sh: pulls, reinstalls, rewires; asks nothing); r removes it; q quits."
+          ask "[Update] r q: " update;;
+esac
+echo
+case "$REPLY" in
+  install|i|I) run install;;
+  update|u|U)  run update;;
+  r|R|remove)  run remove;;
+  q|Q|quit)    exit 0;;
+  *) echo "ds-system: '$REPLY' is not a choice; nothing done"; exit 2;;
+esac

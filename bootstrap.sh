@@ -106,4 +106,5 @@ cat <<DONE
 Done. Next:
   cd somewhere && ds-next        # the terminal: /new picks a project type
   cortex                         # /ds-new does the same inside Cortex Code
+  $DEV/canon/ds-system           # status at any time; update and remove are there too
 DONE

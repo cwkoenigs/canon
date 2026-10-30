@@ -11,8 +11,9 @@
 #      /ds-terminal-design and the /so-* skills, and drops the read-only allow rules from Claude Code
 #      and Cortex Code (Codex has none). Without ds-next's venv it does the same by hand.
 #   2. `ds-next` out of ~/.local/bin; `ds-code` out of npm's global bin (both only when they point into DEV)
-#   3. the five repositories under ~/Developer (DEV overrides). One with uncommitted or unpushed work,
-#      or no upstream to compare with, stays and is named.
+#   3. the five repositories under ~/Developer (DEV overrides). One with uncommitted changes, a stash,
+#      a branch without an upstream or with commits not pushed, stays and is named. If step 1 failed,
+#      no clone is removed this run.
 #   4. ~/.ds: config.toml, history, usage
 # uv, Node.js and the agent CLIs are not touched: they are yours, not the system's.
 set -uo pipefail
@@ -47,33 +48,78 @@ real() {  # the path with every symlink resolved, without needing realpath
 }
 DEVP="$(cd "$DEV" 2>/dev/null && pwd -P || echo "$DEV")"
 within() { case "$(real "$1")" in "$2"/*) return 0;; *) return 1;; esac; }   # path dir: is path, resolved, under dir?
+our_skill() {  # link or path: does it point into ds-next's skills or skills-os (resolved, or as written when dangling)?
+  within "$1" "$DEVP/ds-next/skills" && return 0
+  within "$1" "$DEVP/skills-os" && return 0
+  case "$(readlink "$1" 2>/dev/null || echo "$1")" in
+    "$DEV"/ds-next/skills/*|"$DEV"/skills-os/so-*|"$DEVP"/ds-next/skills/*|"$DEVP"/skills-os/so-*) return 0;;
+  esac
+  return 1
+}
+unsafe() {  # clone: prints why it must stay, or nothing
+  local d="$1" out b
+  out="$(git -C "$d" status --porcelain --untracked-files=normal 2>/dev/null)" || { echo "git status failed"; return; }
+  [ -n "$out" ] && { echo "uncommitted changes"; return; }
+  [ -n "$(git -C "$d" stash list 2>/dev/null)" ] && { echo "stashed work"; return; }
+  for b in $(git -C "$d" for-each-ref --format='%(refname:short)' refs/heads/ 2>/dev/null); do
+    git -C "$d" rev-parse -q --verify "$b@{u}" >/dev/null 2>&1 || { echo "branch $b has no upstream"; return; }
+    [ "$(git -C "$d" rev-list --count "$b@{u}..$b" 2>/dev/null || echo 1)" = 0 ] || { echo "branch $b has commits not pushed"; return; }
+  done
+}
+FAILED=no
 
 say "agents"
 DS_NEXT="$DEV/ds-next/.venv/bin/ds-next"
 if [ -x "$DS_NEXT" ]; then
-  "$DS_NEXT" setup --remove || echo "note: some of that did not come off; the lines above say which"
+  "$DS_NEXT" setup --remove || { FAILED=yes; echo "note: some of that did not come off; the lines above say which"; }
 else
   echo "ds-next's venv is gone; undoing by hand"
   for cli in claude cortex codex; do
     command -v "$cli" >/dev/null 2>&1 || continue
     for s in ds code; do
-      if "$cli" mcp get "$s" >/dev/null 2>&1; then
-        case "$cli" in claude) "$cli" mcp remove --scope user "$s";; *) "$cli" mcp remove "$s";; esac >/dev/null 2>&1 \
-          && echo "  $cli: mcp server $s unregistered" || echo "  $cli: mcp server $s: could not unregister"
-      fi
+      reg="$("$cli" mcp get "$s" 2>/dev/null)" || continue
+      case "$s:$reg" in                     # only a registration that runs our command comes off
+        ds:*"$DEV/ds-next/"*|ds:*"$DEVP/ds-next/"*|code:*ds-code*) ;;
+        *) echo "  $cli: mcp server $s runs something else; not ours, left alone"; continue;;
+      esac
+      case "$cli" in claude) "$cli" mcp remove --scope user "$s";; *) "$cli" mcp remove "$s";; esac >/dev/null 2>&1 \
+        && echo "  $cli: mcp server $s unregistered" || { FAILED=yes; echo "  $cli: mcp server $s: could not unregister"; }
     done
   done
   for folder in "$HOME/.claude/skills" "${CODEX_HOME:-$HOME/.codex}/skills"; do
     [ -d "$folder" ] || continue
     for link in "$folder"/*; do
-      [ -L "$link" ] && within "$link" "$DEVP" && rm "$link" && echo "  skill $(basename "$link"): unlinked ($link)"
+      [ -L "$link" ] && our_skill "$link" && rm "$link" && echo "  skill $(basename "$link"): unlinked ($link)"
     done
   done
   if command -v cortex >/dev/null 2>&1; then
-    cortex skill list 2>/dev/null | sed -n 's/^ *- \('"$(printf '%s' "$DEV" | sed 's/[.[\*^$/]/\\&/g')"'\/[^ ]*\)$/\1/p' \
-      | while read -r path; do cortex skill remove "$path" >/dev/null 2>&1 && echo "  cortex: skill $path removed"; done
+    cortex skill list 2>/dev/null | sed -n 's/^ *- \(\/.*\)$/\1/p' | while read -r path; do
+      our_skill "$path" && { cortex skill remove "$path" >/dev/null 2>&1 && echo "  cortex: skill $path removed"; }
+    done
   fi
-  echo "  permissions: the mcp__ds__* and mcp__code__* rules in ~/.claude/settings.json and ~/.snowflake/cortex/settings.json are left; drop them by hand"
+  for f in "$HOME/.claude/settings.json" "$HOME/.snowflake/cortex/settings.json"; do
+    [ -f "$f" ] || continue
+    if command -v python3 >/dev/null 2>&1; then
+      python3 - "$f" <<'PY' || { FAILED=yes; echo "  permissions: could not edit $f; drop the mcp__ds__* and mcp__code__* rules by hand"; }
+import json, shutil, sys
+p = sys.argv[1]
+d = json.load(open(p))
+perms = d.get("permissions") if isinstance(d, dict) else None
+allow = perms.get("allow") if isinstance(perms, dict) else None
+if not isinstance(allow, list):
+    print(f"  permissions: no allow list in {p}"); sys.exit(0)
+keep = [r for r in allow if not (isinstance(r, str) and (r.startswith("mcp__ds__") or r.startswith("mcp__code__")))]
+if len(keep) == len(allow):
+    print(f"  permissions: no rules of ours in {p}"); sys.exit(0)
+shutil.copy2(p, p + ".bak")
+perms["allow"] = keep
+open(p, "w").write(json.dumps(d, indent=2) + "\n")
+print(f"  permissions: dropped {len(allow) - len(keep)} read-only rules from {p} (backup .json.bak)")
+PY
+    else
+      echo "  permissions: python3 is missing; drop the mcp__ds__* and mcp__code__* rules in $f by hand"
+    fi
+  done
 fi
 
 say "commands"
@@ -83,7 +129,10 @@ else
   echo "ds-next: not in ~/.local/bin (or not ours)"
 fi
 b="$(command -v ds-code 2>/dev/null || true)"     # npm's bin link resolves into DEV/ds-code/dist when it is ours
-if [ -n "$b" ] && within "$b" "$DEVP"; then
+if [ -z "$b" ] && command -v npm >/dev/null 2>&1; then   # global bin not on PATH: look where npm keeps the link
+  g="$(npm prefix -g 2>/dev/null)/lib/node_modules/ds-code"; [ -L "$g" ] && b="$g"
+fi
+if [ -n "$b" ] && within "$b" "$DEVP/ds-code"; then
   if command -v npm >/dev/null 2>&1 && npm rm -g --silent ds-code 2>/dev/null; then echo "ds-code: out of npm's global bin"
   else echo "ds-code: npm rm -g ds-code failed; run it yourself"; fi
 else
@@ -100,24 +149,24 @@ else
     echo "none there"
   else
     echo "there:$present"
-    ask "Remove them? One with uncommitted or unpushed work stays. [y/N] " "n"
-    case "$REPLY" in y|Y|yes)
-      for r in $present; do
-        d="$DEV/$r"
-        if [ ! -d "$d/.git" ]; then
-          echo "  $r: not a git checkout (files only); kept, remove it yourself if you mean to"
-        elif [ -n "$(git -C "$d" status --porcelain 2>/dev/null)" ]; then
-          echo "  $r: uncommitted changes; kept"
-        elif ! git -C "$d" rev-parse -q --verify '@{u}' >/dev/null 2>&1; then
-          echo "  $r: no upstream to compare with; kept"
-        elif [ "$(git -C "$d" rev-list --count '@{u}..HEAD' 2>/dev/null || echo 1)" != 0 ]; then
-          echo "  $r: commits not pushed; kept"
-        else
-          rm -rf "$d" && echo "  $r: removed"
-        fi
-      done;;
-    *) echo "kept";;
-    esac
+    if [ "$FAILED" = yes ]; then
+      echo "kept: the agents did not come fully unwired (above); fix that and rerun before the clones go"
+    else
+      ask "Remove them? One with uncommitted, stashed or unpushed work stays. [y/N] " "n"
+      case "$REPLY" in y|Y|yes)
+        for r in $present; do
+          d="$DEV/$r"
+          if [ ! -d "$d/.git" ]; then
+            echo "  $r: not a git checkout (files only); kept, remove it yourself if you mean to"
+          elif why="$(unsafe "$d")" && [ -n "$why" ]; then
+            echo "  $r: $why; kept"
+          else
+            rm -rf "$d" && echo "  $r: removed"
+          fi
+        done;;
+      *) echo "kept";;
+      esac
+    fi
   fi
 fi
 
@@ -131,8 +180,10 @@ else
   case "$REPLY" in y|Y|yes) rm -rf "$HOME/.ds" && echo "removed";; *) echo "kept";; esac
 fi
 
+[ "$FAILED" = yes ] && { echo; echo "Not everything came off: see the notes above, then rerun."; exit 1; }
 cat <<DONE
 
 Done. uv, Node.js and the agent CLIs are still yours. To put the system back:
   curl -fsSL https://raw.githubusercontent.com/cwkoenigs/canon/main/install.sh | bash
+(or clone canon again and run its ds-system)
 DONE
