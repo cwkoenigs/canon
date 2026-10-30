@@ -13,7 +13,7 @@
 # Rerunning is the update. `uninstall.sh` beside this file takes it all off again.
 # Override the sources with CANON_URL / DS_NEXT_URL (git URLs, bundles or local paths) and the
 # locations with DEV (default ~/Developer). Run from a checkout, or `curl -fsSL <raw url> | bash`.
-case "${1:-}" in -h|--help) sed -n '2,15p' "$0" | sed 's/^# \{0,1\}//'; exit 0;; esac
+case "${1:-}" in -h|--help) awk 'NR > 1 && !/^#/ { exit } NR > 1 { sub(/^# ?/, ""); print }' "$0"; exit 0;; esac
 set -euo pipefail
 
 DEV="${DEV:-$HOME/Developer}"

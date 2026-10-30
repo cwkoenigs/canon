@@ -23,7 +23,7 @@
 # repository that has an upstream (the team host, once there is one) and redo the install steps.
 # Removing: `bash ~/Developer/canon/uninstall.sh`, or `ds-system` beside this file for status and the menu (the agents unwired, the commands unlinked, then it asks about the clones and ~/.ds).
 # Override any source with CANON_URL, DS_NEXT_URL, SKILLS_URL, DOCS_URL, DS_CODE_URL (git URLs, bundles or paths).
-case "${1:-}" in -h|--help) sed -n '2,25p' "$0" | sed 's/^# \{0,1\}//'; exit 0;; esac
+case "${1:-}" in -h|--help) awk 'NR > 1 && !/^#/ { exit } NR > 1 { sub(/^# ?/, ""); print }' "$0"; exit 0;; esac
 set -euo pipefail
 
 HOST="${HOST_URL:-https://github.com/cwkoenigs}"
