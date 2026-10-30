@@ -3714,7 +3714,7 @@
       {
         "name": "canon",
         "path": "cwkoenigs/canon",
-        "commit": "3bb9b3f",
+        "commit": "6e3b0f1",
         "manifest": false,
         "tags": [],
         "provides": {},
@@ -3732,7 +3732,7 @@
       {
         "name": "ds-code",
         "path": "cwkoenigs/ds-code",
-        "commit": "202ce09",
+        "commit": "30c457b",
         "manifest": true,
         "tags": [
           "cli",
@@ -3741,21 +3741,77 @@
           "package",
           "typescript"
         ],
-        "provides": {},
-        "uses": {}
+        "provides": {
+          "commands": [
+            "ds-code mcp",
+            "ds-code --version"
+          ],
+          "tools": [
+            "repo_overview",
+            "file_symbols",
+            "find_symbol",
+            "change_impact"
+          ]
+        },
+        "uses": {
+          "canon": [
+            "index.json"
+          ],
+          "ds-next": [
+            "ds-next mcp"
+          ],
+          "skills-os": [
+            "so-capture",
+            "so-changes",
+            "so-build-feature-interview",
+            "so-bug-review-interview"
+          ]
+        }
       },
       {
         "name": "ds-next",
         "path": "cwkoenigs/ds-next",
-        "commit": "16e36a5",
+        "commit": "f7b6bbc",
         "manifest": true,
         "tags": [
           "python",
           "package",
           "cli"
         ],
-        "provides": {},
-        "uses": {}
+        "provides": {
+          "commands": [
+            "ds-next setup [--remove|--check]",
+            "ds-next mcp",
+            "ds-next new",
+            "ds-next adopt"
+          ],
+          "names": [
+            "mcp__ds__*",
+            "mcp__code__*"
+          ],
+          "skills": [
+            "ds-new",
+            "ds-terminal-design"
+          ]
+        },
+        "uses": {
+          "canon": [
+            "index.json",
+            "canon-lib",
+            "install.sh",
+            "uninstall.sh"
+          ],
+          "ds-code": [
+            "ds-code mcp",
+            "repo_overview",
+            "file_symbols",
+            "find_symbol",
+            "change_impact"
+          ],
+          "skills-os": [
+            "so-*/SKILL.md"
+          ]
+        }
       },
       {
         "name": "skills-os",
@@ -3767,18 +3823,506 @@
         "uses": {}
       }
     ],
-    "edges": [],
+    "edges": [
+      {
+        "from": "canon",
+        "to": "ds-code",
+        "what": "change_impact",
+        "declared": false,
+        "mentioned": true,
+        "count": 5,
+        "where": [
+          "README.md:152",
+          "adr/adr-002-cross-repo-graph.md:96",
+          "adr/adr-002-cross-repo-graph.md:141",
+          "adr/adr-002-cross-repo-graph.md:147",
+          "docs/GUIDE.md:219"
+        ]
+      },
+      {
+        "from": "canon",
+        "to": "ds-code",
+        "what": "ds-code --version",
+        "declared": false,
+        "mentioned": true,
+        "count": 2,
+        "where": [
+          "bootstrap.sh:81",
+          "ds-system:32"
+        ]
+      },
+      {
+        "from": "canon",
+        "to": "ds-code",
+        "what": "ds-code mcp",
+        "declared": false,
+        "mentioned": true,
+        "count": 2,
+        "where": [
+          "adr/adr-002-cross-repo-graph.md:33",
+          "adr/adr-002-cross-repo-graph.md:65"
+        ]
+      },
+      {
+        "from": "canon",
+        "to": "ds-next",
+        "what": "ds-new",
+        "declared": false,
+        "mentioned": true,
+        "count": 8,
+        "where": [
+          "README.md:35",
+          "README.md:59",
+          "bootstrap.sh:10",
+          "bootstrap.sh:108",
+          "docs/GUIDE.md:105",
+          "docs/GUIDE.md:151",
+          "install.sh:20",
+          "uninstall.sh:10"
+        ]
+      },
+      {
+        "from": "canon",
+        "to": "ds-next",
+        "what": "ds-next adopt",
+        "declared": false,
+        "mentioned": true,
+        "count": 1,
+        "where": [
+          "docs/GUIDE.md:162"
+        ]
+      },
+      {
+        "from": "canon",
+        "to": "ds-next",
+        "what": "ds-next mcp",
+        "declared": false,
+        "mentioned": true,
+        "count": 6,
+        "where": [
+          "adr/adr-001-ship-canon-lib.md:59",
+          "adr/adr-002-cross-repo-graph.md:58",
+          "adr/adr-002-cross-repo-graph.md:91",
+          "docs/GUIDE.md:29",
+          "docs/GUIDE.md:46",
+          "docs/GUIDE.md:156"
+        ]
+      },
+      {
+        "from": "canon",
+        "to": "ds-next",
+        "what": "ds-next new",
+        "declared": false,
+        "mentioned": true,
+        "count": 4,
+        "where": [
+          "README.md:119",
+          "adr/adr-001-ship-canon-lib.md:32",
+          "docs/GUIDE.md:161",
+          "repo-naming.md:35"
+        ]
+      },
+      {
+        "from": "canon",
+        "to": "ds-next",
+        "what": "ds-next setup [--remove|--check]",
+        "declared": false,
+        "mentioned": true,
+        "count": 15,
+        "where": [
+          "README.md:61",
+          "adr/adr-002-cross-repo-graph.md:33",
+          "adr/adr-002-cross-repo-graph.md:58",
+          "bootstrap.sh:100",
+          "docs/GUIDE.md:48",
+          "docs/GUIDE.md:154",
+          "docs/GUIDE.md:168",
+          "docs/GUIDE.md:211",
+          "docs/GUIDE.md:214",
+          "docs/GUIDE.md:230",
+          "docs/GUIDE.md:232",
+          "scripts/build_repos.py:142",
+          "scripts/tests/test_build_repos.py:59",
+          "terminal-design.md:19",
+          "uninstall.sh:10"
+        ]
+      },
+      {
+        "from": "canon",
+        "to": "ds-next",
+        "what": "ds-terminal-design",
+        "declared": false,
+        "mentioned": true,
+        "count": 3,
+        "where": [
+          "docs/GUIDE.md:105",
+          "terminal-design.md:19",
+          "uninstall.sh:11"
+        ]
+      },
+      {
+        "from": "canon",
+        "to": "ds-next",
+        "what": "mcp__code__*",
+        "declared": false,
+        "mentioned": true,
+        "count": 3,
+        "where": [
+          "uninstall.sh:87",
+          "uninstall.sh:95",
+          "uninstall.sh:104"
+        ]
+      },
+      {
+        "from": "canon",
+        "to": "ds-next",
+        "what": "mcp__ds__*",
+        "declared": false,
+        "mentioned": true,
+        "count": 5,
+        "where": [
+          "adr/adr-002-cross-repo-graph.md:35",
+          "adr/adr-002-cross-repo-graph.md:59",
+          "uninstall.sh:87",
+          "uninstall.sh:95",
+          "uninstall.sh:104"
+        ]
+      },
+      {
+        "from": "ds-code",
+        "to": "ds-next",
+        "what": "ds-next mcp",
+        "declared": true,
+        "mentioned": true,
+        "count": 3,
+        "where": [
+          "AGENTS.md:9",
+          "AGENTS.md:54",
+          "README.md:79"
+        ]
+      },
+      {
+        "from": "ds-next",
+        "to": "ds-code",
+        "what": "change_impact",
+        "declared": true,
+        "mentioned": true,
+        "count": 5,
+        "where": [
+          "README.md:138",
+          "src/ds_next/agent.py:354",
+          "src/ds_next/codetools.py:19",
+          "src/ds_next/scaffold.py:204",
+          "tests/test_codetools.py:42"
+        ]
+      },
+      {
+        "from": "ds-next",
+        "to": "ds-code",
+        "what": "ds-code mcp",
+        "declared": true,
+        "mentioned": true,
+        "count": 5,
+        "where": [
+          "README.md:138",
+          "src/ds_next/codetools.py:3",
+          "src/ds_next/scaffold.py:203",
+          "tests/test_setup.py:187",
+          "tests/test_setup.py:280"
+        ]
+      },
+      {
+        "from": "ds-next",
+        "to": "ds-code",
+        "what": "file_symbols",
+        "declared": true,
+        "mentioned": true,
+        "count": 3,
+        "where": [
+          "README.md:138",
+          "src/ds_next/agent.py:352",
+          "src/ds_next/codetools.py:18"
+        ]
+      },
+      {
+        "from": "ds-next",
+        "to": "ds-code",
+        "what": "find_symbol",
+        "declared": true,
+        "mentioned": true,
+        "count": 4,
+        "where": [
+          "README.md:138",
+          "src/ds_next/agent.py:353",
+          "src/ds_next/codetools.py:18",
+          "src/ds_next/scaffold.py:204"
+        ]
+      },
+      {
+        "from": "ds-next",
+        "to": "ds-code",
+        "what": "repo_overview",
+        "declared": true,
+        "mentioned": true,
+        "count": 3,
+        "where": [
+          "README.md:138",
+          "src/ds_next/agent.py:352",
+          "src/ds_next/codetools.py:19"
+        ]
+      },
+      {
+        "from": "skills-os",
+        "to": "ds-next",
+        "what": "ds-next adopt",
+        "declared": false,
+        "mentioned": true,
+        "count": 3,
+        "where": [
+          "so-init/SKILL.md:3",
+          "so-init/SKILL.md:27",
+          "so-init/SKILL.md:45"
+        ]
+      },
+      {
+        "from": "skills-os",
+        "to": "ds-next",
+        "what": "ds-next new",
+        "declared": false,
+        "mentioned": true,
+        "count": 3,
+        "where": [
+          "so-init/SKILL.md:3",
+          "so-init/SKILL.md:27",
+          "so-init/SKILL.md:46"
+        ]
+      }
+    ],
     "report": {
       "unused": [],
-      "undeclared": [],
-      "unresolved": [],
+      "undeclared": [
+        {
+          "from": "canon",
+          "to": "ds-code",
+          "what": "change_impact",
+          "count": 5,
+          "where": [
+            "README.md:152",
+            "adr/adr-002-cross-repo-graph.md:96",
+            "adr/adr-002-cross-repo-graph.md:141",
+            "adr/adr-002-cross-repo-graph.md:147",
+            "docs/GUIDE.md:219"
+          ]
+        },
+        {
+          "from": "canon",
+          "to": "ds-code",
+          "what": "ds-code --version",
+          "count": 2,
+          "where": [
+            "bootstrap.sh:81",
+            "ds-system:32"
+          ]
+        },
+        {
+          "from": "canon",
+          "to": "ds-code",
+          "what": "ds-code mcp",
+          "count": 2,
+          "where": [
+            "adr/adr-002-cross-repo-graph.md:33",
+            "adr/adr-002-cross-repo-graph.md:65"
+          ]
+        },
+        {
+          "from": "canon",
+          "to": "ds-next",
+          "what": "ds-new",
+          "count": 8,
+          "where": [
+            "README.md:35",
+            "README.md:59",
+            "bootstrap.sh:10",
+            "bootstrap.sh:108",
+            "docs/GUIDE.md:105",
+            "docs/GUIDE.md:151",
+            "install.sh:20",
+            "uninstall.sh:10"
+          ]
+        },
+        {
+          "from": "canon",
+          "to": "ds-next",
+          "what": "ds-next adopt",
+          "count": 1,
+          "where": [
+            "docs/GUIDE.md:162"
+          ]
+        },
+        {
+          "from": "canon",
+          "to": "ds-next",
+          "what": "ds-next mcp",
+          "count": 6,
+          "where": [
+            "adr/adr-001-ship-canon-lib.md:59",
+            "adr/adr-002-cross-repo-graph.md:58",
+            "adr/adr-002-cross-repo-graph.md:91",
+            "docs/GUIDE.md:29",
+            "docs/GUIDE.md:46",
+            "docs/GUIDE.md:156"
+          ]
+        },
+        {
+          "from": "canon",
+          "to": "ds-next",
+          "what": "ds-next new",
+          "count": 4,
+          "where": [
+            "README.md:119",
+            "adr/adr-001-ship-canon-lib.md:32",
+            "docs/GUIDE.md:161",
+            "repo-naming.md:35"
+          ]
+        },
+        {
+          "from": "canon",
+          "to": "ds-next",
+          "what": "ds-next setup [--remove|--check]",
+          "count": 15,
+          "where": [
+            "README.md:61",
+            "adr/adr-002-cross-repo-graph.md:33",
+            "adr/adr-002-cross-repo-graph.md:58",
+            "bootstrap.sh:100",
+            "docs/GUIDE.md:48",
+            "docs/GUIDE.md:154",
+            "docs/GUIDE.md:168",
+            "docs/GUIDE.md:211",
+            "docs/GUIDE.md:214",
+            "docs/GUIDE.md:230",
+            "docs/GUIDE.md:232",
+            "scripts/build_repos.py:142",
+            "scripts/tests/test_build_repos.py:59",
+            "terminal-design.md:19",
+            "uninstall.sh:10"
+          ]
+        },
+        {
+          "from": "canon",
+          "to": "ds-next",
+          "what": "ds-terminal-design",
+          "count": 3,
+          "where": [
+            "docs/GUIDE.md:105",
+            "terminal-design.md:19",
+            "uninstall.sh:11"
+          ]
+        },
+        {
+          "from": "canon",
+          "to": "ds-next",
+          "what": "mcp__code__*",
+          "count": 3,
+          "where": [
+            "uninstall.sh:87",
+            "uninstall.sh:95",
+            "uninstall.sh:104"
+          ]
+        },
+        {
+          "from": "canon",
+          "to": "ds-next",
+          "what": "mcp__ds__*",
+          "count": 5,
+          "where": [
+            "adr/adr-002-cross-repo-graph.md:35",
+            "adr/adr-002-cross-repo-graph.md:59",
+            "uninstall.sh:87",
+            "uninstall.sh:95",
+            "uninstall.sh:104"
+          ]
+        },
+        {
+          "from": "skills-os",
+          "to": "ds-next",
+          "what": "ds-next adopt",
+          "count": 3,
+          "where": [
+            "so-init/SKILL.md:3",
+            "so-init/SKILL.md:27",
+            "so-init/SKILL.md:45"
+          ]
+        },
+        {
+          "from": "skills-os",
+          "to": "ds-next",
+          "what": "ds-next new",
+          "count": 3,
+          "where": [
+            "so-init/SKILL.md:3",
+            "so-init/SKILL.md:27",
+            "so-init/SKILL.md:46"
+          ]
+        }
+      ],
+      "unresolved": [
+        {
+          "repo": "ds-code",
+          "uses": "canon",
+          "what": "index.json"
+        },
+        {
+          "repo": "ds-code",
+          "uses": "skills-os",
+          "what": "so-capture"
+        },
+        {
+          "repo": "ds-code",
+          "uses": "skills-os",
+          "what": "so-changes"
+        },
+        {
+          "repo": "ds-code",
+          "uses": "skills-os",
+          "what": "so-build-feature-interview"
+        },
+        {
+          "repo": "ds-code",
+          "uses": "skills-os",
+          "what": "so-bug-review-interview"
+        },
+        {
+          "repo": "ds-next",
+          "uses": "canon",
+          "what": "index.json"
+        },
+        {
+          "repo": "ds-next",
+          "uses": "canon",
+          "what": "canon-lib"
+        },
+        {
+          "repo": "ds-next",
+          "uses": "canon",
+          "what": "install.sh"
+        },
+        {
+          "repo": "ds-next",
+          "uses": "canon",
+          "what": "uninstall.sh"
+        },
+        {
+          "repo": "ds-next",
+          "uses": "skills-os",
+          "what": "so-*/SKILL.md"
+        }
+      ],
       "unscanned": [],
       "unreadable": [],
       "silent": [
         "canon",
         "docs-ds",
-        "ds-code",
-        "ds-next",
         "skills-os"
       ]
     }
