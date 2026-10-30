@@ -1,0 +1,21 @@
+[repo]
+name = "canon"
+tags = ["standards", "bash", "python"]
+created = "2026-10-30"
+adopted = "2026-10-30"
+ds_version = "0.2.0"
+canon = "/Users/clarkkoenigs/Developer/canon"
+canon_index = "2026-10-30"
+
+[provides]                 # what other repositories run, read or share (adr-002); matched as text
+commands = ["install.sh", "bootstrap.sh", "uninstall.sh", "ds-system"]
+paths = ["index.json", "repos/*.toml"]
+packages = ["canon-lib"]
+
+[uses]                     # one key per registered repository, in the words its [provides] uses
+ds-next = ["ds-next setup [--remove|--check]", "ds-next mcp", "ds-next new", "ds-next adopt",
+           "ds-new", "ds-terminal-design", "mcp__ds__*", "mcp__code__*"]   # uninstall.sh unlinks the skills and drops the rules by name
+ds-code = ["ds-code mcp", "ds-code --version", "repo_overview", "file_symbols", "find_symbol", "change_impact"]   # the docs name the tools
+skills-os = ["so-capture", "so-changes", "so-codex-review", "so-build-feature-interview", "so-bug-review-interview",
+             "so-init", "so-agent-setup", "so-install", "so-skills"]   # the guide lists every procedure
+docs-ds = ["Dockerfile.static", "design-system/tokens.json"]

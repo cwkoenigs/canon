@@ -1,7 +1,7 @@
 ---
 id: block-markdown-pointers
 version: 2
-title: Markdown [[pointer]] reading
+title: Markdown pointer reading
 module: pointers
 requires: []
 tags: ["python"]
@@ -10,9 +10,9 @@ status: proposed
 date: 2026-10-17
 ---
 
-# Markdown [[pointer]] reading
+# Markdown pointer reading
 
-Find [[id]] and [[id@N]] pointers in prose, ignoring every kind of code fence and span.
+Find `[[id]]` and `[[id@N]]` pointers in prose, ignoring every kind of code fence and span.
 
 ## Changes
 

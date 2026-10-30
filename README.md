@@ -139,8 +139,8 @@ templates and are marked accepted so it works today; the owner should review the
 ## Registry and the cross-repo graph
 
 `repos/<name>.toml` is the registry: one file per repository in the system, with its `group/project`
-on the host. `adopt_repo` will write it; until then, add the file by merge request and delete it when
-the repository is archived. Each repository declares in its own `.ds/manifest.toml` what it offers
+on the host. Add the file by merge request when a repository joins (`adopt_repo` writing it is still to
+come) and delete it when the repository is archived. Each repository declares in its own `.ds/manifest.toml` what it offers
 (`[provides]`: commands, names, paths) and what it depends on (`[uses]`, one key per registered
 repository). `scripts/build_repos.py <checkouts>` reads every registered clone, scans the others for
 mentions of what each provides, and writes the `repos` section of `index.json`: the repositories,

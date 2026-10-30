@@ -24,7 +24,7 @@ source: ds-next build, 2026-10-16
 4. **Versions only go up:** reject an adoption at a version the canon never had, or it hides
    every future update.
 5. **A decline answers one version.** When the standard gets a newer version, it is pending again.
-6. **Code is not a claim.** Mask fenced blocks (``` and ~~~, three or more, closed by at least as
+6. **Code is not a claim.** Mask fenced blocks (three or more backticks or tildes, closed by at least as
    many) and inline spans with any number of backticks before reading `[[pointers]]`; check
    every Markdown file, not three, and check pins against the versions that exist.
 

@@ -49,7 +49,9 @@ def world(tmp_path):
         "docs/notes.md": "the rules are mcp__alpha__read and mcp__alpha__list\n",
         "CHANGELOG.md": "- used alpha-cli once\n",                           # changelogs are skipped
         "poetry.lock": "alpha-cli\n"})
-    clone(checkouts, "gamma", {"tool.py": "run('alpha-cli')\n"})           # no manifest at all
+    clone(checkouts, "gamma", {"tool.py": "run('alpha-cli')\n",            # no manifest at all
+                               "alpha-cli": "#!/bin/sh\n", "bin/mcp__alpha__": "",   # its own files by those names
+                               "notes.md": "see alpha-cli and mcp__alpha__ here\n"})
     return canon, checkouts
 
 
@@ -82,13 +84,13 @@ def test_graph(world):
     assert serve["declared"] and serve["mentioned"] and serve["count"] == 1 and serve["where"] == ["run.sh:1"]
     names = edges[("beta", "alpha", "mcp__alpha__*")]
     assert names["mentioned"] and not names["declared"] and names["count"] == 1   # one line, counted once
-    cli = edges[("gamma", "alpha", "alpha-cli")]
-    assert cli["where"] == ["tool.py:1"]                                      # not CHANGELOG.md, not the lock file
-    assert len(edges) == 3
+    assert ("gamma", "alpha", "alpha-cli") not in edges      # gamma tracks its own alpha-cli: its mentions are its own
+    assert ("gamma", "alpha", "mcp__alpha__*") not in edges  # and its own bin/mcp__alpha__, matched by basename
+    assert len(edges) == 2
 
     rep = section["report"]
-    assert rep["unused"] == [{"repo": "alpha", "what": "alpha nobody"}]
-    assert [(u["from"], u["what"]) for u in rep["undeclared"]] == [("beta", "mcp__alpha__*"), ("gamma", "alpha-cli")]
+    assert rep["unused"] == [{"repo": "alpha", "what": "alpha-cli"}, {"repo": "alpha", "what": "alpha nobody"}]
+    assert [(u["from"], u["what"]) for u in rep["undeclared"]] == [("beta", "mcp__alpha__*")]
     assert rep["unresolved"] == [{"repo": "beta", "uses": "alpha", "what": "alpha fly"},
                                  {"repo": "beta", "uses": "delta", "what": "x"}]
     assert rep["unscanned"] == [{"repo": "alpha", "what": "ab"}, {"repo": "alpha", "what": "skills/*/SKILL.md"}]
@@ -114,7 +116,7 @@ def test_cli_writes_section(world, monkeypatch, capsys):
     (canon / "index.json").write_text(json.dumps({"generated": "x", "standards": []}) + "\n")
     assert br.main([str(checkouts), "--write"]) == 0
     index = json.loads((canon / "index.json").read_text())
-    assert index["standards"] == [] and len(index["repos"]["edges"]) == 3
+    assert index["standards"] == [] and len(index["repos"]["edges"]) == 2
     out = capsys.readouterr().out
-    assert "3 repos (2 with a manifest), 3 edges" in out and "unreadable (1)" in out
+    assert "3 repos (2 with a manifest), 2 edges" in out and "unreadable (1)" in out
     assert br.main([]) == 2

@@ -12,7 +12,8 @@ paths other repos may run, share or read) and [uses] (one key per registered rep
 it depends on). An entry is scanned for as written, less any `[optional part]` and a trailing `*`;
 one that still holds a `*` or is under four characters is declared but not scanned. The scan is
 `git grep` over the other clones' tracked files, less changelogs, decision logs, lock files, line-delimited
-logs (*.jsonl) and the manifests themselves. An entry is matched as text, so `index.json` matches every
+logs (*.jsonl) and the manifests themselves; a literal that names a file the mentioning repo tracks itself
+(its own install.sh, its own index.json) is not a mention of another repo's. An entry is matched as text, so `index.json` matches every
 index.json: declare the words other repos write when they use yours, and make them distinctive.
 
 Written under `repos`: repos (name, path, commit, manifest, tags, provides, uses), edges (from,
@@ -91,6 +92,13 @@ def mentions(clone: Path, literals: list[str]) -> list[tuple[str, str]]:
     return out
 
 
+def tracked(clone: Path) -> set[str]:
+    """The paths and basenames of the clone's tracked files: a mention of `install.sh` in a repo that has
+    its own install.sh is about that one, not another repo's."""
+    paths = [p for p in git(clone, "ls-files", "-z").split("\0") if p]
+    return set(paths) | {p.rsplit("/", 1)[-1] for p in paths}
+
+
 def resolve(entry: str, provider: dict | None) -> str | None:
     """The provided entry a [uses] entry names: the same text, or the same scan literal."""
     if provider is None:
@@ -134,7 +142,9 @@ def compile_graph(checkouts: Path, reg: list[dict]) -> dict:
                                                    "mentioned": False, "count": 0, "where": []})
 
     for r in repos:
-        others = [lit for lit, owned in owners.items() if any(o != r["name"] for o, _ in owned)]
+        own = tracked(clones[r["name"]])                # a literal that names a file this repo tracks is its own
+        others = [lit for lit, owned in owners.items()
+                  if any(o != r["name"] for o, _ in owned) and lit not in own and lit.rsplit("/", 1)[-1] not in own]
         for where, text in mentions(clones[r["name"]], others):
             hit = sorted((lit for lit in others if lit in text), key=len, reverse=True)
             for i, lit in enumerate(hit):

@@ -6,7 +6,7 @@ Built from canon/blocks by scripts/build_lib.py; do not edit here.
 - `canon_lib.confined`: Confined file writes  (from block-confined-write v1, unreviewed)
 - `canon_lib.dotenv`: Dotenv file parsing  (from block-dotenv v1, unreviewed)
 - `canon_lib.schema`: Typed dotenv schema and value checks  (from block-env-schema v1, unreviewed)
-- `canon_lib.pointers`: Markdown [[pointer]] reading  (from block-markdown-pointers v2, unreviewed)
+- `canon_lib.pointers`: Markdown pointer reading  (from block-markdown-pointers v2, unreviewed)
 - `canon_lib.outdir`: Safe build output directories  (from block-safe-outdir v1, unreviewed)
 - `canon_lib.textsafe`: Text safety for generated files  (from block-text-safety v1, unreviewed)
 - `canon_lib.picker`: Filterable picker for long lists  (from block-tui-picker v1, unreviewed)

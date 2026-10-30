@@ -309,7 +309,7 @@
       "supersedes": null,
       "status": "proposed",
       "kind": "gotcha",
-      "hash": "d32e4745ce3a",
+      "hash": "0f6fcb4bc7c7",
       "path": "gotchas/gotcha-validation.md"
     },
     {
@@ -826,7 +826,7 @@
     {
       "id": "block-markdown-pointers",
       "version": 2,
-      "title": "Markdown [[pointer]] reading",
+      "title": "Markdown pointer reading",
       "module": "pointers",
       "requires": [],
       "test_requires": [],
@@ -835,7 +835,7 @@
       ],
       "owner": "ckoenigs",
       "status": "proposed",
-      "hash": "1630e8490eac",
+      "hash": "a169f4098a69",
       "dir": "blocks/block-markdown-pointers",
       "tests": [
         "test_pointers.py"
@@ -3714,25 +3714,93 @@
       {
         "name": "canon",
         "path": "cwkoenigs/canon",
-        "commit": "6e3b0f1",
-        "manifest": false,
-        "tags": [],
-        "provides": {},
-        "uses": {}
+        "commit": "868a031",
+        "manifest": true,
+        "tags": [
+          "standards",
+          "bash",
+          "python"
+        ],
+        "provides": {
+          "commands": [
+            "install.sh",
+            "bootstrap.sh",
+            "uninstall.sh",
+            "ds-system"
+          ],
+          "paths": [
+            "index.json",
+            "repos/*.toml"
+          ],
+          "packages": [
+            "canon-lib"
+          ]
+        },
+        "uses": {
+          "ds-next": [
+            "ds-next setup [--remove|--check]",
+            "ds-next mcp",
+            "ds-next new",
+            "ds-next adopt",
+            "ds-new",
+            "ds-terminal-design",
+            "mcp__ds__*",
+            "mcp__code__*"
+          ],
+          "ds-code": [
+            "ds-code mcp",
+            "ds-code --version",
+            "repo_overview",
+            "file_symbols",
+            "find_symbol",
+            "change_impact"
+          ],
+          "skills-os": [
+            "so-capture",
+            "so-changes",
+            "so-codex-review",
+            "so-build-feature-interview",
+            "so-bug-review-interview",
+            "so-init",
+            "so-agent-setup",
+            "so-install",
+            "so-skills"
+          ],
+          "docs-ds": [
+            "Dockerfile.static",
+            "design-system/tokens.json"
+          ]
+        }
       },
       {
         "name": "docs-ds",
         "path": "cwkoenigs/docs-ds",
         "commit": "2e8e396",
-        "manifest": false,
-        "tags": [],
-        "provides": {},
-        "uses": {}
+        "manifest": true,
+        "tags": [
+          "docker",
+          "node",
+          "react",
+          "typescript",
+          "web"
+        ],
+        "provides": {
+          "paths": [
+            "design-system/tokens.json",
+            "Dockerfile.static"
+          ]
+        },
+        "uses": {
+          "canon": [
+            "install.sh",
+            "bootstrap.sh"
+          ]
+        }
       },
       {
         "name": "ds-code",
         "path": "cwkoenigs/ds-code",
-        "commit": "30c457b",
+        "commit": "c7a8680",
         "manifest": true,
         "tags": [
           "cli",
@@ -3771,7 +3839,7 @@
       {
         "name": "ds-next",
         "path": "cwkoenigs/ds-next",
-        "commit": "f7b6bbc",
+        "commit": "c09c6bb",
         "manifest": true,
         "tags": [
           "python",
@@ -3809,7 +3877,14 @@
             "change_impact"
           ],
           "skills-os": [
-            "so-*/SKILL.md"
+            "so-*/SKILL.md",
+            "so-capture",
+            "so-changes",
+            "so-build-feature-interview",
+            "so-bug-review-interview"
+          ],
+          "docs-ds": [
+            "design-system/tokens.json"
           ]
         }
       },
@@ -3817,59 +3892,177 @@
         "name": "skills-os",
         "path": "cwkoenigs/skills-os",
         "commit": "d539e54",
-        "manifest": false,
-        "tags": [],
-        "provides": {},
-        "uses": {}
+        "manifest": true,
+        "tags": [
+          "skills",
+          "markdown",
+          "bash"
+        ],
+        "provides": {
+          "skills": [
+            "so-agent-setup",
+            "so-bug-review-interview",
+            "so-build-feature-interview",
+            "so-capture",
+            "so-changes",
+            "so-codex-review",
+            "so-init",
+            "so-install",
+            "so-skills"
+          ],
+          "paths": [
+            "so-*/SKILL.md"
+          ]
+        },
+        "uses": {
+          "canon": [
+            "index.json",
+            "install.sh"
+          ],
+          "ds-next": [
+            "ds-next new",
+            "ds-next adopt"
+          ]
+        }
       }
     ],
     "edges": [
       {
         "from": "canon",
+        "to": "docs-ds",
+        "what": "Dockerfile.static",
+        "declared": true,
+        "mentioned": true,
+        "count": 6,
+        "where": [
+          ".gitlab-ci.yml:49",
+          ".gitlab-ci.yml:50",
+          "README.md:165",
+          "index.json:3770",
+          "index.json:3790",
+          "index.json:3933"
+        ]
+      },
+      {
+        "from": "canon",
+        "to": "docs-ds",
+        "what": "design-system/tokens.json",
+        "declared": true,
+        "mentioned": true,
+        "count": 6,
+        "where": [
+          "docs/GUIDE.md:49",
+          "index.json:3771",
+          "index.json:3789",
+          "index.json:3887",
+          "index.json:3949",
+          "index.json:4575"
+        ]
+      },
+      {
+        "from": "canon",
         "to": "ds-code",
         "what": "change_impact",
-        "declared": false,
+        "declared": true,
         "mentioned": true,
-        "count": 5,
+        "count": 10,
         "where": [
-          "README.md:152",
+          "README.md:154",
           "adr/adr-002-cross-repo-graph.md:96",
           "adr/adr-002-cross-repo-graph.md:141",
           "adr/adr-002-cross-repo-graph.md:147",
-          "docs/GUIDE.md:219"
+          "docs/GUIDE.md:219",
+          "index.json:3756",
+          "index.json:3821",
+          "index.json:3877",
+          "index.json:3965",
+          "index.json:4587"
         ]
       },
       {
         "from": "canon",
         "to": "ds-code",
         "what": "ds-code --version",
-        "declared": false,
+        "declared": true,
         "mentioned": true,
-        "count": 2,
+        "count": 5,
         "where": [
           "bootstrap.sh:81",
-          "ds-system:32"
+          "ds-system:32",
+          "index.json:3752",
+          "index.json:3815",
+          "index.json:3985"
         ]
       },
       {
         "from": "canon",
         "to": "ds-code",
         "what": "ds-code mcp",
-        "declared": false,
+        "declared": true,
         "mentioned": true,
-        "count": 2,
+        "count": 7,
         "where": [
           "adr/adr-002-cross-repo-graph.md:33",
-          "adr/adr-002-cross-repo-graph.md:65"
+          "adr/adr-002-cross-repo-graph.md:65",
+          "index.json:3751",
+          "index.json:3814",
+          "index.json:3873",
+          "index.json:4000",
+          "index.json:4602"
+        ]
+      },
+      {
+        "from": "canon",
+        "to": "ds-code",
+        "what": "file_symbols",
+        "declared": true,
+        "mentioned": true,
+        "count": 5,
+        "where": [
+          "index.json:3754",
+          "index.json:3819",
+          "index.json:3875",
+          "index.json:4017",
+          "index.json:4617"
+        ]
+      },
+      {
+        "from": "canon",
+        "to": "ds-code",
+        "what": "find_symbol",
+        "declared": true,
+        "mentioned": true,
+        "count": 5,
+        "where": [
+          "index.json:3755",
+          "index.json:3820",
+          "index.json:3876",
+          "index.json:4032",
+          "index.json:4630"
+        ]
+      },
+      {
+        "from": "canon",
+        "to": "ds-code",
+        "what": "repo_overview",
+        "declared": true,
+        "mentioned": true,
+        "count": 5,
+        "where": [
+          "index.json:3753",
+          "index.json:3818",
+          "index.json:3874",
+          "index.json:4047",
+          "index.json:4644"
         ]
       },
       {
         "from": "canon",
         "to": "ds-next",
         "what": "ds-new",
-        "declared": false,
+        "declared": true,
         "mentioned": true,
-        "count": 8,
+        "count": 11,
         "where": [
           "README.md:35",
           "README.md:59",
@@ -3877,6 +4070,9 @@
           "bootstrap.sh:108",
           "docs/GUIDE.md:105",
           "docs/GUIDE.md:151",
+          "index.json:3745",
+          "index.json:3861",
+          "index.json:4062",
           "install.sh:20",
           "uninstall.sh:10"
         ]
@@ -3885,40 +4081,56 @@
         "from": "canon",
         "to": "ds-next",
         "what": "ds-next adopt",
-        "declared": false,
+        "declared": true,
         "mentioned": true,
-        "count": 1,
+        "count": 6,
         "where": [
-          "docs/GUIDE.md:162"
+          "docs/GUIDE.md:162",
+          "index.json:3744",
+          "index.json:3854",
+          "index.json:3924",
+          "index.json:4083",
+          "index.json:4760"
         ]
       },
       {
         "from": "canon",
         "to": "ds-next",
         "what": "ds-next mcp",
-        "declared": false,
+        "declared": true,
         "mentioned": true,
-        "count": 6,
+        "count": 12,
         "where": [
+          "README.md:153",
           "adr/adr-001-ship-canon-lib.md:59",
           "adr/adr-002-cross-repo-graph.md:58",
           "adr/adr-002-cross-repo-graph.md:91",
           "docs/GUIDE.md:29",
           "docs/GUIDE.md:46",
-          "docs/GUIDE.md:156"
+          "docs/GUIDE.md:156",
+          "index.json:3742",
+          "index.json:3829",
+          "index.json:3852",
+          "index.json:4099",
+          "index.json:4421"
         ]
       },
       {
         "from": "canon",
         "to": "ds-next",
         "what": "ds-next new",
-        "declared": false,
+        "declared": true,
         "mentioned": true,
-        "count": 4,
+        "count": 9,
         "where": [
           "README.md:119",
           "adr/adr-001-ship-canon-lib.md:32",
           "docs/GUIDE.md:161",
+          "index.json:3743",
+          "index.json:3853",
+          "index.json:3923",
+          "index.json:4121",
+          "index.json:4773",
           "repo-naming.md:35"
         ]
       },
@@ -3926,9 +4138,9 @@
         "from": "canon",
         "to": "ds-next",
         "what": "ds-next setup [--remove|--check]",
-        "declared": false,
+        "declared": true,
         "mentioned": true,
-        "count": 15,
+        "count": 20,
         "where": [
           "README.md:61",
           "adr/adr-002-cross-repo-graph.md:33",
@@ -3941,8 +4153,13 @@
           "docs/GUIDE.md:214",
           "docs/GUIDE.md:230",
           "docs/GUIDE.md:232",
-          "scripts/build_repos.py:142",
-          "scripts/tests/test_build_repos.py:59",
+          "index.json:3741",
+          "index.json:3851",
+          "index.json:4140",
+          "index.json:4434",
+          "index.json:4795",
+          "scripts/build_repos.py:152",
+          "scripts/tests/test_build_repos.py:61",
           "terminal-design.md:19",
           "uninstall.sh:10"
         ]
@@ -3951,11 +4168,16 @@
         "from": "canon",
         "to": "ds-next",
         "what": "ds-terminal-design",
-        "declared": false,
+        "declared": true,
         "mentioned": true,
-        "count": 3,
+        "count": 8,
         "where": [
           "docs/GUIDE.md:105",
+          "index.json:3746",
+          "index.json:3862",
+          "index.json:4170",
+          "index.json:4580",
+          "index.json:4581",
           "terminal-design.md:19",
           "uninstall.sh:11"
         ]
@@ -3964,10 +4186,13 @@
         "from": "canon",
         "to": "ds-next",
         "what": "mcp__code__*",
-        "declared": false,
+        "declared": true,
         "mentioned": true,
-        "count": 3,
+        "count": 6,
         "where": [
+          "index.json:3748",
+          "index.json:3858",
+          "index.json:4188",
           "uninstall.sh:87",
           "uninstall.sh:95",
           "uninstall.sh:104"
@@ -3977,15 +4202,217 @@
         "from": "canon",
         "to": "ds-next",
         "what": "mcp__ds__*",
-        "declared": false,
+        "declared": true,
         "mentioned": true,
-        "count": 5,
+        "count": 8,
         "where": [
           "adr/adr-002-cross-repo-graph.md:35",
           "adr/adr-002-cross-repo-graph.md:59",
+          "index.json:3747",
+          "index.json:3857",
+          "index.json:4204",
           "uninstall.sh:87",
           "uninstall.sh:95",
           "uninstall.sh:104"
+        ]
+      },
+      {
+        "from": "canon",
+        "to": "skills-os",
+        "what": "so-agent-setup",
+        "declared": true,
+        "mentioned": true,
+        "count": 3,
+        "where": [
+          "index.json:3765",
+          "index.json:3903",
+          "index.json:4222"
+        ]
+      },
+      {
+        "from": "canon",
+        "to": "skills-os",
+        "what": "so-bug-review-interview",
+        "declared": true,
+        "mentioned": true,
+        "count": 8,
+        "where": [
+          "docs/GUIDE.md:47",
+          "index.json:3763",
+          "index.json:3835",
+          "index.json:3884",
+          "index.json:3904",
+          "index.json:4235",
+          "index.json:4445",
+          "index.json:4666"
+        ]
+      },
+      {
+        "from": "canon",
+        "to": "skills-os",
+        "what": "so-build-feature-interview",
+        "declared": true,
+        "mentioned": true,
+        "count": 9,
+        "where": [
+          "docs/GUIDE.md:47",
+          "docs/GUIDE.md:127",
+          "index.json:3762",
+          "index.json:3834",
+          "index.json:3883",
+          "index.json:3905",
+          "index.json:4253",
+          "index.json:4456",
+          "index.json:4679"
+        ]
+      },
+      {
+        "from": "canon",
+        "to": "skills-os",
+        "what": "so-capture",
+        "declared": true,
+        "mentioned": true,
+        "count": 17,
+        "where": [
+          "README.md:48",
+          "adr/adr-002-cross-repo-graph.md:51",
+          "docs/GUIDE.md:26",
+          "docs/GUIDE.md:47",
+          "docs/GUIDE.md:173",
+          "docs/GUIDE.md:174",
+          "docs/GUIDE.md:175",
+          "docs/GUIDE.md:234",
+          "index.json:3759",
+          "index.json:3832",
+          "index.json:3881",
+          "index.json:3906",
+          "index.json:4272",
+          "index.json:4467",
+          "index.json:4692",
+          "index.json:4744",
+          "install.sh:105"
+        ]
+      },
+      {
+        "from": "canon",
+        "to": "skills-os",
+        "what": "so-changes",
+        "declared": true,
+        "mentioned": true,
+        "count": 11,
+        "where": [
+          "docs/GUIDE.md:47",
+          "docs/GUIDE.md:179",
+          "docs/GUIDE.md:180",
+          "index.json:3760",
+          "index.json:3833",
+          "index.json:3882",
+          "index.json:3907",
+          "index.json:4299",
+          "index.json:4479",
+          "index.json:4722",
+          "index.json:4745"
+        ]
+      },
+      {
+        "from": "canon",
+        "to": "skills-os",
+        "what": "so-codex-review",
+        "declared": true,
+        "mentioned": true,
+        "count": 5,
+        "where": [
+          "docs/GUIDE.md:47",
+          "index.json:3761",
+          "index.json:3908",
+          "index.json:4320",
+          "operating-principles.md:19"
+        ]
+      },
+      {
+        "from": "canon",
+        "to": "skills-os",
+        "what": "so-init",
+        "declared": true,
+        "mentioned": true,
+        "count": 9,
+        "where": [
+          "index.json:3764",
+          "index.json:3909",
+          "index.json:4335",
+          "index.json:4765",
+          "index.json:4766",
+          "index.json:4767",
+          "index.json:4778",
+          "index.json:4779",
+          "index.json:4780"
+        ]
+      },
+      {
+        "from": "canon",
+        "to": "skills-os",
+        "what": "so-install",
+        "declared": true,
+        "mentioned": true,
+        "count": 3,
+        "where": [
+          "index.json:3766",
+          "index.json:3910",
+          "index.json:4354"
+        ]
+      },
+      {
+        "from": "canon",
+        "to": "skills-os",
+        "what": "so-skills",
+        "declared": true,
+        "mentioned": true,
+        "count": 3,
+        "where": [
+          "index.json:3767",
+          "index.json:3911",
+          "index.json:4367"
+        ]
+      },
+      {
+        "from": "docs-ds",
+        "to": "canon",
+        "what": "bootstrap.sh",
+        "declared": true,
+        "mentioned": true,
+        "count": 1,
+        "where": [
+          "README.md:10"
+        ]
+      },
+      {
+        "from": "docs-ds",
+        "to": "canon",
+        "what": "install.sh",
+        "declared": true,
+        "mentioned": true,
+        "count": 1,
+        "where": [
+          "README.md:9"
+        ]
+      },
+      {
+        "from": "ds-code",
+        "to": "canon",
+        "what": "index.json",
+        "declared": true,
+        "mentioned": true,
+        "count": 9,
+        "where": [
+          "AGENTS.md:60",
+          "ARCHITECTURE.md:38",
+          "ARCHITECTURE.md:54",
+          "src/graph.ts:2",
+          "src/graph.ts:14",
+          "src/graph.ts:19",
+          "test/code.test.ts:337",
+          "test/code.test.ts:368",
+          "test/code.test.ts:372"
         ]
       },
       {
@@ -4002,6 +4429,159 @@
         ]
       },
       {
+        "from": "ds-code",
+        "to": "ds-next",
+        "what": "ds-next setup [--remove|--check]",
+        "declared": false,
+        "mentioned": true,
+        "count": 1,
+        "where": [
+          "src/graph.ts:53"
+        ]
+      },
+      {
+        "from": "ds-code",
+        "to": "skills-os",
+        "what": "so-bug-review-interview",
+        "declared": true,
+        "mentioned": true,
+        "count": 1,
+        "where": [
+          "AGENTS.md:73"
+        ]
+      },
+      {
+        "from": "ds-code",
+        "to": "skills-os",
+        "what": "so-build-feature-interview",
+        "declared": true,
+        "mentioned": true,
+        "count": 1,
+        "where": [
+          "AGENTS.md:72"
+        ]
+      },
+      {
+        "from": "ds-code",
+        "to": "skills-os",
+        "what": "so-capture",
+        "declared": true,
+        "mentioned": true,
+        "count": 2,
+        "where": [
+          "AGENTS.md:47",
+          "AGENTS.md:74"
+        ]
+      },
+      {
+        "from": "ds-code",
+        "to": "skills-os",
+        "what": "so-changes",
+        "declared": true,
+        "mentioned": true,
+        "count": 2,
+        "where": [
+          "AGENTS.md:45",
+          "AGENTS.md:75"
+        ]
+      },
+      {
+        "from": "ds-next",
+        "to": "canon",
+        "what": "canon-lib",
+        "declared": true,
+        "mentioned": true,
+        "count": 46,
+        "where": [
+          "HANDOFF.md:31",
+          "HANDOFF.md:39",
+          "HANDOFF.md:74",
+          "HANDOFF.md:123",
+          "HANDOFF.md:182",
+          "HANDOFF.md:233",
+          "HANDOFF.md:327",
+          "HANDOFF.md:429",
+          "README.md:68",
+          "README.md:69",
+          "REPORT.md:35",
+          "REPORT.md:47",
+          "REPORT.md:102",
+          "REPORT.md:116",
+          "REPORT.md:123",
+          "REPORT.md:125",
+          "REPORT.md:127",
+          "REPORT.md:141",
+          "bench/judge/arms.sh:5",
+          "bench/judge/reads.py:2"
+        ]
+      },
+      {
+        "from": "ds-next",
+        "to": "canon",
+        "what": "index.json",
+        "declared": true,
+        "mentioned": true,
+        "count": 48,
+        "where": [
+          "HANDOFF.md:39",
+          "HANDOFF.md:67",
+          "README.md:17",
+          "README.md:35",
+          "REPORT.md:35",
+          "bench/judge/mcheck/test_judge.py:37",
+          "bench/judge/mcheck/test_judge.py:250",
+          "bench/judge/publish-change/test_judge.py:50",
+          "bench/judge/publish/test_judge.py:58",
+          "bench/judge/publish/test_judge.py:638",
+          "bench/judge/publish/test_judge.py:670",
+          "bench/rebuild/spec.md:8",
+          "bench/tasks/mcheck/check.py:33",
+          "bench/tasks/mcheck/check.py:34",
+          "bench/tasks/mcheck/spec.md:4",
+          "bench/tasks/mcheck/spec.md:6",
+          "bench/tasks/mcheck/ticket.md:3",
+          "bench/tasks/mcheck/ticket.md:5",
+          "bench/tasks/publish-change/ticket.md:23",
+          "bench/tasks/publish-change/ticket.md:26"
+        ]
+      },
+      {
+        "from": "ds-next",
+        "to": "canon",
+        "what": "install.sh",
+        "declared": true,
+        "mentioned": true,
+        "count": 2,
+        "where": [
+          "README.md:42",
+          "src/ds_next/setup.py:55"
+        ]
+      },
+      {
+        "from": "ds-next",
+        "to": "canon",
+        "what": "uninstall.sh",
+        "declared": true,
+        "mentioned": true,
+        "count": 2,
+        "where": [
+          "src/ds_next/setup.py:16",
+          "src/ds_next/setup.py:458"
+        ]
+      },
+      {
+        "from": "ds-next",
+        "to": "docs-ds",
+        "what": "design-system/tokens.json",
+        "declared": true,
+        "mentioned": true,
+        "count": 2,
+        "where": [
+          "skills/ds-terminal-design/SKILL.md:17",
+          "skills/ds-terminal-design/SKILL.md:60"
+        ]
+      },
+      {
         "from": "ds-next",
         "to": "ds-code",
         "what": "change_impact",
@@ -4010,7 +4590,7 @@
         "count": 5,
         "where": [
           "README.md:138",
-          "src/ds_next/agent.py:354",
+          "src/ds_next/agent.py:418",
           "src/ds_next/codetools.py:19",
           "src/ds_next/scaffold.py:204",
           "tests/test_codetools.py:42"
@@ -4040,7 +4620,7 @@
         "count": 3,
         "where": [
           "README.md:138",
-          "src/ds_next/agent.py:352",
+          "src/ds_next/agent.py:416",
           "src/ds_next/codetools.py:18"
         ]
       },
@@ -4053,7 +4633,7 @@
         "count": 4,
         "where": [
           "README.md:138",
-          "src/ds_next/agent.py:353",
+          "src/ds_next/agent.py:417",
           "src/ds_next/codetools.py:18",
           "src/ds_next/scaffold.py:204"
         ]
@@ -4067,15 +4647,118 @@
         "count": 3,
         "where": [
           "README.md:138",
-          "src/ds_next/agent.py:352",
+          "src/ds_next/agent.py:416",
           "src/ds_next/codetools.py:19"
         ]
+      },
+      {
+        "from": "ds-next",
+        "to": "skills-os",
+        "what": "so-*/SKILL.md",
+        "declared": true,
+        "mentioned": false,
+        "count": 0,
+        "where": []
+      },
+      {
+        "from": "ds-next",
+        "to": "skills-os",
+        "what": "so-bug-review-interview",
+        "declared": true,
+        "mentioned": true,
+        "count": 3,
+        "where": [
+          "AGENTS.md:21",
+          "docs/design-system/ds-next Baseline.dc.html:180",
+          "src/ds_next/scaffold.py:27"
+        ]
+      },
+      {
+        "from": "ds-next",
+        "to": "skills-os",
+        "what": "so-build-feature-interview",
+        "declared": true,
+        "mentioned": true,
+        "count": 3,
+        "where": [
+          "AGENTS.md:20",
+          "docs/design-system/ds-next Baseline.dc.html:179",
+          "src/ds_next/scaffold.py:27"
+        ]
+      },
+      {
+        "from": "ds-next",
+        "to": "skills-os",
+        "what": "so-capture",
+        "declared": true,
+        "mentioned": true,
+        "count": 26,
+        "where": [
+          "AGENTS.md:23",
+          "README.md:19",
+          "README.md:41",
+          "README.md:203",
+          "docs/design-system/ds-next Baseline.dc.html:181",
+          "docs/design-system/handoff/ds_next/ui.py:6",
+          "src/ds_next/agent.py:360",
+          "src/ds_next/scaffold.py:28",
+          "src/ds_next/setup.py:55",
+          "src/ds_next/ui.py:6",
+          "src/ds_next/ui.py:423",
+          "tests/conftest.py:76",
+          "tests/test_agent_ui.py:36",
+          "tests/test_core.py:37",
+          "tests/test_core.py:38",
+          "tests/test_core.py:78",
+          "tests/test_setup.py:149",
+          "tests/test_setup.py:181",
+          "tests/test_setup.py:186",
+          "tests/test_setup.py:191"
+        ]
+      },
+      {
+        "from": "ds-next",
+        "to": "skills-os",
+        "what": "so-changes",
+        "declared": true,
+        "mentioned": true,
+        "count": 7,
+        "where": [
+          "AGENTS.md:24",
+          "src/ds_next/scaffold.py:28",
+          "tests/conftest.py:76",
+          "tests/test_setup.py:149",
+          "tests/test_setup.py:190",
+          "tests/test_setup.py:204",
+          "tests/test_setup.py:239"
+        ]
+      },
+      {
+        "from": "skills-os",
+        "to": "canon",
+        "what": "index.json",
+        "declared": true,
+        "mentioned": true,
+        "count": 2,
+        "where": [
+          "so-capture/SKILL.md:115",
+          "so-changes/SKILL.md:146"
+        ]
+      },
+      {
+        "from": "skills-os",
+        "to": "canon",
+        "what": "install.sh",
+        "declared": true,
+        "mentioned": false,
+        "count": 0,
+        "where": []
       },
       {
         "from": "skills-os",
         "to": "ds-next",
         "what": "ds-next adopt",
-        "declared": false,
+        "declared": true,
         "mentioned": true,
         "count": 3,
         "where": [
@@ -4088,7 +4771,7 @@
         "from": "skills-os",
         "to": "ds-next",
         "what": "ds-next new",
-        "declared": false,
+        "declared": true,
         "mentioned": true,
         "count": 3,
         "where": [
@@ -4099,232 +4782,36 @@
       }
     ],
     "report": {
-      "unused": [],
+      "unused": [
+        {
+          "repo": "canon",
+          "what": "ds-system"
+        }
+      ],
       "undeclared": [
         {
-          "from": "canon",
-          "to": "ds-code",
-          "what": "change_impact",
-          "count": 5,
-          "where": [
-            "README.md:152",
-            "adr/adr-002-cross-repo-graph.md:96",
-            "adr/adr-002-cross-repo-graph.md:141",
-            "adr/adr-002-cross-repo-graph.md:147",
-            "docs/GUIDE.md:219"
-          ]
-        },
-        {
-          "from": "canon",
-          "to": "ds-code",
-          "what": "ds-code --version",
-          "count": 2,
-          "where": [
-            "bootstrap.sh:81",
-            "ds-system:32"
-          ]
-        },
-        {
-          "from": "canon",
-          "to": "ds-code",
-          "what": "ds-code mcp",
-          "count": 2,
-          "where": [
-            "adr/adr-002-cross-repo-graph.md:33",
-            "adr/adr-002-cross-repo-graph.md:65"
-          ]
-        },
-        {
-          "from": "canon",
-          "to": "ds-next",
-          "what": "ds-new",
-          "count": 8,
-          "where": [
-            "README.md:35",
-            "README.md:59",
-            "bootstrap.sh:10",
-            "bootstrap.sh:108",
-            "docs/GUIDE.md:105",
-            "docs/GUIDE.md:151",
-            "install.sh:20",
-            "uninstall.sh:10"
-          ]
-        },
-        {
-          "from": "canon",
-          "to": "ds-next",
-          "what": "ds-next adopt",
-          "count": 1,
-          "where": [
-            "docs/GUIDE.md:162"
-          ]
-        },
-        {
-          "from": "canon",
-          "to": "ds-next",
-          "what": "ds-next mcp",
-          "count": 6,
-          "where": [
-            "adr/adr-001-ship-canon-lib.md:59",
-            "adr/adr-002-cross-repo-graph.md:58",
-            "adr/adr-002-cross-repo-graph.md:91",
-            "docs/GUIDE.md:29",
-            "docs/GUIDE.md:46",
-            "docs/GUIDE.md:156"
-          ]
-        },
-        {
-          "from": "canon",
-          "to": "ds-next",
-          "what": "ds-next new",
-          "count": 4,
-          "where": [
-            "README.md:119",
-            "adr/adr-001-ship-canon-lib.md:32",
-            "docs/GUIDE.md:161",
-            "repo-naming.md:35"
-          ]
-        },
-        {
-          "from": "canon",
+          "from": "ds-code",
           "to": "ds-next",
           "what": "ds-next setup [--remove|--check]",
-          "count": 15,
+          "count": 1,
           "where": [
-            "README.md:61",
-            "adr/adr-002-cross-repo-graph.md:33",
-            "adr/adr-002-cross-repo-graph.md:58",
-            "bootstrap.sh:100",
-            "docs/GUIDE.md:48",
-            "docs/GUIDE.md:154",
-            "docs/GUIDE.md:168",
-            "docs/GUIDE.md:211",
-            "docs/GUIDE.md:214",
-            "docs/GUIDE.md:230",
-            "docs/GUIDE.md:232",
-            "scripts/build_repos.py:142",
-            "scripts/tests/test_build_repos.py:59",
-            "terminal-design.md:19",
-            "uninstall.sh:10"
-          ]
-        },
-        {
-          "from": "canon",
-          "to": "ds-next",
-          "what": "ds-terminal-design",
-          "count": 3,
-          "where": [
-            "docs/GUIDE.md:105",
-            "terminal-design.md:19",
-            "uninstall.sh:11"
-          ]
-        },
-        {
-          "from": "canon",
-          "to": "ds-next",
-          "what": "mcp__code__*",
-          "count": 3,
-          "where": [
-            "uninstall.sh:87",
-            "uninstall.sh:95",
-            "uninstall.sh:104"
-          ]
-        },
-        {
-          "from": "canon",
-          "to": "ds-next",
-          "what": "mcp__ds__*",
-          "count": 5,
-          "where": [
-            "adr/adr-002-cross-repo-graph.md:35",
-            "adr/adr-002-cross-repo-graph.md:59",
-            "uninstall.sh:87",
-            "uninstall.sh:95",
-            "uninstall.sh:104"
-          ]
-        },
-        {
-          "from": "skills-os",
-          "to": "ds-next",
-          "what": "ds-next adopt",
-          "count": 3,
-          "where": [
-            "so-init/SKILL.md:3",
-            "so-init/SKILL.md:27",
-            "so-init/SKILL.md:45"
-          ]
-        },
-        {
-          "from": "skills-os",
-          "to": "ds-next",
-          "what": "ds-next new",
-          "count": 3,
-          "where": [
-            "so-init/SKILL.md:3",
-            "so-init/SKILL.md:27",
-            "so-init/SKILL.md:46"
+            "src/graph.ts:53"
           ]
         }
       ],
-      "unresolved": [
+      "unresolved": [],
+      "unscanned": [
         {
-          "repo": "ds-code",
-          "uses": "canon",
-          "what": "index.json"
+          "repo": "canon",
+          "what": "repos/*.toml"
         },
         {
-          "repo": "ds-code",
-          "uses": "skills-os",
-          "what": "so-capture"
-        },
-        {
-          "repo": "ds-code",
-          "uses": "skills-os",
-          "what": "so-changes"
-        },
-        {
-          "repo": "ds-code",
-          "uses": "skills-os",
-          "what": "so-build-feature-interview"
-        },
-        {
-          "repo": "ds-code",
-          "uses": "skills-os",
-          "what": "so-bug-review-interview"
-        },
-        {
-          "repo": "ds-next",
-          "uses": "canon",
-          "what": "index.json"
-        },
-        {
-          "repo": "ds-next",
-          "uses": "canon",
-          "what": "canon-lib"
-        },
-        {
-          "repo": "ds-next",
-          "uses": "canon",
-          "what": "install.sh"
-        },
-        {
-          "repo": "ds-next",
-          "uses": "canon",
-          "what": "uninstall.sh"
-        },
-        {
-          "repo": "ds-next",
-          "uses": "skills-os",
+          "repo": "skills-os",
           "what": "so-*/SKILL.md"
         }
       ],
-      "unscanned": [],
       "unreadable": [],
-      "silent": [
-        "canon",
-        "docs-ds",
-        "skills-os"
-      ]
+      "silent": []
     }
   }
 }
