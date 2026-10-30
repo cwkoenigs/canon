@@ -216,7 +216,7 @@ script named as having work in it. To check an agent's wiring at any time: `ds-n
 ## Waiting on the owner
 
 - **adr-001** (canon-lib carries the code, the tool server carries the knowledge) is still `proposed`.
-- **adr-002** (the cross-repo graph: contracts declared in each manifest, compiled by the canon's pipeline into `index.json`, read by `project_status` and `change_impact`) is `proposed`. Built: the registry (`repos/`), the compiler (`scripts/build_repos.py`, run by the portal job), ds-next's and ds-code's manifests, ds-next's `repo_graph` and `reconcile` check, ds-code's `change_impact` section. Not adopted yet: canon, skills-os and docs-ds have no manifest, so their edges show as undeclared; `ds-next adopt <path>` is the owner's call. The pipeline itself has not run on GitLab.
+- **adr-002** (the cross-repo graph: contracts declared in each manifest, compiled by the canon's pipeline into `index.json`, read by `project_status` and `change_impact`) is `proposed`. Built: the registry (`repos/`), the compiler (`scripts/build_repos.py`, run by the portal job), ds-next's and ds-code's manifests, ds-next's `repo_graph` and `reconcile` check, ds-code's `change_impact` section. All five repos are adopted and declare their contracts; the compiled graph has 53 edges, 47 of them declared and mentioned. The pipeline itself has not run on GitLab.
 - **To review:** `block-tui-picker` (proposed), `gotcha-approvals` v4 and `gotcha-cortex-sdk` v4.
 - Most standards are still `proposed`. Accepted so far: `repo-naming`, `terminal-design`, and the five scaffolds.
 - canon has no CI of its own yet. Its checks run in the installer.

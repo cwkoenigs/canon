@@ -31,7 +31,7 @@ file, the agent-driven launcher pattern. `ds new` remains the entry point.
         render.py            answers → README, AGENTS.md, DECISIONS.md
         transcript.py        .ds/interview.md with provenance tags
       canon/
-        client.py            fetch + cache index.json; resolve [[id]]; read text
+        client.py            fetch + cache index.json; resolve pointers; read text
         manifest.py          load/validate/write .ds/manifest.toml
         reconcile.py         the verb; --check / --interactive / --apply
         derived.py           regenerate derived sections from the code graph
@@ -84,9 +84,11 @@ retired IDs fail `ds reconcile --check`.
 
 ### Provenance comments
 
-    <!-- ds:local interview 2026-10-01 -->
-    <!-- ds:inherited [[layout@3]] -->
-    <!-- ds:derived graph 2026-10-01 -->
+```html
+<!-- ds:local interview 2026-10-01 -->
+<!-- ds:inherited [[layout@3]] -->
+<!-- ds:derived graph 2026-10-01 -->
+```
 
 One per block, not per line. The audit parses these.
 

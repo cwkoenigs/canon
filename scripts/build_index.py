@@ -29,6 +29,7 @@ from datetime import date
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+NOT_STANDARDS = {"README.md", "AGENTS.md", "DECISIONS.md", "CHANGELOG.md"}   # the repo's own pages at the root; every other root .md is a standard
 REQUIRED = ("id", "version", "title", "applies_to", "owner")
 SCAFFOLD_REQUIRED = ("id", "version", "title", "path", "tags", "owner")
 BLOCK_REQUIRED = ("id", "version", "title", "module", "requires", "tags", "owner")
@@ -186,7 +187,7 @@ def parse(path: Path) -> dict:
 
 def build() -> dict:
     paths = sorted(list((ROOT / "adr").glob("*.md")) + list((ROOT / "gotchas").glob("*.md"))
-                   + [p for p in ROOT.glob("*.md") if p.name != "README.md"])
+                   + [p for p in ROOT.glob("*.md") if p.name not in NOT_STANDARDS])
     standards = [parse(p) for p in paths]
     ids = [s["id"] for s in standards]
     dupes = {i for i in ids if ids.count(i) > 1}
