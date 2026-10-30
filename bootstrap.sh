@@ -10,8 +10,10 @@
 #                                             registered, /ds-new added, read-only tools allowed
 #
 # Safe to rerun: it pulls what is there and skips what is done. Needs git and uv; Node.js for docs-ds and ds-code.
+# Rerunning is the update. `uninstall.sh` beside this file takes it all off again.
 # Override the sources with CANON_URL / DS_NEXT_URL (git URLs, bundles or local paths) and the
 # locations with DEV (default ~/Developer). Run from a checkout, or `curl -fsSL <raw url> | bash`.
+case "${1:-}" in -h|--help) sed -n '2,15p' "$0" | sed 's/^# \{0,1\}//'; exit 0;; esac
 set -euo pipefail
 
 DEV="${DEV:-$HOME/Developer}"
@@ -75,7 +77,12 @@ if [ -d "$DEV/ds-code/.git" ]; then
   say "ds-code: the code tools ds-next attaches (definitions, references, callers, change impact)"
   if command -v npm >/dev/null 2>&1; then
     if (cd "$DEV/ds-code" && npm ci --silent --no-audit --no-fund 2>&1 | tail -2 && npm link --silent --no-audit --no-fund 2>&1 | tail -1); then
-      echo "ds-code: $(command -v ds-code || echo "linked; add npm's global bin ($(npm prefix -g)/bin) to PATH")"
+      if command -v ds-code >/dev/null 2>&1; then     # linked is not enough: it has to run
+        v="$(ds-code --version 2>&1)" && echo "ds-code: $v at $(command -v ds-code)" \
+          || echo "note: ds-code is linked but does not run ($v); run 'npm run build' in $DEV/ds-code and rerun"
+      else
+        echo "ds-code: linked; add npm's global bin ($(npm prefix -g)/bin) to PATH"
+      fi
     else
       echo "note: ds-code did not install; ds-next runs without the code tools until it does and this is rerun"
     fi
@@ -90,7 +97,7 @@ ln -sf "$DEV/ds-next/.venv/bin/ds-next" "$HOME/.local/bin/ds-next"
 case ":$PATH:" in *":$HOME/.local/bin:"*) ;; *) echo "note: add ~/.local/bin to PATH to run ds-next by name";; esac
 
 say "agents: Cortex Code, Claude Code, Codex (whichever are on PATH)"
-"$DEV/ds-next/.venv/bin/ds-next" setup || true
+"$DEV/ds-next/.venv/bin/ds-next" setup || echo "note: an agent is not fully wired; the lines above say which. Rerun 'ds-next setup' after fixing it"
 
 say "check"
 "$DEV/ds-next/.venv/bin/python" -c "import ds_next; print('ds-next', ds_next.__version__, 'at', '$DEV/ds-next')"

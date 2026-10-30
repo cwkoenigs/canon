@@ -20,7 +20,7 @@ everywhere, and flows back to where it is written.
                     ┌───────────────────────── canon ─────────────────────────┐
                     │ standards (*.md)   gotchas/   adr/   scaffolds/          │
                     │ blocks/ ──build──▶ lib/ = canon-lib (tag canon-lib-vX)  │
-                    │ index.json (generated)   install.sh   bootstrap.sh       │
+                    │ index.json (built) install.sh bootstrap.sh uninstall.sh  │
                     └───────┬──────────────────────┬──────────────────▲───────┘
                   reads     │           imports    │                  │ merge request
                             ▼           at a tag   ▼                  │ (/so-capture flush)
@@ -45,7 +45,7 @@ everywhere, and flows back to where it is written.
 | **canon** | The source of truth: standards, gotchas, ADRs, scaffolds, blocks, and canon-lib built from the blocks. Also the installer. | `~/Developer/canon` | You review or change a standard, accept a capture, release canon-lib |
 | **ds-next** | The terminal (`ds-next`) and the `ds` tool server every agent reads the canon through (`ds-next mcp`). Python. | `~/Developer/ds-next`, `ds-next` in `~/.local/bin` | Every day: you run it |
 | **skills-os** | The procedures agents follow: `/so-capture`, `/so-changes`, `/so-build-feature-interview`, `/so-bug-review-interview`, `/so-codex-review`, and others | `~/Developer/skills-os` | You change how the team works |
-| **ds-code** | Eight read-only code tools (definition, references, callers, change impact…) from TypeScript's and Pyright's language servers. ds-next attaches it as `code`. | `~/Developer/ds-code`, `ds-code` on PATH | Rarely: it updates with the installer |
+| **ds-code** | Eight read-only code tools (definition, references, callers, change impact…) from TypeScript's and Pyright's language servers. `ds-next setup` registers it with every agent as `code`; the terminal attaches it too. | `~/Developer/ds-code`, `ds-code` on PATH | Rarely: it updates with the installer |
 | **docs-ds** | The Docusaurus shell behind `/docs` and the team portal. No content of its own; its theme is `design-system/tokens.json`. | `~/Developer/docs-ds` | You change the docs' look |
 | **canon-lib** | Not a repo: the Python package in `canon/lib/`, built from `canon/blocks/`. New repos install it from git at its tag. | `canon/lib` | You accept a block, or release a new version |
 
@@ -86,6 +86,9 @@ mkdir -p ~/old-Developer
 for r in canon ds-next skills-os docs-ds ds-code; do [ -d ~/Developer/$r ] && mv ~/Developer/$r ~/old-Developer/; done
 ```
 
+Or take the old install off first, `bash ~/Developer/canon/uninstall.sh --keep-config`, and run the
+install line: that removes the clones too, except any with unsaved or unpushed work.
+
 **A machine that can't reach GitHub:** use the release folder of git bundles (`ds-system-v0.2.0`).
 Its DEPLOY.md has the same command with the bundles as sources.
 
@@ -99,7 +102,7 @@ What the installer does, in order:
    - installs and tests canon-lib and ds-next;
    - links `ds-next` into `~/.local/bin`;
    - installs docs-ds and ds-code;
-   - wires every agent it finds: the `ds` tool server, `/ds-new`, `/ds-terminal-design`, and the read-only tools approved.
+   - wires every agent it finds: the `ds` and `code` tool servers, `/ds-new`, `/ds-terminal-design`, the `/so-*` skills, and the read-only tools approved.
 
 **Check it worked:** the installer's last lines read `ds-next 0.2.0 at …` and `Done.`. Open a
 **new** terminal (so `~/.local/bin` is on PATH) and run `ds-next`.
@@ -147,8 +150,8 @@ knowledge:
 
 - `/ds-new` in an agent creates a project the same way `/new` does in the terminal.
 - Asking "what's our standard for X", "is there accepted code for Y" or "what does this repo still need to adopt" makes the agent answer from the canon with `canon_list`, `canon_read`, `code_search`, `block_list` and `project_status`.
-- The `/so-*` skills are linked into the agents.
-- With ds-code on PATH, the agent also gets the `code` tools. These are surer than text search for "who calls this" or "what does this change touch".
+- The `/so-*` skills from skills-os are linked into the agents by the same setup.
+- With ds-code installed, the agent also has the `code` tools (`ds-next setup` registers them). These are surer than text search for "who calls this" or "what does this change touch".
 
 Another agent can attach the same tools with `ds-next mcp` (stdio MCP).
 
@@ -186,13 +189,25 @@ changes go in its `CHANGELOG.md` (`/so-changes changelog`).
 | Release canon-lib | Bump `lib/pyproject.toml`'s version, build, commit, tag `canon-lib-v<version>`, and push the tag to every host repos install from (`git push origin canon-lib-v<version>`). Repos move up by changing the tag in their `pyproject.toml`. |
 | A scaffold | `scaffolds/<id>/`: `SCAFFOLD.md` and `files/`. Bump the version when a template changes; only `accepted` scaffolds appear in `/new`. |
 
-## Updating a machine
+## Install, update, reinstall, remove
 
-Rerun the install line, or `bash ~/Developer/canon/bootstrap.sh`. Either one:
+One line each. Every one is safe to run twice. The scripts are in canon, so a clone is enough to start:
 
-- pulls every repo that has an upstream;
-- reinstalls and retests;
-- keeps your `~/.ds/config.toml`.
+```sh
+git clone https://github.com/cwkoenigs/canon ~/Developer/canon
+bash ~/Developer/canon/install.sh        # the full setup: the other repos, the installs, the agents
+bash ~/Developer/canon/uninstall.sh      # the full take-down, when you want it gone
+```
+
+| | Command | What happens |
+|---|---|---|
+| **Install** | `curl -fsSL https://raw.githubusercontent.com/cwkoenigs/canon/main/install.sh \| bash` | Clones the five repos, writes `~/.ds/config.toml`, runs `bootstrap.sh` (see "Set up a machine"). |
+| **Update** | `bash ~/Developer/canon/bootstrap.sh` (or the install line again) | Pulls every repo that has an upstream, reinstalls and retests, rewires the agents. `~/.ds/config.toml` is kept. |
+| **Reinstall** | `bash ~/Developer/canon/uninstall.sh --keep-config`, then the install line | A clean copy of everything, with your config. A clone with unsaved or unpushed work is kept and named: move it aside or push it, then rerun. |
+| **Remove** | `bash ~/Developer/canon/uninstall.sh` | Unwires the agents (`ds-next setup --remove`: the `ds` and `code` servers, the skills, the allow rules), takes `ds-next` and `ds-code` off PATH, then asks before removing the clones and `~/.ds`. `--yes` skips the questions. |
+
+What stays after a remove: uv, Node.js and the agent CLIs (yours, not the system's), and any clone the
+script named as having work in it. To check an agent's wiring at any time: `ds-next setup --check`.
 
 ## Waiting on the owner
 
@@ -209,6 +224,7 @@ Rerun the install line, or `bash ~/Developer/canon/bootstrap.sh`. Either one:
 | A new repo's install fails fetching canon-lib at work | The `canon-lib-v…` tag isn't on the team's GitLab. Run `git -C ~/Developer/canon push origin --tags`. |
 | A session starts and then hangs with no output | The agent's CLI isn't on PATH (Cortex says nothing when `cortex` is missing). Install it, or `ds-next setup --agent claude`. |
 | Cortex asks about a repo's hooks before starting | That repo's settings define hooks that would run commands. Read them, then answer. This is on purpose. |
+| `ds-code: permission denied`, or an agent has no `code` tools | An older ds-code build; `bash ~/Developer/canon/bootstrap.sh` rebuilds it and rewires the agents (`ds-next setup` alone does the wiring). |
 | `/docs` fails | Node.js 26 isn't installed, or docs-ds wasn't installed: rerun the installer after installing Node. |
 | `/so-capture flush` can't open an MR | No GitLab token in `$GITLAB_TOKEN` (or no `glab` login), or `[world]` in `~/.ds/config.toml` names the wrong group. |
 | `/status` shows many pending standards | Expected on a new or adopted repo: adopt or decline each with a reason. Pending never blocks a push. |
