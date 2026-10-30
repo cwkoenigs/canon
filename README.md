@@ -71,9 +71,9 @@ the new one resolves the old. Where a standard has a mechanical step, put it und
 documentation change.
 
 A standard reaches repositories by itself: the next push in any repository whose tags match
-prints a one-line nudge (`ds-next reconcile` in the pre-push hook), and `/status` in ds-next
-lets the repo owner adopt or decline, recorded in its `.ds/manifest.toml`. There is no
-announcement and no migration project.
+prints a one-line nudge (`ds-next reconcile` in the pre-push hook); `/status` in ds-next shows
+what is pending, and `ds-next decide` lets the repo owner adopt or decline, recorded in its
+`.ds/manifest.toml`. There is no announcement and no migration project.
 
 Most standards were seeded from the skills-os guidebook v1.1 by `scripts/split_guidebook.py`,
 marked `proposed` with `applies_to` set broadly. Review each one, narrow `applies_to`, set
