@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-28",
+  "generated": "2026-10-30",
   "standards": [
     {
       "id": "adr-000",
@@ -28,6 +28,20 @@
       "kind": "standard",
       "hash": "546e5aa84ac5",
       "path": "adr/adr-001-ship-canon-lib.md"
+    },
+    {
+      "id": "adr-002",
+      "version": 1,
+      "title": "The cross-repo graph is compiled by the canon's pipeline from declared contracts and mentions, and read from index.json",
+      "applies_to": [
+        "*"
+      ],
+      "owner": "ckoenigs",
+      "supersedes": null,
+      "status": "proposed",
+      "kind": "standard",
+      "hash": "f505099454d5",
+      "path": "adr/adr-002-cross-repo-graph.md"
     },
     {
       "id": "architecture",

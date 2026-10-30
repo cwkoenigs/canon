@@ -216,6 +216,7 @@ script named as having work in it. To check an agent's wiring at any time: `ds-n
 ## Waiting on the owner
 
 - **adr-001** (canon-lib carries the code, the tool server carries the knowledge) is still `proposed`.
+- **adr-002** (the cross-repo graph: contracts declared in each manifest, compiled by the canon's pipeline into `index.json`, read by `project_status` and `change_impact`) is `proposed`; nothing of it is built yet.
 - **To review:** `block-tui-picker` (proposed), `gotcha-approvals` v4 and `gotcha-cortex-sdk` v4.
 - Most standards are still `proposed`. Accepted so far: `repo-naming`, `terminal-design`, and the five scaffolds.
 - canon has no CI of its own yet. Its checks run in the installer.
@@ -236,7 +237,7 @@ script named as having work in it. To check an agent's wiring at any time: `ds-n
 ## Read more
 
 - `canon/README.md` (this guide is `canon/docs/GUIDE.md`): how standards, gotchas, blocks and scaffolds are written.
-- `canon/adr/adr-000-knowledge-system.md` and `adr-001-ship-canon-lib.md`: why it's built this way.
+- `canon/adr/adr-000-knowledge-system.md`, `adr-001-ship-canon-lib.md` and `adr-002-cross-repo-graph.md`: why it's built this way, and what comes next.
 - `ds-next/README.md`: the terminal in detail, and what was learned building against Cortex Code.
 - `skills-os/README.md`: every procedure.
 - `ds-code/README.md`: the code tools.
