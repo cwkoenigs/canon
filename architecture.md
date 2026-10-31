@@ -3,6 +3,7 @@ id: architecture
 version: 1
 title: Architecture and Abstraction
 applies_to: ["*"]
+default: adopt
 owner: ckoenigs
 status: proposed
 date: 2026-10-14

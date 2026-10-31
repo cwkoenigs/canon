@@ -3,6 +3,7 @@ id: templates
 version: 1
 title: Templates
 applies_to: ["*"]
+default: adopt
 owner: ckoenigs
 status: proposed
 date: 2026-10-14

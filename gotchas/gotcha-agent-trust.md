@@ -3,6 +3,7 @@ id: gotcha-agent-trust
 version: 6
 title: What to let the model decide
 applies_to: ["cortex"]
+default: adopt
 owner: ckoenigs
 status: proposed
 kind: gotcha

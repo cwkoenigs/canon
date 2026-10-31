@@ -3,6 +3,7 @@ id: gotcha-tool-arguments
 version: 1
 title: Tool arguments a model will actually send
 applies_to: ["mcp", "cli"]
+default: adopt
 owner: ckoenigs
 status: proposed
 kind: gotcha

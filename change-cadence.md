@@ -3,6 +3,7 @@ id: change-cadence
 version: 1
 title: Standard Change Cadence
 applies_to: ["*"]
+default: adopt
 owner: ckoenigs
 status: proposed
 date: 2026-10-14

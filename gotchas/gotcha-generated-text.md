@@ -3,6 +3,7 @@ id: gotcha-generated-text
 version: 1
 title: User text in generated files
 applies_to: ["python"]
+default: adopt
 owner: ckoenigs
 status: proposed
 kind: gotcha

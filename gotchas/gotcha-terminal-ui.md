@@ -3,6 +3,7 @@ id: gotcha-terminal-ui
 version: 4
 title: Claude-Code-style terminals with prompt_toolkit and rich
 applies_to: ["cli"]
+default: adopt
 owner: ckoenigs
 status: proposed
 kind: gotcha

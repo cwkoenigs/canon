@@ -3,6 +3,7 @@ id: security
 version: 1
 title: Security and Privacy
 applies_to: ["*"]
+default: adopt
 owner: ckoenigs
 status: proposed
 date: 2026-10-14

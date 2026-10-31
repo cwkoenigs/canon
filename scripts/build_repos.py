@@ -16,6 +16,10 @@ logs (*.jsonl) and the manifests themselves; a literal that names a file the men
 (its own install.sh, its own index.json) is not a mention of another repo's. An entry is matched as text, so `index.json` matches every
 index.json: declare the words other repos write when they use yours, and make them distinctive.
 
+Written under `adoption` (adr-003): every standard against every registered repo it applies to, as
+reconcile computes it from the standard's default and the repo's manifest: adopted (and who by
+default), declined with reasons, pending. The org-wide view, without writing into any repo.
+
 Written under `repos`: repos (name, path, commit, manifest, tags, provides, uses), edges (from,
 to, what, declared, mentioned, count, where) and report (unused: provided, used by nobody;
 undeclared: mentioned, not in the user's [uses]; unresolved: a [uses] entry naming no registered
@@ -24,6 +28,7 @@ declaring nothing). Rebuilt from scratch on every run. Needs Python 3.11 and git
 """
 from __future__ import annotations
 
+import fnmatch
 import json
 import os
 import re
@@ -65,9 +70,11 @@ def manifest(clone: Path) -> dict:
     if not p.is_file():
         return {"manifest": False, "tags": [], "provides": {}, "uses": {}}
     data = tomllib.loads(p.read_text())
+    stds = data.get("standards", {})
     return {"manifest": True, "tags": list(data.get("repo", {}).get("tags", [])),
             "provides": {k: [str(e) for e in v] for k, v in data.get("provides", {}).items()},
-            "uses": {k: [str(e) for e in v] for k, v in data.get("uses", {}).items()}}
+            "uses": {k: [str(e) for e in v] for k, v in data.get("uses", {}).items()},
+            "standards": {k: dict(v) for k, v in stds.items() if isinstance(v, dict)} if isinstance(stds, dict) else {}}
 
 
 def git(clone: Path, *args: str) -> str:
@@ -183,6 +190,55 @@ def compile_graph(checkouts: Path, reg: list[dict]) -> dict:
             "repos": repos, "edges": edge_list, "report": report}
 
 
+def applies(std: dict, tags: list[str]) -> bool:
+    return any(pat == "*" or any(fnmatch.fnmatchcase(t, pat) for t in tags) for pat in std.get("applies_to", []))
+
+
+def effective(std: dict, entry: dict | None) -> tuple[str, str]:
+    """(status, note) for one standard in one repo, as ds-next's reconcile computes it (adr-003): an explicit
+    entry wins; a decline answers the version it was made against; otherwise the standard's default."""
+    v = std["version"]
+    if isinstance(entry, dict) and entry.get("status") == "declined":
+        ev = entry.get("version") if isinstance(entry.get("version"), int) else 0
+        return ("declined", str(entry.get("reason", ""))) if ev >= v else ("pending", f"declined at v{ev}")
+    if isinstance(entry, dict) and entry.get("status") == "adopted":
+        ev = entry.get("version") if isinstance(entry.get("version"), int) else 0
+        if ev >= v:
+            return "adopted", "explicit"
+        if std.get("default", "adopt") == "adopt":
+            return "adopted", f"by default; manifest says v{ev}"
+        return "pending", f"adopted at v{ev}"
+    return ("adopted", "by default") if std.get("default", "adopt") == "adopt" else ("pending", "")
+
+
+def compile_adoption(repos: list[dict], standards: list[dict]) -> dict:
+    """Every standard against every registered repo it applies to: who is adopted (and how), who declined
+    (and why), who is pending. The org-wide view adr-000 promised, without writing into any repo."""
+    per_std: dict[str, dict] = {}
+    per_repo: dict[str, dict] = {}
+    for std in standards:
+        row = {"version": std["version"], "default": std.get("default", "adopt"), "adopted": [], "by_default": [],
+               "declined": {}, "pending": []}
+        for r in repos:
+            if not r.get("manifest") or not applies(std, r.get("tags", [])):
+                continue
+            status, note = effective(std, r.get("standards", {}).get(std["id"]))
+            mine = per_repo.setdefault(r["name"], {"adopted": 0, "declined": 0, "pending": []})
+            if status == "adopted":
+                row["adopted"].append(r["name"])
+                mine["adopted"] += 1
+                if note.startswith("by default"):
+                    row["by_default"].append(r["name"])
+            elif status == "declined":
+                row["declined"][r["name"]] = note
+                mine["declined"] += 1
+            else:
+                row["pending"].append(r["name"] + (f" ({note})" if note else ""))
+                mine["pending"].append(std["id"])
+        per_std[std["id"]] = row
+    return {"generated": date.today().isoformat(), "standards": per_std, "repos": per_repo}
+
+
 def summary(section: dict) -> str:
     edges = section["edges"]
     rep = section["report"]
@@ -207,6 +263,22 @@ def summary(section: dict) -> str:
     return "\n".join(lines)
 
 
+def adoption_summary(adoption: dict) -> str:
+    rows = adoption["standards"]
+    total = sum(len(r["adopted"]) for r in rows.values())
+    dflt = sum(len(r["by_default"]) for r in rows.values())
+    declined = sum(len(r["declined"]) for r in rows.values())
+    pending = sum(len(r["pending"]) for r in rows.values())
+    head = (f"adoption: {len(rows)} standards x {len(adoption['repos'])} repos: {total} adopted ({dflt} by default), "
+            f"{declined} declined, {pending} pending")
+    lines = [head]
+    for sid, r in rows.items():
+        if r["declined"] or r["pending"]:
+            why = "; ".join([*(f"{k} declined: {v}" for k, v in r["declined"].items()), *(f"{p} pending" for p in r["pending"])])
+            lines.append(f"  {sid} v{r['version']}: {why}")
+    return "\n".join(lines)
+
+
 def main(argv: list[str]) -> int:
     write = "--write" in argv
     args = [a for a in argv if not a.startswith("--")]
@@ -223,12 +295,18 @@ def main(argv: list[str]) -> int:
         print(f"error: {e}", file=sys.stderr)
         return 1
     print(summary(section))
+    out = ROOT / "index.json"
+    index = json.loads(out.read_text()) if out.exists() else {}
+    adoption = compile_adoption(section["repos"], index.get("standards", []))
+    for r in section["repos"]:
+        r.pop("standards", None)                     # the roll-up has what it needs; the row stays about contracts
+    print(adoption_summary(adoption))
     if write:
-        out = ROOT / "index.json"
-        index = json.loads(out.read_text()) if out.exists() else {}
         index["repos"] = section
+        index["adoption"] = adoption
         out.write_text(json.dumps(index, indent=2) + "\n")
-        print(f"wrote the repos section of index.json ({len(section['repos'])} repos, {len(section['edges'])} edges)")
+        print(f"wrote the repos and adoption sections of index.json ({len(section['repos'])} repos, "
+              f"{len(section['edges'])} edges, {len(adoption['standards'])} standards)")
     return 0
 
 

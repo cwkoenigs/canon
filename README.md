@@ -71,9 +71,11 @@ the new one resolves the old. Where a standard has a mechanical step, put it und
 documentation change.
 
 A standard reaches repositories by itself: the next push in any repository whose tags match
-prints a one-line nudge (`ds-next reconcile` in the pre-push hook); `/status` in ds-next shows
-what is pending, and `ds-next decide` lets the repo owner adopt or decline, recorded in its
-`.ds/manifest.toml`. There is no announcement and no migration project.
+prints a one-line nudge (`ds-next reconcile` in the pre-push hook). A standard with `default: adopt`
+is in force in every repository it applies to from the next index, with nothing to type ([[adr-003]]);
+`ds-next decide decline <id> --reason` records the exception in that repository's `.ds/manifest.toml`,
+and `decide adopt` answers a standard whose default is `ask`. The pipeline rolls every repository's
+standing up into `index.json`. There is no announcement and no migration project.
 
 Most standards were seeded from the skills-os guidebook v1.1 by `scripts/split_guidebook.py`,
 marked `proposed` with `applies_to` set broadly. Review each one, narrow `applies_to`, set

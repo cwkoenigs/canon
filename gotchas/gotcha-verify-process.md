@@ -3,6 +3,7 @@ id: gotcha-verify-process
 version: 3
 title: How to build so the result can be trusted
 applies_to: ["*"]
+default: adopt
 owner: ckoenigs
 status: proposed
 kind: gotcha

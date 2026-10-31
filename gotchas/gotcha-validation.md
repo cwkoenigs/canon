@@ -3,6 +3,7 @@ id: gotcha-validation
 version: 1
 title: Validating manifests and Markdown
 applies_to: ["python"]
+default: adopt
 owner: ckoenigs
 status: proposed
 kind: gotcha

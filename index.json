@@ -12,7 +12,8 @@
       "supersedes": null,
       "status": "proposed",
       "kind": "standard",
-      "hash": "4f195db15897",
+      "default": "adopt",
+      "hash": "a90fb38d7d0a",
       "path": "adr/adr-000-knowledge-system.md"
     },
     {
@@ -26,7 +27,8 @@
       "supersedes": null,
       "status": "proposed",
       "kind": "standard",
-      "hash": "546e5aa84ac5",
+      "default": "adopt",
+      "hash": "432463fb325a",
       "path": "adr/adr-001-ship-canon-lib.md"
     },
     {
@@ -40,8 +42,24 @@
       "supersedes": null,
       "status": "proposed",
       "kind": "standard",
-      "hash": "f505099454d5",
+      "default": "adopt",
+      "hash": "14c87c3ace28",
       "path": "adr/adr-002-cross-repo-graph.md"
+    },
+    {
+      "id": "adr-003",
+      "version": 1,
+      "title": "A standard is in force by default; the manifest records exceptions; the canon's pipeline rolls adoption up",
+      "applies_to": [
+        "*"
+      ],
+      "owner": "ckoenigs",
+      "supersedes": null,
+      "status": "proposed",
+      "kind": "standard",
+      "default": "adopt",
+      "hash": "677b338c5811",
+      "path": "adr/adr-003-standards-in-force-by-default.md"
     },
     {
       "id": "architecture",
@@ -54,7 +72,8 @@
       "supersedes": null,
       "status": "proposed",
       "kind": "standard",
-      "hash": "fd73d6512253",
+      "default": "adopt",
+      "hash": "bf5018c49a65",
       "path": "architecture.md"
     },
     {
@@ -68,7 +87,8 @@
       "supersedes": null,
       "status": "proposed",
       "kind": "standard",
-      "hash": "573ea1b91fe6",
+      "default": "adopt",
+      "hash": "08e39fe47f04",
       "path": "change-cadence.md"
     },
     {
@@ -82,7 +102,8 @@
       "supersedes": null,
       "status": "proposed",
       "kind": "standard",
-      "hash": "62b7331c85aa",
+      "default": "adopt",
+      "hash": "474a2f1029a5",
       "path": "cicd.md"
     },
     {
@@ -96,7 +117,8 @@
       "supersedes": null,
       "status": "proposed",
       "kind": "standard",
-      "hash": "dca21cb9489d",
+      "default": "adopt",
+      "hash": "e7ae5145a7fa",
       "path": "code-review.md"
     },
     {
@@ -110,7 +132,8 @@
       "supersedes": null,
       "status": "proposed",
       "kind": "standard",
-      "hash": "f42415db5e8f",
+      "default": "adopt",
+      "hash": "1531bcd1c521",
       "path": "compliance-rubric.md"
     },
     {
@@ -124,7 +147,8 @@
       "supersedes": null,
       "status": "proposed",
       "kind": "standard",
-      "hash": "c91766389518",
+      "default": "adopt",
+      "hash": "29e173660793",
       "path": "decision-logs.md"
     },
     {
@@ -139,7 +163,8 @@
       "supersedes": null,
       "status": "proposed",
       "kind": "standard",
-      "hash": "86f4d7902afa",
+      "default": "adopt",
+      "hash": "d60e03ec2288",
       "path": "error-handling.md"
     },
     {
@@ -153,7 +178,8 @@
       "supersedes": null,
       "status": "proposed",
       "kind": "gotcha",
-      "hash": "732eb7b48461",
+      "default": "adopt",
+      "hash": "2eee289a6e3a",
       "path": "gotchas/gotcha-agent-trust.md"
     },
     {
@@ -168,7 +194,8 @@
       "supersedes": null,
       "status": "proposed",
       "kind": "gotcha",
-      "hash": "aac5cd26b995",
+      "default": "adopt",
+      "hash": "a8d44f1b34df",
       "path": "gotchas/gotcha-approvals.md"
     },
     {
@@ -182,7 +209,8 @@
       "supersedes": null,
       "status": "proposed",
       "kind": "gotcha",
-      "hash": "e56764a2a752",
+      "default": "adopt",
+      "hash": "010861516177",
       "path": "gotchas/gotcha-confined-writes.md"
     },
     {
@@ -196,7 +224,8 @@
       "supersedes": null,
       "status": "proposed",
       "kind": "gotcha",
-      "hash": "52548df1a720",
+      "default": "adopt",
+      "hash": "6b8900d93a24",
       "path": "gotchas/gotcha-cortex-sdk.md"
     },
     {
@@ -210,7 +239,8 @@
       "supersedes": null,
       "status": "proposed",
       "kind": "gotcha",
-      "hash": "b3d5c9dc4abf",
+      "default": "adopt",
+      "hash": "b2e3eb0d3430",
       "path": "gotchas/gotcha-docs-staging.md"
     },
     {
@@ -224,7 +254,8 @@
       "supersedes": null,
       "status": "proposed",
       "kind": "gotcha",
-      "hash": "5475bc065140",
+      "default": "adopt",
+      "hash": "e4558027560e",
       "path": "gotchas/gotcha-generated-text.md"
     },
     {
@@ -238,7 +269,8 @@
       "supersedes": null,
       "status": "proposed",
       "kind": "gotcha",
-      "hash": "577d7e80c961",
+      "default": "adopt",
+      "hash": "fd7d6f1d33bf",
       "path": "gotchas/gotcha-git-hooks.md"
     },
     {
@@ -252,7 +284,8 @@
       "supersedes": null,
       "status": "proposed",
       "kind": "gotcha",
-      "hash": "7d4ce683b0da",
+      "default": "adopt",
+      "hash": "cc30ea90180e",
       "path": "gotchas/gotcha-green-means-ran.md"
     },
     {
@@ -266,7 +299,8 @@
       "supersedes": null,
       "status": "proposed",
       "kind": "gotcha",
-      "hash": "6d0ee7293d62",
+      "default": "adopt",
+      "hash": "696f6d0cb8ad",
       "path": "gotchas/gotcha-proving-claims.md"
     },
     {
@@ -280,7 +314,8 @@
       "supersedes": null,
       "status": "proposed",
       "kind": "gotcha",
-      "hash": "b99c3487c153",
+      "default": "adopt",
+      "hash": "48b0a64e6ae9",
       "path": "gotchas/gotcha-terminal-ui.md"
     },
     {
@@ -295,7 +330,8 @@
       "supersedes": null,
       "status": "proposed",
       "kind": "gotcha",
-      "hash": "fc425264db6b",
+      "default": "adopt",
+      "hash": "9caa760b9203",
       "path": "gotchas/gotcha-tool-arguments.md"
     },
     {
@@ -309,7 +345,8 @@
       "supersedes": null,
       "status": "proposed",
       "kind": "gotcha",
-      "hash": "0f6fcb4bc7c7",
+      "default": "adopt",
+      "hash": "25fce28fe54a",
       "path": "gotchas/gotcha-validation.md"
     },
     {
@@ -323,7 +360,8 @@
       "supersedes": null,
       "status": "proposed",
       "kind": "gotcha",
-      "hash": "f52f8d114c79",
+      "default": "adopt",
+      "hash": "1923d584c0a0",
       "path": "gotchas/gotcha-verify-process.md"
     },
     {
@@ -339,7 +377,8 @@
       "supersedes": null,
       "status": "proposed",
       "kind": "standard",
-      "hash": "44015e55915a",
+      "default": "adopt",
+      "hash": "9ac4c2232d24",
       "path": "idempotency.md"
     },
     {
@@ -353,7 +392,8 @@
       "supersedes": null,
       "status": "proposed",
       "kind": "standard",
-      "hash": "7ecc5616b91e",
+      "default": "adopt",
+      "hash": "4ad522b719b7",
       "path": "lifecycle.md"
     },
     {
@@ -367,7 +407,8 @@
       "supersedes": null,
       "status": "proposed",
       "kind": "standard",
-      "hash": "62c4c71ef736",
+      "default": "adopt",
+      "hash": "16b7ade2f0dd",
       "path": "llm-agents.md"
     },
     {
@@ -381,7 +422,8 @@
       "supersedes": null,
       "status": "proposed",
       "kind": "standard",
-      "hash": "9a3a57bdc381",
+      "default": "adopt",
+      "hash": "b85de2b6ef6b",
       "path": "normative-language.md"
     },
     {
@@ -397,7 +439,8 @@
       "supersedes": null,
       "status": "proposed",
       "kind": "standard",
-      "hash": "d7b62a42b045",
+      "default": "adopt",
+      "hash": "7facac47e116",
       "path": "observability.md"
     },
     {
@@ -411,7 +454,8 @@
       "supersedes": null,
       "status": "proposed",
       "kind": "standard",
-      "hash": "5c77e71305d1",
+      "default": "adopt",
+      "hash": "afe8b94711de",
       "path": "operating-principles.md"
     },
     {
@@ -425,7 +469,8 @@
       "supersedes": null,
       "status": "accepted",
       "kind": "standard",
-      "hash": "08a2fa8dd7f4",
+      "default": "adopt",
+      "hash": "617ea055ac9e",
       "path": "repo-naming.md"
     },
     {
@@ -439,7 +484,8 @@
       "supersedes": null,
       "status": "proposed",
       "kind": "standard",
-      "hash": "7d998e266e2b",
+      "default": "adopt",
+      "hash": "fa99b896a13a",
       "path": "review-cadence.md"
     },
     {
@@ -453,7 +499,8 @@
       "supersedes": null,
       "status": "proposed",
       "kind": "standard",
-      "hash": "9c8ee26d8acf",
+      "default": "adopt",
+      "hash": "0907ec384217",
       "path": "security.md"
     },
     {
@@ -467,7 +514,8 @@
       "supersedes": null,
       "status": "proposed",
       "kind": "standard",
-      "hash": "212ad157f071",
+      "default": "adopt",
+      "hash": "a9a1b594d0b0",
       "path": "templates.md"
     },
     {
@@ -482,7 +530,8 @@
       "supersedes": null,
       "status": "accepted",
       "kind": "standard",
-      "hash": "4f2be655bbdc",
+      "default": "adopt",
+      "hash": "dcad192fac1c",
       "path": "terminal-design.md"
     },
     {
@@ -496,7 +545,8 @@
       "supersedes": null,
       "status": "proposed",
       "kind": "standard",
-      "hash": "e3e0bd699d6d",
+      "default": "adopt",
+      "hash": "9f0d811af228",
       "path": "testing.md"
     }
   ],
@@ -3714,7 +3764,7 @@
       {
         "name": "canon",
         "path": "cwkoenigs/canon",
-        "commit": "868a031",
+        "commit": "1817232",
         "manifest": true,
         "tags": [
           "standards",
@@ -3775,7 +3825,7 @@
       {
         "name": "docs-ds",
         "path": "cwkoenigs/docs-ds",
-        "commit": "2e8e396",
+        "commit": "bfb3c7a",
         "manifest": true,
         "tags": [
           "docker",
@@ -3839,7 +3889,7 @@
       {
         "name": "ds-next",
         "path": "cwkoenigs/ds-next",
-        "commit": "c09c6bb",
+        "commit": "42eab56",
         "manifest": true,
         "tags": [
           "python",
@@ -3891,7 +3941,7 @@
       {
         "name": "skills-os",
         "path": "cwkoenigs/skills-os",
-        "commit": "d539e54",
+        "commit": "22a783e",
         "manifest": true,
         "tags": [
           "skills",
@@ -3937,10 +3987,10 @@
         "where": [
           ".gitlab-ci.yml:49",
           ".gitlab-ci.yml:50",
-          "README.md:165",
-          "index.json:3770",
-          "index.json:3790",
-          "index.json:3933"
+          "README.md:167",
+          "index.json:3820",
+          "index.json:3840",
+          "index.json:3983"
         ]
       },
       {
@@ -3952,11 +4002,11 @@
         "count": 6,
         "where": [
           "docs/GUIDE.md:49",
-          "index.json:3771",
-          "index.json:3789",
-          "index.json:3887",
-          "index.json:3949",
-          "index.json:4575"
+          "index.json:3821",
+          "index.json:3839",
+          "index.json:3937",
+          "index.json:3999",
+          "index.json:4625"
         ]
       },
       {
@@ -3967,16 +4017,16 @@
         "mentioned": true,
         "count": 10,
         "where": [
-          "README.md:154",
-          "adr/adr-002-cross-repo-graph.md:96",
-          "adr/adr-002-cross-repo-graph.md:141",
-          "adr/adr-002-cross-repo-graph.md:147",
-          "docs/GUIDE.md:219",
-          "index.json:3756",
-          "index.json:3821",
-          "index.json:3877",
-          "index.json:3965",
-          "index.json:4587"
+          "README.md:156",
+          "adr/adr-002-cross-repo-graph.md:97",
+          "adr/adr-002-cross-repo-graph.md:142",
+          "adr/adr-002-cross-repo-graph.md:148",
+          "docs/GUIDE.md:220",
+          "index.json:3806",
+          "index.json:3871",
+          "index.json:3927",
+          "index.json:4015",
+          "index.json:4637"
         ]
       },
       {
@@ -3989,9 +4039,9 @@
         "where": [
           "bootstrap.sh:81",
           "ds-system:32",
-          "index.json:3752",
-          "index.json:3815",
-          "index.json:3985"
+          "index.json:3802",
+          "index.json:3865",
+          "index.json:4035"
         ]
       },
       {
@@ -4002,13 +4052,13 @@
         "mentioned": true,
         "count": 7,
         "where": [
-          "adr/adr-002-cross-repo-graph.md:33",
-          "adr/adr-002-cross-repo-graph.md:65",
-          "index.json:3751",
-          "index.json:3814",
-          "index.json:3873",
-          "index.json:4000",
-          "index.json:4602"
+          "adr/adr-002-cross-repo-graph.md:34",
+          "adr/adr-002-cross-repo-graph.md:66",
+          "index.json:3801",
+          "index.json:3864",
+          "index.json:3923",
+          "index.json:4050",
+          "index.json:4652"
         ]
       },
       {
@@ -4019,11 +4069,11 @@
         "mentioned": true,
         "count": 5,
         "where": [
-          "index.json:3754",
-          "index.json:3819",
-          "index.json:3875",
-          "index.json:4017",
-          "index.json:4617"
+          "index.json:3804",
+          "index.json:3869",
+          "index.json:3925",
+          "index.json:4067",
+          "index.json:4667"
         ]
       },
       {
@@ -4034,11 +4084,11 @@
         "mentioned": true,
         "count": 5,
         "where": [
-          "index.json:3755",
-          "index.json:3820",
-          "index.json:3876",
-          "index.json:4032",
-          "index.json:4630"
+          "index.json:3805",
+          "index.json:3870",
+          "index.json:3926",
+          "index.json:4082",
+          "index.json:4680"
         ]
       },
       {
@@ -4049,11 +4099,11 @@
         "mentioned": true,
         "count": 5,
         "where": [
-          "index.json:3753",
-          "index.json:3818",
-          "index.json:3874",
-          "index.json:4047",
-          "index.json:4644"
+          "index.json:3803",
+          "index.json:3868",
+          "index.json:3924",
+          "index.json:4097",
+          "index.json:4694"
         ]
       },
       {
@@ -4070,9 +4120,9 @@
           "bootstrap.sh:108",
           "docs/GUIDE.md:105",
           "docs/GUIDE.md:151",
-          "index.json:3745",
-          "index.json:3861",
-          "index.json:4062",
+          "index.json:3795",
+          "index.json:3911",
+          "index.json:4112",
           "install.sh:20",
           "uninstall.sh:10"
         ]
@@ -4086,11 +4136,11 @@
         "count": 6,
         "where": [
           "docs/GUIDE.md:162",
-          "index.json:3744",
-          "index.json:3854",
-          "index.json:3924",
-          "index.json:4083",
-          "index.json:4760"
+          "index.json:3794",
+          "index.json:3904",
+          "index.json:3974",
+          "index.json:4133",
+          "index.json:4810"
         ]
       },
       {
@@ -4099,20 +4149,21 @@
         "what": "ds-next mcp",
         "declared": true,
         "mentioned": true,
-        "count": 12,
+        "count": 13,
         "where": [
-          "README.md:153",
-          "adr/adr-001-ship-canon-lib.md:59",
-          "adr/adr-002-cross-repo-graph.md:58",
-          "adr/adr-002-cross-repo-graph.md:91",
+          "AGENTS.md:7",
+          "README.md:155",
+          "adr/adr-001-ship-canon-lib.md:60",
+          "adr/adr-002-cross-repo-graph.md:59",
+          "adr/adr-002-cross-repo-graph.md:92",
           "docs/GUIDE.md:29",
           "docs/GUIDE.md:46",
           "docs/GUIDE.md:156",
-          "index.json:3742",
-          "index.json:3829",
-          "index.json:3852",
-          "index.json:4099",
-          "index.json:4421"
+          "index.json:3792",
+          "index.json:3879",
+          "index.json:3902",
+          "index.json:4149",
+          "index.json:4471"
         ]
       },
       {
@@ -4123,15 +4174,15 @@
         "mentioned": true,
         "count": 9,
         "where": [
-          "README.md:119",
-          "adr/adr-001-ship-canon-lib.md:32",
+          "README.md:121",
+          "adr/adr-001-ship-canon-lib.md:33",
           "docs/GUIDE.md:161",
-          "index.json:3743",
-          "index.json:3853",
-          "index.json:3923",
-          "index.json:4121",
-          "index.json:4773",
-          "repo-naming.md:35"
+          "index.json:3793",
+          "index.json:3903",
+          "index.json:3973",
+          "index.json:4171",
+          "index.json:4823",
+          "repo-naming.md:36"
         ]
       },
       {
@@ -4143,24 +4194,24 @@
         "count": 20,
         "where": [
           "README.md:61",
-          "adr/adr-002-cross-repo-graph.md:33",
-          "adr/adr-002-cross-repo-graph.md:58",
+          "adr/adr-002-cross-repo-graph.md:34",
+          "adr/adr-002-cross-repo-graph.md:59",
           "bootstrap.sh:100",
           "docs/GUIDE.md:48",
           "docs/GUIDE.md:154",
           "docs/GUIDE.md:168",
           "docs/GUIDE.md:211",
           "docs/GUIDE.md:214",
-          "docs/GUIDE.md:230",
-          "docs/GUIDE.md:232",
-          "index.json:3741",
-          "index.json:3851",
-          "index.json:4140",
-          "index.json:4434",
-          "index.json:4795",
-          "scripts/build_repos.py:152",
+          "docs/GUIDE.md:231",
+          "docs/GUIDE.md:233",
+          "index.json:3791",
+          "index.json:3901",
+          "index.json:4190",
+          "index.json:4484",
+          "index.json:4845",
+          "scripts/build_repos.py:159",
           "scripts/tests/test_build_repos.py:61",
-          "terminal-design.md:19",
+          "terminal-design.md:20",
           "uninstall.sh:10"
         ]
       },
@@ -4173,12 +4224,12 @@
         "count": 8,
         "where": [
           "docs/GUIDE.md:105",
-          "index.json:3746",
-          "index.json:3862",
-          "index.json:4170",
-          "index.json:4580",
-          "index.json:4581",
-          "terminal-design.md:19",
+          "index.json:3796",
+          "index.json:3912",
+          "index.json:4220",
+          "index.json:4630",
+          "index.json:4631",
+          "terminal-design.md:20",
           "uninstall.sh:11"
         ]
       },
@@ -4190,9 +4241,9 @@
         "mentioned": true,
         "count": 6,
         "where": [
-          "index.json:3748",
-          "index.json:3858",
-          "index.json:4188",
+          "index.json:3798",
+          "index.json:3908",
+          "index.json:4238",
           "uninstall.sh:87",
           "uninstall.sh:95",
           "uninstall.sh:104"
@@ -4206,11 +4257,11 @@
         "mentioned": true,
         "count": 8,
         "where": [
-          "adr/adr-002-cross-repo-graph.md:35",
-          "adr/adr-002-cross-repo-graph.md:59",
-          "index.json:3747",
-          "index.json:3857",
-          "index.json:4204",
+          "adr/adr-002-cross-repo-graph.md:36",
+          "adr/adr-002-cross-repo-graph.md:60",
+          "index.json:3797",
+          "index.json:3907",
+          "index.json:4254",
           "uninstall.sh:87",
           "uninstall.sh:95",
           "uninstall.sh:104"
@@ -4224,9 +4275,9 @@
         "mentioned": true,
         "count": 3,
         "where": [
-          "index.json:3765",
-          "index.json:3903",
-          "index.json:4222"
+          "index.json:3815",
+          "index.json:3953",
+          "index.json:4272"
         ]
       },
       {
@@ -4235,16 +4286,17 @@
         "what": "so-bug-review-interview",
         "declared": true,
         "mentioned": true,
-        "count": 8,
+        "count": 9,
         "where": [
+          "AGENTS.md:19",
           "docs/GUIDE.md:47",
-          "index.json:3763",
-          "index.json:3835",
-          "index.json:3884",
-          "index.json:3904",
-          "index.json:4235",
-          "index.json:4445",
-          "index.json:4666"
+          "index.json:3813",
+          "index.json:3885",
+          "index.json:3934",
+          "index.json:3954",
+          "index.json:4285",
+          "index.json:4495",
+          "index.json:4716"
         ]
       },
       {
@@ -4253,17 +4305,18 @@
         "what": "so-build-feature-interview",
         "declared": true,
         "mentioned": true,
-        "count": 9,
+        "count": 10,
         "where": [
+          "AGENTS.md:18",
           "docs/GUIDE.md:47",
           "docs/GUIDE.md:127",
-          "index.json:3762",
-          "index.json:3834",
-          "index.json:3883",
-          "index.json:3905",
-          "index.json:4253",
-          "index.json:4456",
-          "index.json:4679"
+          "index.json:3812",
+          "index.json:3884",
+          "index.json:3933",
+          "index.json:3955",
+          "index.json:4303",
+          "index.json:4506",
+          "index.json:4729"
         ]
       },
       {
@@ -4272,24 +4325,25 @@
         "what": "so-capture",
         "declared": true,
         "mentioned": true,
-        "count": 17,
+        "count": 18,
         "where": [
+          "AGENTS.md:20",
           "README.md:48",
-          "adr/adr-002-cross-repo-graph.md:51",
+          "adr/adr-002-cross-repo-graph.md:52",
           "docs/GUIDE.md:26",
           "docs/GUIDE.md:47",
           "docs/GUIDE.md:173",
           "docs/GUIDE.md:174",
           "docs/GUIDE.md:175",
-          "docs/GUIDE.md:234",
-          "index.json:3759",
-          "index.json:3832",
-          "index.json:3881",
-          "index.json:3906",
-          "index.json:4272",
-          "index.json:4467",
-          "index.json:4692",
-          "index.json:4744",
+          "docs/GUIDE.md:235",
+          "index.json:3809",
+          "index.json:3882",
+          "index.json:3931",
+          "index.json:3956",
+          "index.json:4322",
+          "index.json:4517",
+          "index.json:4742",
+          "index.json:4794",
           "install.sh:105"
         ]
       },
@@ -4299,19 +4353,20 @@
         "what": "so-changes",
         "declared": true,
         "mentioned": true,
-        "count": 11,
+        "count": 12,
         "where": [
+          "AGENTS.md:21",
           "docs/GUIDE.md:47",
           "docs/GUIDE.md:179",
           "docs/GUIDE.md:180",
-          "index.json:3760",
-          "index.json:3833",
-          "index.json:3882",
-          "index.json:3907",
-          "index.json:4299",
-          "index.json:4479",
-          "index.json:4722",
-          "index.json:4745"
+          "index.json:3810",
+          "index.json:3883",
+          "index.json:3932",
+          "index.json:3957",
+          "index.json:4349",
+          "index.json:4529",
+          "index.json:4772",
+          "index.json:4795"
         ]
       },
       {
@@ -4323,10 +4378,10 @@
         "count": 5,
         "where": [
           "docs/GUIDE.md:47",
-          "index.json:3761",
-          "index.json:3908",
-          "index.json:4320",
-          "operating-principles.md:19"
+          "index.json:3811",
+          "index.json:3958",
+          "index.json:4370",
+          "operating-principles.md:20"
         ]
       },
       {
@@ -4337,15 +4392,15 @@
         "mentioned": true,
         "count": 9,
         "where": [
-          "index.json:3764",
-          "index.json:3909",
-          "index.json:4335",
-          "index.json:4765",
-          "index.json:4766",
-          "index.json:4767",
-          "index.json:4778",
-          "index.json:4779",
-          "index.json:4780"
+          "index.json:3814",
+          "index.json:3959",
+          "index.json:4385",
+          "index.json:4815",
+          "index.json:4816",
+          "index.json:4817",
+          "index.json:4828",
+          "index.json:4829",
+          "index.json:4830"
         ]
       },
       {
@@ -4356,9 +4411,9 @@
         "mentioned": true,
         "count": 3,
         "where": [
-          "index.json:3766",
-          "index.json:3910",
-          "index.json:4354"
+          "index.json:3816",
+          "index.json:3960",
+          "index.json:4404"
         ]
       },
       {
@@ -4369,9 +4424,9 @@
         "mentioned": true,
         "count": 3,
         "where": [
-          "index.json:3767",
-          "index.json:3911",
-          "index.json:4367"
+          "index.json:3817",
+          "index.json:3961",
+          "index.json:4417"
         ]
       },
       {
@@ -4394,6 +4449,61 @@
         "count": 1,
         "where": [
           "README.md:9"
+        ]
+      },
+      {
+        "from": "docs-ds",
+        "to": "ds-next",
+        "what": "ds-next mcp",
+        "declared": false,
+        "mentioned": true,
+        "count": 1,
+        "where": [
+          "AGENTS.md:9"
+        ]
+      },
+      {
+        "from": "docs-ds",
+        "to": "skills-os",
+        "what": "so-bug-review-interview",
+        "declared": false,
+        "mentioned": true,
+        "count": 1,
+        "where": [
+          "AGENTS.md:21"
+        ]
+      },
+      {
+        "from": "docs-ds",
+        "to": "skills-os",
+        "what": "so-build-feature-interview",
+        "declared": false,
+        "mentioned": true,
+        "count": 1,
+        "where": [
+          "AGENTS.md:20"
+        ]
+      },
+      {
+        "from": "docs-ds",
+        "to": "skills-os",
+        "what": "so-capture",
+        "declared": false,
+        "mentioned": true,
+        "count": 1,
+        "where": [
+          "AGENTS.md:22"
+        ]
+      },
+      {
+        "from": "docs-ds",
+        "to": "skills-os",
+        "what": "so-changes",
+        "declared": false,
+        "mentioned": true,
+        "count": 1,
+        "where": [
+          "AGENTS.md:23"
         ]
       },
       {
@@ -4521,7 +4631,7 @@
         "what": "index.json",
         "declared": true,
         "mentioned": true,
-        "count": 48,
+        "count": 50,
         "where": [
           "HANDOFF.md:39",
           "HANDOFF.md:67",
@@ -4590,7 +4700,7 @@
         "count": 5,
         "where": [
           "README.md:138",
-          "src/ds_next/agent.py:418",
+          "src/ds_next/agent.py:447",
           "src/ds_next/codetools.py:19",
           "src/ds_next/scaffold.py:204",
           "tests/test_codetools.py:42"
@@ -4620,7 +4730,7 @@
         "count": 3,
         "where": [
           "README.md:138",
-          "src/ds_next/agent.py:416",
+          "src/ds_next/agent.py:445",
           "src/ds_next/codetools.py:18"
         ]
       },
@@ -4633,7 +4743,7 @@
         "count": 4,
         "where": [
           "README.md:138",
-          "src/ds_next/agent.py:417",
+          "src/ds_next/agent.py:446",
           "src/ds_next/codetools.py:18",
           "src/ds_next/scaffold.py:204"
         ]
@@ -4647,7 +4757,7 @@
         "count": 3,
         "where": [
           "README.md:138",
-          "src/ds_next/agent.py:416",
+          "src/ds_next/agent.py:445",
           "src/ds_next/codetools.py:19"
         ]
       },
@@ -4700,7 +4810,7 @@
           "README.md:203",
           "docs/design-system/ds-next Baseline.dc.html:181",
           "docs/design-system/handoff/ds_next/ui.py:6",
-          "src/ds_next/agent.py:360",
+          "src/ds_next/agent.py:389",
           "src/ds_next/scaffold.py:28",
           "src/ds_next/setup.py:55",
           "src/ds_next/ui.py:6",
@@ -4790,6 +4900,51 @@
       ],
       "undeclared": [
         {
+          "from": "docs-ds",
+          "to": "ds-next",
+          "what": "ds-next mcp",
+          "count": 1,
+          "where": [
+            "AGENTS.md:9"
+          ]
+        },
+        {
+          "from": "docs-ds",
+          "to": "skills-os",
+          "what": "so-bug-review-interview",
+          "count": 1,
+          "where": [
+            "AGENTS.md:21"
+          ]
+        },
+        {
+          "from": "docs-ds",
+          "to": "skills-os",
+          "what": "so-build-feature-interview",
+          "count": 1,
+          "where": [
+            "AGENTS.md:20"
+          ]
+        },
+        {
+          "from": "docs-ds",
+          "to": "skills-os",
+          "what": "so-capture",
+          "count": 1,
+          "where": [
+            "AGENTS.md:22"
+          ]
+        },
+        {
+          "from": "docs-ds",
+          "to": "skills-os",
+          "what": "so-changes",
+          "count": 1,
+          "where": [
+            "AGENTS.md:23"
+          ]
+        },
+        {
           "from": "ds-code",
           "to": "ds-next",
           "what": "ds-next setup [--remove|--check]",
@@ -4812,6 +4967,628 @@
       ],
       "unreadable": [],
       "silent": []
+    }
+  },
+  "adoption": {
+    "generated": "2026-10-30",
+    "standards": {
+      "adr-000": {
+        "version": 1,
+        "default": "adopt",
+        "adopted": [
+          "canon",
+          "docs-ds",
+          "ds-code",
+          "ds-next",
+          "skills-os"
+        ],
+        "by_default": [
+          "canon",
+          "docs-ds",
+          "ds-code",
+          "skills-os"
+        ],
+        "declined": {},
+        "pending": []
+      },
+      "adr-001": {
+        "version": 2,
+        "default": "adopt",
+        "adopted": [
+          "canon",
+          "docs-ds",
+          "ds-code",
+          "ds-next",
+          "skills-os"
+        ],
+        "by_default": [
+          "canon",
+          "docs-ds",
+          "ds-code",
+          "ds-next",
+          "skills-os"
+        ],
+        "declined": {},
+        "pending": []
+      },
+      "adr-002": {
+        "version": 1,
+        "default": "adopt",
+        "adopted": [
+          "canon",
+          "docs-ds",
+          "ds-code",
+          "ds-next",
+          "skills-os"
+        ],
+        "by_default": [
+          "canon",
+          "docs-ds",
+          "ds-code",
+          "ds-next",
+          "skills-os"
+        ],
+        "declined": {},
+        "pending": []
+      },
+      "adr-003": {
+        "version": 1,
+        "default": "adopt",
+        "adopted": [
+          "canon",
+          "docs-ds",
+          "ds-code",
+          "ds-next",
+          "skills-os"
+        ],
+        "by_default": [
+          "canon",
+          "docs-ds",
+          "ds-code",
+          "ds-next",
+          "skills-os"
+        ],
+        "declined": {},
+        "pending": []
+      },
+      "architecture": {
+        "version": 1,
+        "default": "adopt",
+        "adopted": [
+          "canon",
+          "docs-ds",
+          "ds-code",
+          "ds-next",
+          "skills-os"
+        ],
+        "by_default": [
+          "canon",
+          "docs-ds",
+          "ds-code",
+          "skills-os"
+        ],
+        "declined": {},
+        "pending": []
+      },
+      "change-cadence": {
+        "version": 1,
+        "default": "adopt",
+        "adopted": [
+          "canon",
+          "docs-ds",
+          "ds-code",
+          "ds-next",
+          "skills-os"
+        ],
+        "by_default": [
+          "canon",
+          "docs-ds",
+          "ds-code",
+          "skills-os"
+        ],
+        "declined": {},
+        "pending": []
+      },
+      "cicd": {
+        "version": 1,
+        "default": "adopt",
+        "adopted": [
+          "canon",
+          "docs-ds",
+          "ds-code",
+          "ds-next",
+          "skills-os"
+        ],
+        "by_default": [
+          "canon",
+          "docs-ds",
+          "ds-code",
+          "skills-os"
+        ],
+        "declined": {},
+        "pending": []
+      },
+      "code-review": {
+        "version": 1,
+        "default": "adopt",
+        "adopted": [
+          "canon",
+          "docs-ds",
+          "ds-code",
+          "ds-next",
+          "skills-os"
+        ],
+        "by_default": [
+          "canon",
+          "docs-ds",
+          "ds-code",
+          "skills-os"
+        ],
+        "declined": {},
+        "pending": []
+      },
+      "compliance-rubric": {
+        "version": 1,
+        "default": "adopt",
+        "adopted": [
+          "canon",
+          "docs-ds",
+          "ds-code",
+          "ds-next",
+          "skills-os"
+        ],
+        "by_default": [
+          "canon",
+          "docs-ds",
+          "ds-code",
+          "skills-os"
+        ],
+        "declined": {},
+        "pending": []
+      },
+      "decision-logs": {
+        "version": 1,
+        "default": "adopt",
+        "adopted": [
+          "canon",
+          "docs-ds",
+          "ds-code",
+          "ds-next",
+          "skills-os"
+        ],
+        "by_default": [
+          "canon",
+          "docs-ds",
+          "ds-code",
+          "skills-os"
+        ],
+        "declined": {},
+        "pending": []
+      },
+      "error-handling": {
+        "version": 1,
+        "default": "adopt",
+        "adopted": [
+          "ds-code",
+          "ds-next"
+        ],
+        "by_default": [
+          "ds-code"
+        ],
+        "declined": {},
+        "pending": []
+      },
+      "gotcha-agent-trust": {
+        "version": 6,
+        "default": "adopt",
+        "adopted": [],
+        "by_default": [],
+        "declined": {},
+        "pending": []
+      },
+      "gotcha-approvals": {
+        "version": 4,
+        "default": "adopt",
+        "adopted": [
+          "ds-code",
+          "ds-next"
+        ],
+        "by_default": [
+          "ds-code",
+          "ds-next"
+        ],
+        "declined": {},
+        "pending": []
+      },
+      "gotcha-confined-writes": {
+        "version": 1,
+        "default": "adopt",
+        "adopted": [
+          "canon",
+          "ds-next"
+        ],
+        "by_default": [
+          "canon",
+          "ds-next"
+        ],
+        "declined": {},
+        "pending": []
+      },
+      "gotcha-cortex-sdk": {
+        "version": 4,
+        "default": "adopt",
+        "adopted": [],
+        "by_default": [],
+        "declined": {},
+        "pending": []
+      },
+      "gotcha-docs-staging": {
+        "version": 2,
+        "default": "adopt",
+        "adopted": [],
+        "by_default": [],
+        "declined": {},
+        "pending": []
+      },
+      "gotcha-generated-text": {
+        "version": 1,
+        "default": "adopt",
+        "adopted": [
+          "canon",
+          "ds-next"
+        ],
+        "by_default": [
+          "canon",
+          "ds-next"
+        ],
+        "declined": {},
+        "pending": []
+      },
+      "gotcha-git-hooks": {
+        "version": 1,
+        "default": "adopt",
+        "adopted": [
+          "canon",
+          "ds-next"
+        ],
+        "by_default": [
+          "canon",
+          "ds-next"
+        ],
+        "declined": {},
+        "pending": []
+      },
+      "gotcha-green-means-ran": {
+        "version": 1,
+        "default": "adopt",
+        "adopted": [
+          "canon",
+          "docs-ds",
+          "ds-code",
+          "ds-next",
+          "skills-os"
+        ],
+        "by_default": [
+          "canon",
+          "docs-ds",
+          "ds-code",
+          "ds-next",
+          "skills-os"
+        ],
+        "declined": {},
+        "pending": []
+      },
+      "gotcha-proving-claims": {
+        "version": 1,
+        "default": "adopt",
+        "adopted": [
+          "canon",
+          "docs-ds",
+          "ds-code",
+          "ds-next",
+          "skills-os"
+        ],
+        "by_default": [
+          "canon",
+          "docs-ds",
+          "ds-code",
+          "ds-next",
+          "skills-os"
+        ],
+        "declined": {},
+        "pending": []
+      },
+      "gotcha-terminal-ui": {
+        "version": 4,
+        "default": "adopt",
+        "adopted": [
+          "ds-code",
+          "ds-next"
+        ],
+        "by_default": [
+          "ds-code",
+          "ds-next"
+        ],
+        "declined": {},
+        "pending": []
+      },
+      "gotcha-tool-arguments": {
+        "version": 1,
+        "default": "adopt",
+        "adopted": [
+          "ds-code",
+          "ds-next"
+        ],
+        "by_default": [
+          "ds-code",
+          "ds-next"
+        ],
+        "declined": {},
+        "pending": []
+      },
+      "gotcha-validation": {
+        "version": 1,
+        "default": "adopt",
+        "adopted": [
+          "canon",
+          "ds-next"
+        ],
+        "by_default": [
+          "canon",
+          "ds-next"
+        ],
+        "declined": {},
+        "pending": []
+      },
+      "gotcha-verify-process": {
+        "version": 3,
+        "default": "adopt",
+        "adopted": [
+          "canon",
+          "docs-ds",
+          "ds-code",
+          "ds-next",
+          "skills-os"
+        ],
+        "by_default": [
+          "canon",
+          "docs-ds",
+          "ds-code",
+          "ds-next",
+          "skills-os"
+        ],
+        "declined": {},
+        "pending": []
+      },
+      "idempotency": {
+        "version": 1,
+        "default": "adopt",
+        "adopted": [],
+        "by_default": [],
+        "declined": {},
+        "pending": []
+      },
+      "lifecycle": {
+        "version": 1,
+        "default": "adopt",
+        "adopted": [
+          "canon",
+          "docs-ds",
+          "ds-code",
+          "ds-next",
+          "skills-os"
+        ],
+        "by_default": [
+          "canon",
+          "docs-ds",
+          "ds-code",
+          "skills-os"
+        ],
+        "declined": {},
+        "pending": []
+      },
+      "llm-agents": {
+        "version": 1,
+        "default": "adopt",
+        "adopted": [
+          "canon",
+          "docs-ds",
+          "ds-code",
+          "ds-next",
+          "skills-os"
+        ],
+        "by_default": [
+          "canon",
+          "docs-ds",
+          "ds-code",
+          "skills-os"
+        ],
+        "declined": {},
+        "pending": []
+      },
+      "normative-language": {
+        "version": 1,
+        "default": "adopt",
+        "adopted": [
+          "canon",
+          "docs-ds",
+          "ds-code",
+          "ds-next",
+          "skills-os"
+        ],
+        "by_default": [
+          "canon",
+          "docs-ds",
+          "ds-code",
+          "skills-os"
+        ],
+        "declined": {},
+        "pending": []
+      },
+      "observability": {
+        "version": 1,
+        "default": "adopt",
+        "adopted": [],
+        "by_default": [],
+        "declined": {},
+        "pending": []
+      },
+      "operating-principles": {
+        "version": 1,
+        "default": "adopt",
+        "adopted": [
+          "canon",
+          "docs-ds",
+          "ds-code",
+          "ds-next",
+          "skills-os"
+        ],
+        "by_default": [
+          "canon",
+          "docs-ds",
+          "ds-code",
+          "skills-os"
+        ],
+        "declined": {},
+        "pending": []
+      },
+      "repo-naming": {
+        "version": 1,
+        "default": "adopt",
+        "adopted": [
+          "canon",
+          "docs-ds",
+          "ds-code",
+          "ds-next",
+          "skills-os"
+        ],
+        "by_default": [
+          "canon",
+          "docs-ds",
+          "ds-code",
+          "ds-next",
+          "skills-os"
+        ],
+        "declined": {},
+        "pending": []
+      },
+      "review-cadence": {
+        "version": 1,
+        "default": "adopt",
+        "adopted": [
+          "canon",
+          "docs-ds",
+          "ds-code",
+          "ds-next",
+          "skills-os"
+        ],
+        "by_default": [
+          "canon",
+          "docs-ds",
+          "ds-code",
+          "skills-os"
+        ],
+        "declined": {},
+        "pending": []
+      },
+      "security": {
+        "version": 1,
+        "default": "adopt",
+        "adopted": [
+          "canon",
+          "docs-ds",
+          "ds-code",
+          "ds-next",
+          "skills-os"
+        ],
+        "by_default": [
+          "canon",
+          "docs-ds",
+          "ds-code",
+          "skills-os"
+        ],
+        "declined": {},
+        "pending": []
+      },
+      "templates": {
+        "version": 1,
+        "default": "adopt",
+        "adopted": [
+          "canon",
+          "docs-ds",
+          "ds-code",
+          "ds-next",
+          "skills-os"
+        ],
+        "by_default": [
+          "canon",
+          "docs-ds",
+          "ds-code",
+          "skills-os"
+        ],
+        "declined": {},
+        "pending": []
+      },
+      "terminal-design": {
+        "version": 2,
+        "default": "adopt",
+        "adopted": [
+          "ds-code",
+          "ds-next"
+        ],
+        "by_default": [
+          "ds-code",
+          "ds-next"
+        ],
+        "declined": {},
+        "pending": []
+      },
+      "testing": {
+        "version": 1,
+        "default": "adopt",
+        "adopted": [
+          "canon",
+          "docs-ds",
+          "ds-code",
+          "ds-next",
+          "skills-os"
+        ],
+        "by_default": [
+          "canon",
+          "docs-ds",
+          "ds-code",
+          "skills-os"
+        ],
+        "declined": {},
+        "pending": []
+      }
+    },
+    "repos": {
+      "canon": {
+        "adopted": 26,
+        "declined": 0,
+        "pending": []
+      },
+      "docs-ds": {
+        "adopted": 22,
+        "declined": 0,
+        "pending": []
+      },
+      "ds-code": {
+        "adopted": 27,
+        "declined": 0,
+        "pending": []
+      },
+      "ds-next": {
+        "adopted": 31,
+        "declined": 0,
+        "pending": []
+      },
+      "skills-os": {
+        "adopted": 22,
+        "declined": 0,
+        "pending": []
+      }
     }
   }
 }

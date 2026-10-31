@@ -3,6 +3,7 @@ id: cicd
 version: 1
 title: CI/CD and Release Management
 applies_to: ["*"]
+default: adopt
 owner: ckoenigs
 status: proposed
 date: 2026-10-14

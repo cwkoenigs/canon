@@ -3,6 +3,7 @@ id: adr-000
 version: 1
 title: Repo knowledge system
 applies_to: ["*"]
+default: adopt
 owner: ckoenigs
 status: proposed
 date: 2026-09-25

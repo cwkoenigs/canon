@@ -3,6 +3,7 @@ id: gotcha-git-hooks
 version: 1
 title: Installing git hooks and running git
 applies_to: ["python"]
+default: adopt
 owner: ckoenigs
 status: proposed
 kind: gotcha

@@ -3,6 +3,7 @@ id: decision-logs
 version: 1
 title: Decision Logs and Lineage
 applies_to: ["*"]
+default: adopt
 owner: ckoenigs
 status: proposed
 date: 2026-10-14

@@ -3,6 +3,7 @@ id: operating-principles
 version: 1
 title: Operating Principles
 applies_to: ["*"]
+default: adopt
 owner: ckoenigs
 status: proposed
 date: 2026-10-14

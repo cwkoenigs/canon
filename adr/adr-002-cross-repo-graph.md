@@ -3,6 +3,7 @@ id: adr-002
 version: 1
 title: The cross-repo graph is compiled by the canon's pipeline from declared contracts and mentions, and read from index.json
 applies_to: ["*"]
+default: adopt
 owner: ckoenigs
 status: proposed
 date: 2026-10-30
