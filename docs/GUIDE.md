@@ -174,7 +174,7 @@ ds-next setup --agent cortex|claude|codex   # which agent the terminal drives (D
 2. **Review your drafts.** `/captures` in ds-next, or `/so-capture list`.
 3. **Flush.** `/so-capture flush` opens one merge request on the canon with the drafts, wherever `~/.ds/config.toml` says: a GitLab MR at work, a GitHub PR at home. GitLab needs a token in the variable `token_env` names (`GITLAB_TOKEN`), or a `glab` login.
 4. **The owner reviews** the MR: edits, narrows `applies_to`, sets `status`, bumps `version` if the meaning changed, runs `python scripts/build_index.py`, and merges.
-5. **It reaches every repo by itself.** The next push in any repo whose tags match prints a one-line nudge (pending standards never block). `/status` there adopts or declines, with a reason and a 90-day revisit, in `.ds/manifest.toml`.
+5. **It reaches every repo by itself.** The next push in any repo whose tags match prints a one-line nudge (pending standards never block). `/status` there shows them; after reading one in `/docs`, `ds-next decide adopt <id>` or `ds-next decide decline <id> --reason "…"` records the answer in `.ds/manifest.toml`, a decline with a 90-day revisit by default. `decide adopt --all` takes every pending one, for a repo written under the standards.
 
 Decisions local to one repo go in that repo's `DECISIONS.md` (`/so-changes adr`). Shipped
 changes go in its `CHANGELOG.md` (`/so-changes changelog`).
@@ -232,7 +232,7 @@ script named as having work in it. To check an agent's wiring at any time: `ds-n
 | `ds-code: permission denied`, or an agent has no `code` tools | An older ds-code build; `bash ~/Developer/canon/bootstrap.sh` rebuilds it and rewires the agents (`ds-next setup` alone does the wiring). |
 | `/docs` fails | Node.js 26 isn't installed, or docs-ds wasn't installed: rerun the installer after installing Node. |
 | `/so-capture flush` can't open an MR | No GitLab token in `$GITLAB_TOKEN` (or no `glab` login), or `[world]` in `~/.ds/config.toml` names the wrong group. |
-| `/status` shows many pending standards | Expected on a new or adopted repo: adopt or decline each with a reason. Pending never blocks a push. |
+| `/status` shows many pending standards | Expected on a new or adopted repo. Read each in `/docs`, then `ds-next decide adopt <ids>` or `decide decline <id> --reason "…"`; `decide adopt --all` for a repo written under them. Pending never blocks a push. |
 
 ## Read more
 
