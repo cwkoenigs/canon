@@ -3,6 +3,7 @@ id: gotcha-proving-claims
 version: 1
 title: Proving a claim about a tool or a knowledge base
 applies_to: ["*"]
+default: adopt
 owner: ckoenigs
 status: proposed
 kind: gotcha

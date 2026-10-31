@@ -3,6 +3,7 @@ id: gotcha-cortex-sdk
 version: 4
 title: Cortex Code SDK behaviour that is not in its docs
 applies_to: ["cortex"]
+default: adopt
 owner: ckoenigs
 status: proposed
 kind: gotcha

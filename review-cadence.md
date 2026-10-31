@@ -3,6 +3,7 @@ id: review-cadence
 version: 1
 title: Review Cadence
 applies_to: ["*"]
+default: adopt
 owner: ckoenigs
 status: proposed
 date: 2026-10-14

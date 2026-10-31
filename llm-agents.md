@@ -3,6 +3,7 @@ id: llm-agents
 version: 1
 title: LLM and Agent Standards
 applies_to: ["*"]
+default: adopt
 owner: ckoenigs
 status: proposed
 date: 2026-10-14

@@ -3,8 +3,10 @@
     python scripts/build_index.py          # write index.json
     python scripts/build_index.py --check  # exit 1 if index.json is stale or a standard is malformed
 
-Required front matter: id, version, title, applies_to, owner. Optional: supersedes, status.
-IDs never change; versions only go up. `ds` reads only this file for lookups.
+Required front matter: id, version, title, applies_to, owner. Optional: supersedes, status, and
+default (adopt, the usual: in force in every repo it applies to unless declined; or ask: pending
+until the repo's owner decides; adr-003). IDs never change; versions only go up. `ds` reads only
+this file for lookups.
 
 Gotchas (gotchas/*.md, `kind: gotcha`) are standards: indexed, pointed at, adopted. Blocks live
 in blocks/<id>/: BLOCK.md (front matter: id, version, title, module, requires, tags, owner;
@@ -177,11 +179,13 @@ def parse(path: Path) -> dict:
         "id": fm["id"], "version": int(fm["version"]), "title": fm["title"],
         "applies_to": json.loads(fm["applies_to"]), "owner": fm["owner"],
         "supersedes": fm.get("supersedes") or None, "status": fm.get("status", "accepted"),
-        "kind": fm.get("kind", "standard"),
+        "kind": fm.get("kind", "standard"), "default": fm.get("default", "adopt"),
         "hash": hashlib.sha256(text.encode()).hexdigest()[:12], "path": path.relative_to(ROOT).as_posix(),
     }
     if not re.fullmatch(r"[a-z0-9-]+", entry["id"]):
         raise ValueError(f"{path.relative_to(ROOT)}: id must be lowercase letters, digits, hyphens")
+    if entry["default"] not in ("adopt", "ask"):
+        raise ValueError(f"{path.relative_to(ROOT)}: default must be adopt or ask, not {entry['default']!r}")
     return entry
 
 

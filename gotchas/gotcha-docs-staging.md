@@ -3,6 +3,7 @@ id: gotcha-docs-staging
 version: 2
 title: Staging repository docs for a site build
 applies_to: ["docs"]
+default: adopt
 owner: ckoenigs
 status: proposed
 kind: gotcha

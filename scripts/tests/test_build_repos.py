@@ -118,5 +118,31 @@ def test_cli_writes_section(world, monkeypatch, capsys):
     index = json.loads((canon / "index.json").read_text())
     assert index["standards"] == [] and len(index["repos"]["edges"]) == 2
     out = capsys.readouterr().out
-    assert "3 repos (2 with a manifest), 2 edges" in out and "unreadable (1)" in out
+    assert "3 repos (2 with a manifest), 2 edges" in out and "unreadable (1)" in out and "adoption:" in out
     assert br.main([]) == 2
+
+
+def test_adoption_rollup():
+    stds = [{"id": "testing", "version": 2, "applies_to": ["*"], "default": "adopt"},
+            {"id": "cicd", "version": 1, "applies_to": ["*"], "default": "adopt"},
+            {"id": "ml-review", "version": 1, "applies_to": ["ml"], "default": "ask"}]
+    repos = [
+        {"name": "a", "manifest": True, "tags": ["python", "ml"],
+         "standards": {"testing": {"status": "adopted", "version": 1}, "cicd": {"status": "declined", "version": 1, "reason": "no runner"}}},
+        {"name": "b", "manifest": True, "tags": ["python"], "standards": {}},
+        {"name": "c", "manifest": True, "tags": ["ml"], "standards": {"ml-review": {"status": "adopted", "version": 1},
+                                                                        "testing": {"status": "declined", "version": 1, "reason": "old"}}},
+        {"name": "quiet", "manifest": False, "tags": [], "standards": {}},
+    ]
+    a = br.compile_adoption(repos, stds)
+    t = a["standards"]["testing"]
+    assert t["adopted"] == ["a", "b"] and t["by_default"] == ["a", "b"]            # a's v1 carried forward by the default
+    assert t["pending"] == ["c (declined at v1)"] and t["declined"] == {}        # a decline answers one version
+    assert a["standards"]["cicd"] == {"version": 1, "default": "adopt", "adopted": ["b", "c"], "by_default": ["b", "c"],
+                                      "declined": {"a": "no runner"}, "pending": []}
+    assert a["standards"]["ml-review"]["pending"] == ["a"] and a["standards"]["ml-review"]["adopted"] == ["c"]
+    assert a["repos"] == {"a": {"adopted": 1, "declined": 1, "pending": ["ml-review"]},
+                          "b": {"adopted": 2, "declined": 0, "pending": []},
+                          "c": {"adopted": 2, "declined": 0, "pending": ["testing"]}}
+    assert "quiet" not in a["repos"]
+    assert br.adoption_summary(a).splitlines()[0] == "adoption: 3 standards x 3 repos: 5 adopted (4 by default), 1 declined, 2 pending"

@@ -3,6 +3,7 @@ id: repo-naming
 version: 1
 title: Repository Names
 applies_to: ["*"]
+default: adopt
 owner: ckoenigs
 status: accepted
 date: 2026-10-20

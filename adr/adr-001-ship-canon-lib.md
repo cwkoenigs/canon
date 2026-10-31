@@ -3,6 +3,7 @@ id: adr-001
 version: 2
 title: Accepted code as canon-lib, grown from real repos; lessons live next to what they changed
 applies_to: ["*"]
+default: adopt
 owner: ckoenigs
 status: proposed
 date: 2026-10-18

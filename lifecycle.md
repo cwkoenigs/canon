@@ -3,6 +3,7 @@ id: lifecycle
 version: 1
 title: Project Lifecycle Standards
 applies_to: ["*"]
+default: adopt
 owner: ckoenigs
 status: proposed
 date: 2026-10-14

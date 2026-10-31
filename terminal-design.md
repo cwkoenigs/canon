@@ -3,6 +3,7 @@ id: terminal-design
 version: 2
 title: Terminal Design System
 applies_to: ["cli", "terminal"]
+default: adopt
 owner: ckoenigs
 status: accepted
 date: 2026-10-28

@@ -3,6 +3,7 @@ id: error-handling
 version: 1
 title: Error Handling
 applies_to: ["service", "package"]
+default: adopt
 owner: ckoenigs
 status: proposed
 date: 2026-10-14

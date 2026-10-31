@@ -3,6 +3,7 @@ id: observability
 version: 1
 title: Observability and Operations
 applies_to: ["service", "pipeline", "dbt"]
+default: adopt
 owner: ckoenigs
 status: proposed
 date: 2026-10-14

@@ -3,6 +3,7 @@ id: normative-language
 version: 1
 title: Normative Language
 applies_to: ["*"]
+default: adopt
 owner: ckoenigs
 status: proposed
 date: 2026-10-14

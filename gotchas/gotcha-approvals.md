@@ -3,6 +3,7 @@ id: gotcha-approvals
 version: 4
 title: Approving what a model wants to do
 applies_to: ["cortex", "cli"]
+default: adopt
 owner: ckoenigs
 status: proposed
 kind: gotcha

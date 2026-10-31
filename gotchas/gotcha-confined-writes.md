@@ -3,6 +3,7 @@ id: gotcha-confined-writes
 version: 1
 title: Writes that stay where they were asked to go
 applies_to: ["python"]
+default: adopt
 owner: ckoenigs
 status: proposed
 kind: gotcha

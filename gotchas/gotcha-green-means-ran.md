@@ -3,6 +3,7 @@ id: gotcha-green-means-ran
 version: 1
 title: A green check proves the job finished, not that it did the work
 applies_to: ["*"]
+default: adopt
 owner: ckoenigs
 status: proposed
 kind: gotcha

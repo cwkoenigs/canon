@@ -3,6 +3,7 @@ id: idempotency
 version: 1
 title: Idempotency and Resilience
 applies_to: ["service", "pipeline", "dbt"]
+default: adopt
 owner: ckoenigs
 status: proposed
 date: 2026-10-14
