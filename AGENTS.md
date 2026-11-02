@@ -9,7 +9,7 @@ The one place the team's standards are written.
 <!-- ds:inherited canon 2026-10-30 -->
 ## Standards
 
-Standards that apply here, each pending until the owner adopts or declines it in `.ds/manifest.toml` (`/status` in ds-next): [[adr-000]], [[adr-001]], [[adr-002]], [[architecture]], [[change-cadence]], [[cicd]], [[code-review]], [[compliance-rubric]], [[decision-logs]], [[gotcha-green-means-ran]], [[gotcha-proving-claims]], [[gotcha-verify-process]], [[lifecycle]], [[llm-agents]], [[normative-language]], [[operating-principles]], [[repo-naming]], [[review-cadence]], [[security]], [[templates]], [[testing]].
+Standards that apply here, in force by default unless declined in `.ds/manifest.toml` (`ds-next decide` records a decline or an answer to one that asks; `/status` shows them): [[adr-000]], [[adr-001]], [[adr-002]], [[architecture]], [[change-cadence]], [[cicd]], [[code-review]], [[compliance-rubric]], [[decision-logs]], [[gotcha-green-means-ran]], [[gotcha-proving-claims]], [[gotcha-verify-process]], [[lifecycle]], [[llm-agents]], [[normative-language]], [[operating-principles]], [[repo-naming]], [[review-cadence]], [[security]], [[templates]], [[testing]].
 
 ## Skills
 

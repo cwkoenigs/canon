@@ -2,10 +2,11 @@
 
 The one place the team's standards are written. Every standard is a Markdown file with a
 stable `id`, a `version` that only goes up, the tags it `applies_to`, and an `owner`.
-Repositories never copy a standard's text; they point at it with `[[id]]`, and their
-`.ds/manifest.toml` records whether each applicable standard is adopted, declined with a
-reason, or pending. `index.json` is generated from the front matter and is the only thing
-`ds` reads for lookups.
+Repositories never copy a standard's text; they point at it with `[[id]]`. A standard is in
+force in every repository it applies to unless that repository declined it, and a repository's
+`.ds/manifest.toml` records only those exceptions ([[adr-003]]). `index.json` is generated from
+the front matter, the registry and every registered repository, and is the only thing `ds`
+reads for lookups. [docs/GUIDE.md](docs/GUIDE.md) is the whole system in one document.
 
 ## Start here
 
@@ -82,19 +83,16 @@ marked `proposed` with `applies_to` set broadly. Review each one, narrow `applie
 `status: accepted`, and bump nothing until the text changes. Section 17 of the guidebook is
 deliberately absent: `/new` answers it per repository.
 
-## Where this stands (2026-10-28, v0.2.0)
+## Where this stands
 
-canon is the source of truth; canon-lib carries the code projects import (the terminal look
-included: `ui_style`, `widgets`, `picker` under the `tui` extra), and the MCP carries the knowledge
-([[adr-001]], still `proposed` until the owner accepts it). canon-lib is released by tag
-(`canon-lib-v0.2.0`), and new repos take it from git at that tag. Five accepted project types
-(`/new` offers nothing else), two accepted standards (`repo-naming`, `terminal-design`), the rest
-`proposed` for review; `proposed` blocks (`block-tui-picker` among them) are built into canon-lib,
-marked unreviewed, and hidden from `block_list` until accepted. What differs between machines
-(home on GitHub, work on the team's GitLab) is in `~/.ds/config.toml`. The proof behind the
-package-first design is in `~/Developer/ds-next/REPORT.md`.
-
-v0.1.0 (2026-10-20) was the first release a team could install.
+[docs/GUIDE.md](docs/GUIDE.md) keeps the current list under "Built and not built". In short, on
+2026-11-02: install, update and remove run behind `ds-system`; the `ds` and `code` tool servers are
+wired into Claude Code, Cortex Code and Codex; standards are in force by default with exceptions
+recorded by `ds-next decide`; the cross-repository graph and the team-wide adoption view are compiled
+into `index.json`. The pipeline that would compile them on its own has never run. canon-lib is
+released by tag (`canon-lib-v0.2.0`) and carries the code projects import; the tool servers carry the
+knowledge ([[adr-001]]). Two standards and the five project types are accepted; ADR-000 to ADR-003
+and the rest are `proposed`. The proof behind the package-first design is in `ds-next/REPORT.md`.
 
 ## Gotchas and accepted code
 
