@@ -57,7 +57,9 @@ daemons, no system settings, no global npm or pip installs.
 - One read-only tool, `snowflake_search`, runs `cortex search` (Snowflake documentation, object
   names, table details) through the Cortex CLI with the user's own Snowflake connection and
   permissions. It returns metadata, not table rows.
-- **docs-ds** serves the docs on `localhost:3333` while a user has `/docs` open.
+- **`/docs`** builds the docs with docs-ds, then serves them to the user's own browser from inside
+  the ds-next process, on `127.0.0.1` only (not reachable from other machines), at a free port the
+  system picks, until ds-next exits.
 - **Captures** (`/so-capture`) open a merge request in the team's GitLab, using the user's own
   `glab` login or token, and only when the user runs the command. A person reviews the merge
   request before anything is published.
