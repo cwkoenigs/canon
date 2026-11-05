@@ -171,7 +171,6 @@ fi
 [ "$FAILED" = yes ] && { echo; echo "Not everything came off: see the notes above, then rerun."; exit 1; }
 cat <<DONE
 
-Done. uv, Node.js and the agent CLIs are still yours. To put the system back:
-  curl -fsSL https://raw.githubusercontent.com/cwkoenigs/canon/main/install.sh | bash
-(or clone canon again and run its ds-system)
+Done. uv, Node.js and the agent CLIs are still yours. To put the system back, clone canon again and
+run its ds-system: from GitHub with --github on a personal machine, from the team's GitLab on a work Mac.
 DONE
