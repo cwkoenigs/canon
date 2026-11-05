@@ -23,20 +23,38 @@
 # repository that has an upstream (the team host, once there is one) and redo the install steps.
 # Removing: `bash ~/Developer/canon/uninstall.sh`, or `ds-system` beside this file for status and the menu (the agents unwired, the commands unlinked, then it asks about the clones and ~/.ds).
 # Override any source with CANON_URL, DS_NEXT_URL, SKILLS_URL, DOCS_URL, DS_CODE_URL (git URLs, bundles or paths).
-case "${1:-}" in -h|--help) awk 'NR > 1 && !/^#/ { exit } NR > 1 { sub(/^# ?/, ""); print }' "$0"; exit 0;; esac
+#
+# Work-safe mode, for a managed (work) Mac: `bash install.sh --work-safe` (or DS_WORK_SAFE=1), run
+# from a canon cloned with git from the team host, never piped from curl. It:
+#   - downloads no programs: uv, Node.js and the agent CLIs must already be there (Self Service);
+#     a missing one stops the install instead of being fetched
+#   - clones only from the team host (TEAM_HOST or the answer to the question); github.com is refused
+#   - pushes nothing: team copies that do not exist yet are reported, not created
+#   - installs pinned versions only (uv.lock, package-lock.json), without npm install scripts,
+#     through whatever package mirror uv and npm are configured for (UV_DEFAULT_INDEX, .npmrc)
+#   - writes nothing outside $HOME: ds-code is linked into ~/.local/bin, not npm's global folder
+# It is remembered in ~/.ds/config.toml (`install = "work-safe"`), so bootstrap.sh reruns the same way.
+# docs/security-review.md lists everything the install touches.
+WORK_SAFE="${DS_WORK_SAFE:-0}"
+for a in "$@"; do
+  case "$a" in
+    -h|--help) awk 'NR > 1 && !/^#/ { exit } NR > 1 { sub(/^# ?/, ""); print }' "$0"; exit 0;;
+    --work-safe) WORK_SAFE=1;;
+    *) echo "unknown option: $a (see --help)"; exit 2;;
+  esac
+done
 set -euo pipefail
 
 HOST="${HOST_URL:-https://github.com/cwkoenigs}"
 DEV="${DEV:-$HOME/Developer}"
-CANON_URL="${CANON_URL:-$HOST/canon.git}"
-DS_NEXT_URL="${DS_NEXT_URL:-$HOST/ds-next.git}"
-SKILLS_URL="${SKILLS_URL:-$HOST/skills-os.git}"
-DOCS_URL="${DOCS_URL:-$HOST/docs-ds.git}"
-DS_CODE_URL="${DS_CODE_URL:-$HOST/ds-code.git}"
 say() { printf '\n==> %s\n' "$*"; }
+safe_stop() { echo "work-safe: $*"; exit 1; }
 
 say "tools"
 command -v git >/dev/null 2>&1 || { echo "git is missing: run xcode-select --install, then rerun"; exit 1; }
+if [ "$WORK_SAFE" = 1 ]; then
+  command -v uv >/dev/null 2>&1 || safe_stop "uv is missing. Install it from Self Service (or ask IT), then rerun; nothing is downloaded in this mode"
+fi
 if ! command -v uv >/dev/null 2>&1; then
   echo "uv is missing: installing it (https://astral.sh/uv)"
   curl -LsSf https://astral.sh/uv/install.sh | sh
@@ -83,6 +101,7 @@ rehome() {  # name dest: the clone's remote after the download; GitHub stays unl
 }
 seed() {  # push the clones whose team copies do not exist yet, if asked
   [ -n "$TO_SEED" ] || return 0
+  [ "$WORK_SAFE" = 1 ] && { echo "work-safe: not on the team host yet, not pushed:$TO_SEED"; return 0; }
   echo "not on the team host yet:$TO_SEED"
   ask "Push them now to create the team copies (main and tags)? [y/N] " "n"
   case "$REPLY" in y|Y|yes)
@@ -101,6 +120,7 @@ write_world() {  # what differs between worlds, in the machine's one config; nev
     echo "host      = \"$host\""
     echo "group     = \"$group\""
     echo "token_env = \"$token\"            # GitLab: the variable holding a token; GitHub uses gh's login"
+    [ "$WORK_SAFE" = 1 ] && echo 'install   = "work-safe"         # bootstrap.sh reruns in work-safe mode'
     echo
     echo "[capture]                     # where /so-capture sends captures"
     echo 'repo   = "canon"'
@@ -119,6 +139,21 @@ clone() {   # name url dest required
 say "team host"
 HOME_URL="$(team_host)"; TO_SEED=""
 [ -n "$HOME_URL" ] && echo "team copies under $HOME_URL" || echo "GitHub stays the home: reruns pull from it"
+if [ "$WORK_SAFE" = 1 ]; then   # clone straight from the team host; GitHub is never contacted
+  [ -n "$HOME_URL" ] || safe_stop "needs the team host (set TEAM_HOST, or answer with the GitLab group URL)"
+  case "$HOME_URL" in *github.com*) safe_stop "the team host cannot be github.com ($HOME_URL)";; esac
+  HOST="$HOME_URL"
+fi
+CANON_URL="${CANON_URL:-$HOST/canon.git}"
+DS_NEXT_URL="${DS_NEXT_URL:-$HOST/ds-next.git}"
+SKILLS_URL="${SKILLS_URL:-$HOST/skills-os.git}"
+DOCS_URL="${DOCS_URL:-$HOST/docs-ds.git}"
+DS_CODE_URL="${DS_CODE_URL:-$HOST/ds-code.git}"
+if [ "$WORK_SAFE" = 1 ]; then
+  for u in "$CANON_URL" "$DS_NEXT_URL" "$SKILLS_URL" "$DOCS_URL" "$DS_CODE_URL"; do
+    case "$u" in *github.com*) safe_stop "refusing a github.com source ($u)";; esac
+  done
+fi
 write_world
 
 say "repositories -> $DEV"
@@ -130,4 +165,4 @@ clone ds-code   "$DS_CODE_URL" "$DEV/ds-code"   optional
 seed
 
 say "bootstrap"
-CANON_URL="$DEV/canon" DS_NEXT_URL="$DEV/ds-next" DEV="$DEV" bash "$DEV/canon/bootstrap.sh"
+CANON_URL="$DEV/canon" DS_NEXT_URL="$DEV/ds-next" DEV="$DEV" DS_WORK_SAFE="$WORK_SAFE" bash "$DEV/canon/bootstrap.sh"
