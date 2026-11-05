@@ -53,6 +53,21 @@ which also installs docs-ds's Node dependencies (Node.js 26) so `/docs` renders.
 Or clone first and run the same script from the clone: `git clone https://github.com/cwkoenigs/canon
 ~/Developer/canon && bash ~/Developer/canon/install.sh`.
 
+**On a work (managed) Mac, use work-safe mode.** Clone canon from the team's GitLab with git, read
+`install.sh`, then run it with `--work-safe`:
+
+```sh
+git clone <team GitLab group URL>/canon.git ~/Developer/canon
+TEAM_HOST=<team GitLab group URL> bash ~/Developer/canon/install.sh --work-safe
+```
+
+It downloads no programs (uv, Node.js and the agent CLIs come from Self Service first), clones only
+from the team host and refuses github.com, pushes nothing, installs only the versions in the lockfiles
+without npm install scripts, and writes nothing outside your home folder (ds-code goes into
+`~/.local/bin`, not npm's global folder). The mode is remembered in `~/.ds/config.toml`, so updates
+with `bootstrap.sh` stay work-safe. [docs/security-review.md](docs/security-review.md) is the
+one-page summary for a security team.
+
 **Updating:** rerun the same line, or `bash ~/Developer/canon/bootstrap.sh`. Both pull every
 repository that has an upstream, including skills-os and docs-ds, and redo the install steps. From a checkout, `bash ~/Developer/canon/bootstrap.sh` does the install step
 alone. Rerunning either pulls where there is an upstream and re-checks. `CANON_URL` and `DS_NEXT_URL` override where the two

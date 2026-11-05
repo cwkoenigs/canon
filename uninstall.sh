@@ -10,7 +10,8 @@
 #   1. agents: `ds-next setup --remove` unregisters the ds and code servers, unlinks /ds-new,
 #      /ds-terminal-design and the /so-* skills, and drops the read-only allow rules from Claude Code
 #      and Cortex Code (Codex has none). Without ds-next's venv it does the same by hand.
-#   2. `ds-next` out of ~/.local/bin; `ds-code` out of npm's global bin (both only when they point into DEV)
+#   2. `ds-next` out of ~/.local/bin; `ds-code` out of ~/.local/bin (work-safe) or npm's global bin
+#      (each only when it points into DEV)
 #   3. the five repositories under ~/Developer (DEV overrides). One with uncommitted changes, a stash,
 #      a branch without an upstream or with commits not pushed, stays and is named. If step 1 failed,
 #      no clone is removed this run.
@@ -111,6 +112,9 @@ if [ -L "$HOME/.local/bin/ds-next" ] && within "$HOME/.local/bin/ds-next" "$DEVP
   rm "$HOME/.local/bin/ds-next" && echo "ds-next: out of ~/.local/bin"
 else
   echo "ds-next: not in ~/.local/bin (or not ours)"
+fi
+if [ -L "$HOME/.local/bin/ds-code" ] && within "$HOME/.local/bin/ds-code" "$DEVP"; then   # work-safe installs link it here
+  rm "$HOME/.local/bin/ds-code" && echo "ds-code: out of ~/.local/bin"
 fi
 b="$(command -v ds-code 2>/dev/null || true)"     # npm's bin link resolves into DEV/ds-code/dist when it is ours
 if [ -z "$b" ] && command -v npm >/dev/null 2>&1; then   # global bin not on PATH: look where npm keeps the link
