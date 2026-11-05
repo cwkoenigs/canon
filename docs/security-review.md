@@ -1,7 +1,9 @@
 # Security review: the Data Science knowledge system on a work Mac
 
-One page for a security team. It describes the **work-safe** install
-(`install.sh --work-safe`), which is the only way it should be installed on a managed machine.
+One page for a security team. It describes the **work-safe** install, which is the only way it
+should be installed on a managed machine: `ds-system --work-safe`, or plain `ds-system` run from a
+canon cloned from the team's GitLab, which chooses work-safe by itself. The machine remembers the
+mode, so later updates stay work-safe without anyone remembering a flag.
 
 ## What it is
 
@@ -20,8 +22,10 @@ and code-navigation tools. There is no server and no background service.
 ## Where everything comes from
 
 - **Source code:** only the team's GitLab group. github.com and any other source are refused.
-- **Programs:** none downloaded. git, uv (Python package manager), Node.js and the agent CLI must
-  already be installed through Self Service or IT. If one is missing the install stops.
+- **Programs:** none downloaded. git, uv (Python package manager), Python 3.12, Node.js and the
+  agent CLI must already be installed through Self Service or IT. If one is missing the install
+  stops. uv is told never to download a Python (`UV_PYTHON_DOWNLOADS=never`), since it would
+  otherwise fetch one from github.com.
 - **Third-party packages:** only the exact versions in the committed lockfiles (`uv.lock`,
   `package-lock.json`), through whatever package mirror uv and npm are configured to use
   (`UV_DEFAULT_INDEX`, `.npmrc`). npm checks every package against the SHA-512 recorded in its
@@ -67,8 +71,8 @@ daemons, no system settings, no global npm or pip installs.
 
 ## What it does not do
 
-- It does not read, copy or move claims or member data. It handles code, Markdown standards and
-  project templates.
+- It does not read, copy or move company or customer data. It handles code, Markdown standards
+  and project templates.
 - It does not add an AI model or provider. It works through the agent CLI the company already
   approved.
 - It does not update itself. Updates happen only when a user runs `bootstrap.sh`, which pulls from

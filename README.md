@@ -12,8 +12,12 @@ reads for lookups. [docs/GUIDE.md](docs/GUIDE.md) is the whole system in one doc
 
 ```sh
 git clone https://github.com/cwkoenigs/canon ~/Developer/canon
-bash ~/Developer/canon/ds-system
+bash ~/Developer/canon/ds-system --github      # a personal machine: GitHub is the home, no questions
 ```
+
+On a managed work Mac, clone canon from the team's GitLab instead and run `ds-system` with no flag:
+a canon that did not come from GitHub installs in **work-safe** mode (below). Either way the mode is
+remembered, so every later run is just `bash ~/Developer/canon/ds-system`.
 
 `ds-system` is the one command. It reports what this machine has (the five repos, `ds-next`, `ds-code`,
 each agent's wiring, the config) and offers the one step that fits: install on a bare machine, update
@@ -54,18 +58,19 @@ Or clone first and run the same script from the clone: `git clone https://github
 ~/Developer/canon && bash ~/Developer/canon/install.sh`.
 
 **On a work (managed) Mac, use work-safe mode.** Clone canon from the team's GitLab with git, read
-`install.sh`, then run it with `--work-safe`:
+`install.sh`, then run `ds-system`, which chooses work-safe for a canon that did not come from GitHub
+(`--work-safe` says it explicitly):
 
 ```sh
 git clone <team GitLab group URL>/canon.git ~/Developer/canon
-TEAM_HOST=<team GitLab group URL> bash ~/Developer/canon/install.sh --work-safe
+bash ~/Developer/canon/ds-system
 ```
 
-It downloads no programs (uv, Node.js and the agent CLIs come from Self Service first), clones only
+It downloads no programs (uv, Python 3.12, Node.js and the agent CLIs come from Self Service first), clones only
 from the team host and refuses github.com, pushes nothing, installs only the versions in the lockfiles
 without npm install scripts, and writes nothing outside your home folder (ds-code goes into
 `~/.local/bin`, not npm's global folder). The mode is remembered in `~/.ds/config.toml`, so updates
-with `bootstrap.sh` stay work-safe. [docs/security-review.md](docs/security-review.md) is the
+stay work-safe, and a later `--github` on that machine is refused rather than obeyed. [docs/security-review.md](docs/security-review.md) is the
 one-page summary for a security team.
 
 **Updating:** rerun the same line, or `bash ~/Developer/canon/bootstrap.sh`. Both pull every
