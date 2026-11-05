@@ -14,19 +14,30 @@
 # Override the sources with CANON_URL / DS_NEXT_URL (git URLs, bundles or local paths) and the
 # locations with DEV (default ~/Developer). Run from a checkout, or `curl -fsSL <raw url> | bash`.
 #
-# --work-safe (or DS_WORK_SAFE=1, or `install = "work-safe"` in ~/.ds/config.toml, which install.sh
-# --work-safe writes): no github.com sources, pinned installs only (uv.lock, package-lock.json), no npm
-# install scripts, nothing written outside $HOME. See install.sh --help and docs/security-review.md.
-WORK_SAFE="${DS_WORK_SAFE:-0}"
+# The machine's mode is the one install.sh saved in ~/.ds/config.toml (`install = ...` under [world]);
+# --github or --work-safe says it explicitly, and one that contradicts the saved mode stops the run.
+# --work-safe (or DS_WORK_SAFE=1): no github.com sources, no programs downloaded (Python included),
+# pinned installs only (uv.lock, package-lock.json), no npm install scripts, nothing written outside
+# $HOME. --github changes nothing here: GitHub mode only matters to install.sh's question.
+# See install.sh --help and docs/security-review.md.
+MODE=""; [ "${DS_WORK_SAFE:-0}" = 1 ] && MODE=work-safe
 for a in "$@"; do
   case "$a" in
     -h|--help) awk 'NR > 1 && !/^#/ { exit } NR > 1 { sub(/^# ?/, ""); print }' "$0"; exit 0;;
-    --work-safe) WORK_SAFE=1;;
+    --work-safe|--github)
+      [ -n "$MODE" ] && [ "$MODE" != "${a#--}" ] && { echo "--github and --work-safe: pick one"; exit 2; }
+      MODE="${a#--}";;
     *) echo "unknown option: $a (see --help)"; exit 2;;
   esac
 done
 set -euo pipefail
-grep -qE '^install *= *"work-safe"' "${DS_CONFIG:-$HOME/.ds/config.toml}" 2>/dev/null && WORK_SAFE=1
+CFG="${DS_CONFIG:-$HOME/.ds/config.toml}"
+SAVED="$(sed -n 's/^install *= *"\([a-z-]*\)".*/\1/p' "$CFG" 2>/dev/null | head -1 || true)"   # no config yet is no mode, not a failure
+if [ -n "$MODE" ] && [ -n "$SAVED" ] && [ "$MODE" != "$SAVED" ]; then
+  echo "this machine is installed in $SAVED mode (install = \"$SAVED\" in $CFG); edit that line to change it, then rerun"; exit 2
+fi
+MODE="${MODE:-$SAVED}"
+WORK_SAFE=0; [ "$MODE" = work-safe ] && WORK_SAFE=1
 
 DEV="${DEV:-$HOME/Developer}"
 DEFAULT_CANON_URL="https://github.com/cwkoenigs/canon.git"     # change this when the canon moves
@@ -45,6 +56,8 @@ need() { command -v "$1" >/dev/null 2>&1 || { echo "missing: $1 ($2)"; exit 1; }
 need git "https://git-scm.com"
 if [ "$WORK_SAFE" = 1 ]; then
   need uv "install it from Self Service or ask IT; work-safe mode downloads no programs"
+  export UV_PYTHON_DOWNLOADS=never     # uv would otherwise fetch a missing Python from github.com
+  uv python find 3.12 >/dev/null 2>&1 || { echo "missing: Python 3.12 (install it from Self Service or ask IT; work-safe mode downloads no programs)"; exit 1; }
   say "work-safe mode: team host only, pinned installs, no install scripts, nothing outside \$HOME"
   for src in "$CANON_URL" "$DS_NEXT_URL"; do
     case "$src" in *github.com*) echo "work-safe: refusing a github.com source ($src); clone canon from the team host"; exit 1;; esac

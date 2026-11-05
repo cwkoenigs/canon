@@ -7,8 +7,14 @@
 #   bash ~/Developer/canon/ds-system update      pull and redo everything (bootstrap.sh); never asks
 #   bash ~/Developer/canon/ds-system remove      take it down (uninstall.sh); asks before deleting the clones and ~/.ds
 #
+#   bash ~/Developer/canon/ds-system --github    a personal machine: GitHub is the home, no questions
+#   bash ~/Developer/canon/ds-system --work-safe a managed work Mac: team host only, nothing downloaded
+#                                                (docs/security-review.md)
+#
 # After `git clone https://github.com/cwkoenigs/canon ~/Developer/canon`, this is the only command to know.
-# Anything after the verb goes to the script that does the work (remove --yes, remove --keep-config).
+# The mode is remembered after the first install, so later runs need no flag. Without a flag or a saved
+# mode, a canon cloned from somewhere other than GitHub (the team's GitLab) runs work-safe.
+# Anything else after the verb goes to the script that does the work (remove --yes, remove --keep-config).
 set -uo pipefail
 
 here="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
@@ -16,6 +22,30 @@ here="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
 export DEV="${DEV:-$(dirname "$here")}"   # the repos live beside this clone; the workers get the same answer
 REPOS="canon ds-next skills-os docs-ds ds-code"
 row() { printf '  %-10s %s\n' "$1" "$2"; }
+
+verb=""; FLAG=""; PASS=()          # --github / --work-safe anywhere; the first other word is the verb
+for a in "$@"; do
+  case "$a" in
+    --github|--work-safe)
+      [ -n "$FLAG" ] && [ "$FLAG" != "${a#--}" ] && { echo "ds-system: --github and --work-safe: pick one"; exit 2; }
+      FLAG="${a#--}";;
+    *) if [ -z "$verb" ]; then verb="$a"; else PASS+=("$a"); fi;;
+  esac
+done
+CFG="${DS_CONFIG:-$HOME/.ds/config.toml}"
+SAVED="$(sed -n 's/^install *= *"\([a-z-]*\)".*/\1/p' "$CFG" 2>/dev/null | head -1 || true)"   # no config yet is no mode, not a failure
+ORIGIN="$(git -C "$here" config --get remote.origin.url 2>/dev/null || true)"   # as cloned, before any url.insteadOf rewrite
+if [ -n "$FLAG" ] && [ -n "$SAVED" ] && [ "$FLAG" != "$SAVED" ]; then
+  echo "ds-system: this machine is installed in $SAVED mode (install = \"$SAVED\" in $CFG); edit that line to change it, then rerun"; exit 2
+fi
+if [ -n "$FLAG" ]; then MODE="$FLAG"; HOW="--$FLAG"
+elif [ -n "$SAVED" ]; then MODE="$SAVED"; HOW="saved in ~/.ds/config.toml"
+else
+  case "$ORIGIN" in
+    ""|*github.com*|/*|file://*) MODE=""; HOW="";;
+    *) MODE=work-safe; HOW="this canon came from $ORIGIN, not GitHub";;
+  esac
+fi
 ours() { within "$1" "$DEV"; }             # does this command resolve into DEV?
 
 status() {  # prints the report; sets MISSING (yes when anything an install provides is not there)
@@ -43,22 +73,24 @@ status() {  # prints the report; sets MISSING (yes when anything an install prov
   done
   [ "$any" = no ] && row "agents" "none on PATH (Claude Code, Cortex Code or Codex); install one, then update"
   if [ -f "$HOME/.ds/config.toml" ]; then row "config" "~/.ds/config.toml"; else row "config" "none yet (install writes it)"; MISSING=yes; fi
+  if [ -n "$MODE" ]; then row "mode" "$MODE ($HOW)"
+  else row "mode" "none yet: install asks where the team's repos live (--github or --work-safe answers it)"; fi
 }
 
-run() {  # verb args...: the worker, from this clone
+run() {  # verb args...: the worker, from this clone, told the mode
   local verb="$1"; shift
+  local m=(); [ -n "$MODE" ] && m=("--$MODE")
   case "$verb" in
-    install) exec bash "$here/install.sh" "$@";;
-    update)  exec bash "$here/bootstrap.sh" "$@";;
+    install) exec bash "$here/install.sh" ${m[@]+"${m[@]}"} "$@";;
+    update)  exec bash "$here/bootstrap.sh" ${m[@]+"${m[@]}"} "$@";;
     remove)  exec bash "$here/uninstall.sh" "$@";;
   esac
 }
 
-verb="${1:-}"; [ $# -gt 0 ] && shift
 case "$verb" in
   -h|--help) usage "$0"; exit 0;;
   status) status; exit 0;;
-  install|update|remove) run "$verb" "$@";;
+  install|update|remove) run "$verb" ${PASS[@]+"${PASS[@]}"};;
   "") ;;
   *) echo "ds-system: '$verb' is not a verb. status, install, update or remove (--help)"; exit 2;;
 esac
@@ -70,7 +102,8 @@ if [ "$MISSING" = no ]; then
 elif [ -d "$DEV/ds-next/.git" ]; then
   verb=install; echo "Partly installed. Enter completes it (install.sh: fills in what is missing, keeps what is there); r removes; q quits."
 else
-  verb=install; echo "Not installed. Enter installs it (install.sh: one question, then everything); r removes leftovers; q quits."
+  if [ -n "$MODE" ]; then how="install.sh in $MODE mode, no questions"; else how="install.sh: one question, then everything"; fi
+  verb=install; echo "Not installed. Enter installs it ($how); r removes leftovers; q quits."
 fi
 case "$verb" in install) label=Install;; *) label=Update;; esac
 ask "[$label] r q: " "$verb"

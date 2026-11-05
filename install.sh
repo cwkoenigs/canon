@@ -10,11 +10,11 @@
 #        ds-next    the terminal, the MCP server, `ds-next` on PATH    (required)
 #        skills-os  the /so-* procedures ds-next and Cortex read       (optional, skipped if the clone fails)
 #        docs-ds    the docs renderer behind /docs                     (optional, same)
-#   3. asks whether these live somewhere other than GitHub. On a personal machine, Enter: the
-#      clones keep GitHub as origin and reruns pull from it. At work, answer with the GitLab
-#      group URL (or set TEAM_HOST; a clone already in DEV with a remote, or a glab login, answers
-#      it too): every clone's origin is pointed there, and team copies that do not exist yet are
-#      pushed on a yes.
+#   3. asks whether these live somewhere other than GitHub (not with --github or --work-safe). On a
+#      personal machine, Enter: the clones keep GitHub as origin and reruns pull from it. At work,
+#      answer with the GitLab group URL (or set TEAM_HOST; a clone already in DEV with a remote, or
+#      a glab login, answers it too): every clone's origin is pointed there, and team copies that
+#      do not exist yet are pushed on a yes.
 #   4. runs canon/bootstrap.sh: canon-lib and ds-next installed and tested, `ds-next` linked
 #      into ~/.local/bin, docs-ds's npm dependencies installed, Cortex Code wired (ds server,
 #      /ds-new, read-only tools allowed)
@@ -24,26 +24,42 @@
 # Removing: `bash ~/Developer/canon/uninstall.sh`, or `ds-system` beside this file for status and the menu (the agents unwired, the commands unlinked, then it asks about the clones and ~/.ds).
 # Override any source with CANON_URL, DS_NEXT_URL, SKILLS_URL, DOCS_URL, DS_CODE_URL (git URLs, bundles or paths).
 #
+# Two modes skip the question, and the one chosen is remembered in ~/.ds/config.toml
+# (`install = "github"` or `"work-safe"` under [world]), so every rerun and update keeps it. A flag
+# that contradicts the saved mode stops the run; edit that line to change a machine's mode.
+#
+# GitHub mode, for a personal machine: `bash install.sh --github`. GitHub is the home: no question,
+# no team host (TEAM_HOST set, or a clone already pointing at another host, stops it).
+#
 # Work-safe mode, for a managed (work) Mac: `bash install.sh --work-safe` (or DS_WORK_SAFE=1), run
-# from a canon cloned with git from the team host, never piped from curl. It:
-#   - downloads no programs: uv, Node.js and the agent CLIs must already be there (Self Service);
-#     a missing one stops the install instead of being fetched
+# from a canon cloned with git from the team host, never piped from curl. `ds-system` beside this
+# file chooses it by itself for a canon cloned from somewhere other than GitHub. It:
+#   - downloads no programs: uv, Python 3.12, Node.js and the agent CLIs must already be there
+#     (Self Service); a missing one stops the install instead of being fetched
 #   - clones only from the team host (TEAM_HOST or the answer to the question); github.com is refused
 #   - pushes nothing: team copies that do not exist yet are reported, not created
 #   - installs pinned versions only (uv.lock, package-lock.json), without npm install scripts,
 #     through whatever package mirror uv and npm are configured for (UV_DEFAULT_INDEX, .npmrc)
 #   - writes nothing outside $HOME: ds-code is linked into ~/.local/bin, not npm's global folder
-# It is remembered in ~/.ds/config.toml (`install = "work-safe"`), so bootstrap.sh reruns the same way.
 # docs/security-review.md lists everything the install touches.
-WORK_SAFE="${DS_WORK_SAFE:-0}"
+MODE=""; [ "${DS_WORK_SAFE:-0}" = 1 ] && MODE=work-safe
 for a in "$@"; do
   case "$a" in
     -h|--help) awk 'NR > 1 && !/^#/ { exit } NR > 1 { sub(/^# ?/, ""); print }' "$0"; exit 0;;
-    --work-safe) WORK_SAFE=1;;
+    --work-safe|--github)
+      [ -n "$MODE" ] && [ "$MODE" != "${a#--}" ] && { echo "--github and --work-safe: pick one"; exit 2; }
+      MODE="${a#--}";;
     *) echo "unknown option: $a (see --help)"; exit 2;;
   esac
 done
 set -euo pipefail
+CFG="${DS_CONFIG:-$HOME/.ds/config.toml}"
+SAVED="$(sed -n 's/^install *= *"\([a-z-]*\)".*/\1/p' "$CFG" 2>/dev/null | head -1 || true)"   # no config yet is no mode, not a failure
+if [ -n "$MODE" ] && [ -n "$SAVED" ] && [ "$MODE" != "$SAVED" ]; then
+  echo "this machine is installed in $SAVED mode (install = \"$SAVED\" in $CFG); edit that line to change it, then rerun"; exit 2
+fi
+MODE="${MODE:-$SAVED}"
+WORK_SAFE=0; [ "$MODE" = work-safe ] && WORK_SAFE=1
 
 HOST="${HOST_URL:-https://github.com/cwkoenigs}"
 DEV="${DEV:-$HOME/Developer}"
@@ -54,6 +70,8 @@ say "tools"
 command -v git >/dev/null 2>&1 || { echo "git is missing: run xcode-select --install, then rerun"; exit 1; }
 if [ "$WORK_SAFE" = 1 ]; then
   command -v uv >/dev/null 2>&1 || safe_stop "uv is missing. Install it from Self Service (or ask IT), then rerun; nothing is downloaded in this mode"
+  export UV_PYTHON_DOWNLOADS=never     # uv would otherwise fetch a missing Python from github.com
+  uv python find 3.12 >/dev/null 2>&1 || safe_stop "Python 3.12 is missing. Install it from Self Service (or ask IT), then rerun; uv may not download it in this mode"
 fi
 if ! command -v uv >/dev/null 2>&1; then
   echo "uv is missing: installing it (https://astral.sh/uv)"
@@ -78,7 +96,7 @@ team_host() {  # the group URL the team's repositories live under, or empty
   [ -n "${TEAM_HOST:-}" ] && { echo "${TEAM_HOST%/}"; return; }
   local u
   for r in canon ds-next; do        # a copy already here that knows its home, unless that is GitHub
-    u="$(git -C "$DEV/$r" remote get-url origin 2>/dev/null || true)"
+    u="$(git -C "$DEV/$r" config --get remote.origin.url 2>/dev/null || true)"   # as cloned, before url rewrites
     case "$u" in *github.com*) ;; */$r.git|*/$r) echo "${u%/$r*}"; return;; esac
   done
   if command -v glab >/dev/null 2>&1; then   # a GitLab CLI login names the host, the group is asked
@@ -111,7 +129,14 @@ seed() {  # push the clones whose team copies do not exist yet, if asked
 }
 write_world() {  # what differs between worlds, in the machine's one config; never over an existing [world]
   local cfg="${DS_CONFIG:-$HOME/.ds/config.toml}" host group token
-  if [ -f "$cfg" ] && grep -q '^\[world\]' "$cfg"; then echo "world: kept the [world] in $cfg"; return 0; fi
+  if [ -f "$cfg" ] && grep -q '^\[world\]' "$cfg"; then
+    echo "world: kept the [world] in $cfg"
+    if [ -n "$MODE" ] && ! grep -qE '^install *=' "$cfg"; then   # an install from before modes: remember this one
+      awk -v m="$MODE" '{ print } /^\[world\]/ && !done { print "install   = \"" m "\"           # this machine'"'"'s mode; reruns keep it"; done = 1 }' \
+        "$cfg" > "$cfg.tmp" && mv "$cfg.tmp" "$cfg" && echo "world: install = \"$MODE\" saved"
+    fi
+    return 0
+  fi
   if [ -n "$HOME_URL" ]; then host=gitlab group="$HOME_URL" token=GITLAB_TOKEN
   else host=github group="$HOST" token=""; fi
   mkdir -p "$(dirname "$cfg")"
@@ -120,7 +145,7 @@ write_world() {  # what differs between worlds, in the machine's one config; nev
     echo "host      = \"$host\""
     echo "group     = \"$group\""
     echo "token_env = \"$token\"            # GitLab: the variable holding a token; GitHub uses gh's login"
-    [ "$WORK_SAFE" = 1 ] && echo 'install   = "work-safe"         # bootstrap.sh reruns in work-safe mode'
+    [ -n "$MODE" ] && echo "install   = \"$MODE\"           # this machine's mode; reruns keep it"
     echo
     echo "[capture]                     # where /so-capture sends captures"
     echo 'repo   = "canon"'
@@ -137,8 +162,18 @@ clone() {   # name url dest required
   else echo "$1: not available at $2 (optional, skipped)"; fi
 }
 say "team host"
-HOME_URL="$(team_host)"; TO_SEED=""
-[ -n "$HOME_URL" ] && echo "team copies under $HOME_URL" || echo "GitHub stays the home: reruns pull from it"
+TO_SEED=""
+if [ "$MODE" = github ]; then   # a personal machine: GitHub is the home, nothing to ask
+  [ -z "${TEAM_HOST:-}" ] || { echo "github: TEAM_HOST names another home ($TEAM_HOST); --github keeps GitHub. Pick one"; exit 2; }
+  for r in canon ds-next skills-os docs-ds ds-code; do   # a clone already pointing at a team host would stay mixed
+    u="$(git -C "$DEV/$r" config --get remote.origin.url 2>/dev/null || true)"
+    case "$u" in ""|*github.com*|/*|file://*) ;; *) echo "github: $r pulls from $u, not GitHub; point it back (git -C $DEV/$r remote set-url origin <github url>) or drop --github"; exit 2;; esac
+  done
+  HOME_URL=""; echo "GitHub is the home (--github): no question; reruns pull from it"
+else
+  HOME_URL="$(team_host)"
+  [ -n "$HOME_URL" ] && echo "team copies under $HOME_URL" || echo "GitHub stays the home: reruns pull from it"
+fi
 if [ "$WORK_SAFE" = 1 ]; then   # clone straight from the team host; GitHub is never contacted
   [ -n "$HOME_URL" ] || safe_stop "needs the team host (set TEAM_HOST, or answer with the GitLab group URL)"
   case "$HOME_URL" in *github.com*) safe_stop "the team host cannot be github.com ($HOME_URL)";; esac
