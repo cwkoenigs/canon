@@ -117,7 +117,10 @@ every session and every search. `ds-next auth login` (or `/auth` in the terminal
 once, mints a personal access token restricted to the role you land on (or `--role`), and keeps it in
 the macOS Keychain; from then on every Cortex session and search ds-next starts runs on it, with no
 browser, and the agent is refused any read of it. Account and user come from your own
-`~/.snowflake/connections.toml`. `ds-next auth status` says which way sessions sign in and why; the
+`~/.snowflake/connections.toml`. `--via` says how that one sign-in happens: the account's SSO (the
+default), `oauth` for Snowflake's own login page (an account without SSO, or one whose SSO is not
+yours), the name of a connection you already have, or `paste` for a token minted in Snowsight.
+`ds-next auth status` says which way sessions sign in and why; the
 terminal's banner shows the same on its `snowflake` line. Until you sign in, SSO as before. The
 Snowflake side (a network policy, an authentication policy allowing tokens, a role to restrict them
 to) is one-time administrator work: `ds-next/docs/snowflake-pat-setup.sql`.
@@ -196,7 +199,7 @@ ds-next blocks | ds-next add BLOCK          # accepted code: list, add to this r
 ds-next docs [--out DIR]                    # build the docs without serving
 ds-next ask "PROMPT"                        # one agent turn, printed like the terminal
 ds-next setup [--check | --remove] [--agent claude|cortex|codex|auto]
-ds-next auth login [--paste] | status | rotate | logout   # Snowflake without a browser (see below)
+ds-next auth login [--via sso|oauth|paste|CONNECTION] | status | rotate | logout   # Snowflake without a browser (see below)
 ```
 
 ## A repository joins
