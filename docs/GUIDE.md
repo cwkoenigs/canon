@@ -153,7 +153,9 @@ Never on a managed Mac: work-safe mode is clone, read, run.
 | `/so-<name> [context]` | The agent follows that procedure, e.g. `/so-build-feature-interview add a refund report` | yes |
 | `/docs` | Render this repository's docs (or, outside a repository, the whole canon) and serve them in the browser | no |
 | `/captures` | Drafts waiting to go back to the canon | no |
-| `/last`, `/model`, `/effort`, `/clear`, `/help`, `/exit` | The last tool output in full, the model, thinking effort, a fresh session, help, leave | no |
+| `/auth [sso\|oauth\|NAME]` | Snowflake sign-in: the state; with no token yet, one sign-in that mints a token kept in the Keychain (see "Snowflake, once per person"); near expiry, rotate | no |
+| `/help`, `/help all`, `/help <command>` | A menu of the commands to pick from and read about; everything flat; one command with examples, the shell equivalent and its state now | no |
+| `/last`, `/model`, `/effort`, `/clear`, `/exit` | The last tool output in full, the model, thinking effort, a fresh session, leave | no |
 
 Anything else is a turn with the agent. Ctrl-C stops a turn and keeps the session; Ctrl-D leaves.
 
@@ -393,9 +395,10 @@ Built, tested, and running on the owner's machine:
 
 Not built, or not yet true:
 
-- **The Snowflake token flow has not run against a real account.** It is tested against a scripted
-  Snowflake and the Cortex Code binary was read for what it honours; the first real `auth login`, and
-  whether the account's policies let a person mint their own token, are the owner's to see.
+- **The Snowflake token flow has run on one account.** On 2026-11-05 the owner's own account minted its
+  token through one sign-in (`--via oauth`: that account's SSO is a Google SAML app). Not yet seen: the
+  team's account and its policies, resume and `/effort` through the linked `cortex` folder, and a
+  rotation.
 
 - **The pipeline has never run** (above), so the graph and the team-wide view are as fresh as the
   last manual compile.
