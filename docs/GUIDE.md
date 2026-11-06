@@ -112,6 +112,19 @@ After any step, open a new terminal so `~/.local/bin` is on PATH, and restart an
 was open so it sees the tools. `ds-next setup --check` shows an agent's wiring without changing it.
 Removing leaves uv, Node.js and the agent CLIs: they are yours, not the system's.
 
+**Snowflake, once per person.** Cortex Code signs in to Snowflake with SSO, which opens a browser for
+every session and every search. `ds-next auth login` (or `/auth` in the terminal) signs in that way
+once, mints a personal access token restricted to the role you land on (or `--role`), and keeps it in
+the macOS Keychain; from then on every Cortex session and search ds-next starts runs on it, with no
+browser, and the agent is refused any read of it. Account and user come from your own
+`~/.snowflake/connections.toml`. `--via` says how that one sign-in happens: the account's SSO (the
+default), `oauth` for Snowflake's own login page (an account without SSO, or one whose SSO is not
+yours), the name of a connection you already have, or `paste` for a token minted in Snowsight.
+`ds-next auth status` says which way sessions sign in and why; the
+terminal's banner shows the same on its `snowflake` line. Until you sign in, SSO as before. The
+Snowflake side (a network policy, an authentication policy allowing tokens, a role to restrict them
+to) is one-time administrator work: `ds-next/docs/snowflake-pat-setup.sql`.
+
 **Setting up the team's GitLab, once.** Create five empty projects (no README) in one group:
 `canon`, `ds-next`, `skills-os`, `docs-ds`, `ds-code`, and push the five repositories there from a
 machine that has them (`git -C ~/Developer/<repo> push <group address>/<repo>.git main --tags`).
@@ -140,7 +153,9 @@ Never on a managed Mac: work-safe mode is clone, read, run.
 | `/so-<name> [context]` | The agent follows that procedure, e.g. `/so-build-feature-interview add a refund report` | yes |
 | `/docs` | Render this repository's docs (or, outside a repository, the whole canon) and serve them in the browser | no |
 | `/captures` | Drafts waiting to go back to the canon | no |
-| `/last`, `/model`, `/effort`, `/clear`, `/help`, `/exit` | The last tool output in full, the model, thinking effort, a fresh session, help, leave | no |
+| `/auth [sso\|oauth\|NAME]` | Snowflake sign-in: the state; with no token yet, one sign-in that mints a token kept in the Keychain (see "Snowflake, once per person"); near expiry, rotate | no |
+| `/help`, `/help all`, `/help <command>` | A menu of the commands to pick from and read about; everything flat; one command with examples, the shell equivalent and its state now | no |
+| `/last`, `/model`, `/effort`, `/clear`, `/exit` | The last tool output in full, the model, thinking effort, a fresh session, leave | no |
 
 Anything else is a turn with the agent. Ctrl-C stops a turn and keeps the session; Ctrl-D leaves.
 
@@ -186,6 +201,7 @@ ds-next blocks | ds-next add BLOCK          # accepted code: list, add to this r
 ds-next docs [--out DIR]                    # build the docs without serving
 ds-next ask "PROMPT"                        # one agent turn, printed like the terminal
 ds-next setup [--check | --remove] [--agent claude|cortex|codex|auto]
+ds-next auth login [--via sso|oauth|paste|CONNECTION] | status | rotate | logout   # Snowflake without a browser (see below)
 ```
 
 ## A repository joins
@@ -373,9 +389,16 @@ Built, tested, and running on the owner's machine:
 - the `ds` and `code` tool servers in Claude Code, Cortex Code and Codex, read-only tools approved;
 - creating and adopting repositories; the pre-push check;
 - standards in force by default, exceptions with `decide`, the team-wide view;
-- the cross-repository graph, read by `change_impact`, `repo_graph`, `project_status` and `reconcile`.
+- the cross-repository graph, read by `change_impact`, `repo_graph`, `project_status` and `reconcile`;
+- Snowflake without a browser: `ds-next auth login` once, then every Cortex session and search runs on
+  a token in the Keychain that the agent cannot read (ds-next local-025).
 
 Not built, or not yet true:
+
+- **The Snowflake token flow has run on one account.** On 2026-11-05 the owner's own account minted its
+  token through one sign-in (`--via oauth`: that account's SSO is a Google SAML app). Not yet seen: the
+  team's account and its policies, resume and `/effort` through the linked `cortex` folder, and a
+  rotation.
 
 - **The pipeline has never run** (above), so the graph and the team-wide view are as fresh as the
   last manual compile.

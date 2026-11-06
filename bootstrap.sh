@@ -161,6 +161,7 @@ cat <<DONE
 
 Done. Next:
   cd somewhere && ds-next        # the terminal: /new picks a project type
+  ds-next auth login             # once: one browser sign-in, then Snowflake with no browser (SSO until then)
   cortex                         # /ds-new does the same inside Cortex Code
   $DEV/canon/ds-system           # status at any time; update and remove are there too
 DONE
