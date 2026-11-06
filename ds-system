@@ -73,6 +73,10 @@ status() {  # prints the report; sets MISSING (yes when anything an install prov
   done
   [ "$any" = no ] && row "agents" "none on PATH (Claude Code, Cortex Code or Codex); install one, then update"
   if [ -f "$HOME/.ds/config.toml" ]; then row "config" "~/.ds/config.toml"; else row "config" "none yet (install writes it)"; MISSING=yes; fi
+  # how sessions sign in to Snowflake: ds-next's own report, first line, without its label. SSO is a state, not a gap.
+  if v="$("$DEV/ds-next/.venv/bin/ds-next" auth status 2>/dev/null | awk 'NR==1 {$1=""; sub(/^ +/, ""); print}')" && [ -n "$v" ]; then
+    case "$v" in SSO*) row "snowflake" "$v (ds-next auth login signs in once; no browser after that)";; *) row "snowflake" "$v";; esac
+  fi
   if [ -n "$MODE" ]; then row "mode" "$MODE ($HOW)"
   else row "mode" "none yet: install asks where the team's repos live (--github or --work-safe answers it)"; fi
 }
