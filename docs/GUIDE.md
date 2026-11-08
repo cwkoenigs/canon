@@ -398,9 +398,9 @@ Not built, or not yet true:
 - **The Snowflake token flow has run on one account.** On 2026-11-05 the owner's own account minted its
   token through one sign-in (`--via oauth`: that account's SSO is a Google SAML app). On 2026-11-07 a
   session on the token reached Snowflake's model service, which answered that the account has no Cortex
-  Code CLI subscription (its 30-day trial had ended). A whole turn, resume and `/effort` through the
-  linked `cortex` folder, a rotation, and the team's account and its policies wait for an account with
-  Cortex Code enabled.
+  Code CLI subscription (its paid monthly subscription stopped renewing after 2026-09-28). A whole turn,
+  resume and `/effort` through the linked `cortex` folder, a rotation, and the team's account and its
+  policies wait for an account with Cortex Code enabled.
 
 - **The pipeline has never run** (above), so the graph and the team-wide view are as fresh as the
   last manual compile.
