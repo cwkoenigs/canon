@@ -3,10 +3,10 @@
 The whole system in one document: what it is, how a machine gets it and loses it, how a repository
 joins, how standards reach repositories, how repositories know about each other, what every tool
 answers, and what is not built yet. Written for someone who has never used it. The decisions behind
-each part are the ADRs in `adr/`; this guide says what is, they say why.
+each part are recorded in `adr/` and `DECISIONS.md`.
 
-Current as of 2026-11-02: ds-next 0.2.0, ds-code 0.1.0, canon-lib 0.2.0, 36 standards, five
-accepted project types. The local renderer moved into ds-next on 2026-11-19, leaving four registered repositories.
+As of 2026-11-19, the team stack has four repositories, 36 standards and five accepted project types.
+The current versions are ds-next 0.2.0, ds-code 0.1.0 and canon-lib 0.2.0.
 
 ## In one paragraph
 
@@ -25,12 +25,16 @@ machine.
 
 | Repository | What it is | You touch it when |
 |---|---|---|
-| **canon** | The source of truth: standards, gotchas, ADRs, project types (scaffolds), accepted code (blocks, built into the canon-lib package), the registry of repositories, and `index.json`, compiled from all of them. Also the install, update and remove scripts. | You write or review a standard, register a repository, release canon-lib |
-| **ds-next** | The terminal (`ds-next`) and the `ds` tool server every agent reads the canon through (`ds-next mcp`). Includes the local Docusaurus renderer. | Every day: you run it, or your agent calls it |
+| **canon** | Standards, gotchas, ADRs, scaffolds, accepted code in canon-lib, and the [terminal design export](../terminal-design/README.md). Owns the repository registry, compiled `index.json`, and `ds-system` installer. | You change a standard, register a repository, update terminal design, or release canon-lib |
+| **ds-next** | Project scaffolding, reconciliation, the optional agent terminal, the `ds` MCP server, and the bundled renderer for local browser docs. `ds-next setup` registers the team skills and MCP servers. | You work in a team repository, read the docs, or set up an agent |
 | **ds-code** | The `code` tool server: eight read-only tools (definitions, references, callers, change impact…) answered by TypeScript's and Pyright's language servers. Node. | Rarely: it updates with everything else |
 | **skills-os** | The procedures agents follow, as `/so-*` skills: capture, changes, feature and bug interviews, external review, and others. | You change how the team works |
 
-On a machine they live side by side in `~/Developer`. Two files hold everything else:
+`skills-os` remains a private, separate checkout. `ds-next setup` handles its agent registration
+alongside the other team tools. See the [decision to keep skills-os separate](../DECISIONS.md#local-001-keep-skills-os-separate-from-canon)
+for the rationale and conditions for revisiting it.
+
+The checkouts normally live side by side in `~/Developer`. Two files describe the local setup:
 
 - **`~/.ds/config.toml`**, one per machine: where the team's repositories live (`[world]`: GitHub at
   home, the team's GitLab group at work), where captures go (`[capture]`), and which agent the terminal
@@ -58,13 +62,13 @@ On a machine they live side by side in `~/Developer`. Two files hold everything 
 │  `ds` tool server (ds-next mcp)    │    adopts,       │  AGENTS.md  DECISIONS.md  │
 │  reconcile · decide · setup        │    checks        │  pre-push: reconcile      │
 └───┬──────────────┬─────────────┬───┘                  │  .ds/captures/ (drafts)   │
-    │ wires        │ registers   │ /docs                └───────────────────────────┘
+    │ setup        │ registers   │ /docs                └───────────────────────────┘
     ▼              ▼             ▼
  Claude Code    ds-code       local browser
  Cortex Code    (`code`       (the canon and a repo's docs
  Codex           tools)        in the browser)
     ▲
-    └── skills-os: /so-* procedures the agents follow
+    └── ds-next setup registers /so-* procedures from skills-os
 ```
 
 ## A machine: install, update, remove
@@ -80,8 +84,8 @@ That is a personal machine. On a managed work Mac the clone comes from the team'
 flag is left off (see "Which mode" below). After the first install every run is just
 `bash ~/Developer/canon/ds-system`: the machine remembers its mode.
 
-It reports what the machine has (the four clones, `ds-next` and `ds-code` on PATH, each agent's
-wiring, the config) and offers the one step that fits: **install** on a bare machine, **update** on an
+It reports which of the four repositories are cloned, whether `ds-next` and `ds-code` are on PATH, each agent's
+wiring, and the config. It offers the step that fits: **install** on a bare machine, **update** on an
 installed one, **r** to remove. Enter takes the offer. The verbs skip the menu:
 `ds-system status | install | update | remove`. Every step is safe to run twice.
 
@@ -103,8 +107,8 @@ setup wires the ones it finds.
 
 | Step | What it does |
 |---|---|
-| **Install** | Clones the other four repositories beside the canon, from where the mode says. With no mode it asks one question, where the team's repositories live: Enter keeps GitHub, a group address points every clone there. Writes `~/.ds/config.toml` with the mode, then runs the update. |
-| **Update** | Pulls every repository that has an upstream; installs and tests canon-lib and ds-next; links `ds-next` into `~/.local/bin`; installs the local docs renderer and builds ds-code and links `ds-code` (into `~/.local/bin` in work-safe mode); then wires every agent on PATH: the `ds` and `code` servers, the `/ds-new`, `/ds-terminal-design` and `/so-*` skills, and an allow rule for every read-only tool. Asks nothing. |
+| **Install** | Clones `ds-next` beside canon and attempts to clone `ds-code` and `skills-os` from the selected host. If either optional clone is unavailable, setup continues without that component. Writes `~/.ds/config.toml` and runs the update. |
+| **Update** | Pulls every repository that has an upstream; installs and tests canon-lib and ds-next; links `ds-next` into `~/.local/bin`; installs the local docs renderer and builds ds-code and links `ds-code` (into `~/.local/bin` in work-safe mode); then runs `ds-next setup` for supported agents on PATH. Setup registers the available `ds` and `code` servers, links the `/ds-new`, `/ds-terminal-design` and `/so-*` skills, and adds read-only allow rules where supported. Asks nothing. |
 | **Remove** | Unwires every agent (`ds-next setup --remove`: only what setup registered; anything else of the same name is left alone), takes `ds-next` and `ds-code` off PATH, then asks before deleting the clones and `~/.ds`. A clone with uncommitted changes, a stash, a branch without an upstream or unpushed commits stays and is named. If unwiring fails, no clone is removed. `--yes` answers the questions; `--keep-repos` and `--keep-config` keep those. |
 
 After any step, open a new terminal so `~/.local/bin` is on PATH, and restart any agent session that
@@ -185,8 +189,8 @@ the agent answers from the tools.
 finishing a change. `change_impact` lists each changed symbol and everything that uses it, the files
 that depend on the change, and, last, the contracts other repositories use that the change touches.
 
-`/ds-new` in an agent creates a project the same way `/new` does. The `/so-*` skills are linked into
-every agent. Any other MCP client can attach the same servers with `ds-next mcp` and `ds-code mcp`.
+`/ds-new` in an agent creates a project the same way `/new` does. When the `skills-os` checkout
+is available, `ds-next setup` registers its `/so-*` skills in Claude Code, Cortex Code and Codex. Any other MCP client can attach the same servers with `ds-next mcp` and `ds-code mcp`.
 
 ### Without the model: scripts, hooks, CI
 
@@ -325,16 +329,16 @@ index; a machine that cannot reach the host says so once and goes on with what i
 
 The same compile computes every standard's standing in every registered repository and writes it as
 the `adoption` section of `index.json`. Nothing is written into any repository, so the view costs the
-same at ten thousand repositories as at five.
+same at ten thousand repositories as at four.
 
 - `ds-next canon list` and the agent's `canon_list` show each standard's row, for example
-  `testing  1  adopt  *  Testing and QA · 5 repos adopted, 0 declined, 0 pending`.
+  `testing  1  adopt  *  Testing and QA · 4 repos adopted, 0 declined, 0 pending`.
 - `project_status` shows a repository's row.
 - The declines, with their reasons, are listed per standard: the honest list of where the rules do
   not hold, and why.
 
-Before the renderer moved: 36 standards across five repositories, 128 adoptions, 112 of them by default, no declines,
-nothing pending.
+The checked-in adoption view covers 36 standards across the four repositories. It records
+106 adoptions, including 90 by default, with zero declines and zero pending decisions.
 
 ## Knowledge flowing back
 
