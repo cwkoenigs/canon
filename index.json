@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-30",
+  "generated": "2026-11-19",
   "standards": [
     {
       "id": "adr-000",
@@ -531,7 +531,7 @@
       "status": "accepted",
       "kind": "standard",
       "default": "adopt",
-      "hash": "dcad192fac1c",
+      "hash": "2a53e4501a56",
       "path": "terminal-design.md"
     },
     {
@@ -3764,7 +3764,7 @@
       {
         "name": "canon",
         "path": "cwkoenigs/canon",
-        "commit": "3fb9ec5",
+        "commit": "2fc0ee3",
         "manifest": true,
         "tags": [
           "standards",
@@ -3780,7 +3780,8 @@
           ],
           "paths": [
             "index.json",
-            "repos/*.toml"
+            "repos/*.toml",
+            "terminal-design/design-system"
           ],
           "packages": [
             "canon-lib"
@@ -3862,7 +3863,7 @@
       {
         "name": "ds-next",
         "path": "cwkoenigs/ds-next",
-        "commit": "98636bd",
+        "commit": "e9a1236",
         "manifest": true,
         "tags": [
           "python",
@@ -3894,7 +3895,8 @@
             "index.json",
             "canon-lib",
             "install.sh",
-            "uninstall.sh"
+            "uninstall.sh",
+            "terminal-design/design-system"
           ],
           "ds-code": [
             "ds-code mcp",
@@ -3915,7 +3917,7 @@
       {
         "name": "skills-os",
         "path": "cwkoenigs/skills-os",
-        "commit": "b0a61dc",
+        "commit": "149377f",
         "manifest": true,
         "tags": [
           "skills",
@@ -3960,7 +3962,7 @@
         "mentioned": true,
         "count": 15,
         "where": [
-          "README.md:174",
+          "README.md:180",
           "adr/adr-002-cross-repo-graph.md:97",
           "adr/adr-002-cross-repo-graph.md:142",
           "adr/adr-002-cross-repo-graph.md:148",
@@ -3970,11 +3972,11 @@
           "docs/GUIDE.md:309",
           "docs/GUIDE.md:386",
           "docs/GUIDE.md:434",
-          "index.json:3806",
-          "index.json:3871",
-          "index.json:3927",
-          "index.json:4015",
-          "index.json:4697"
+          "index.json:3808",
+          "index.json:3844",
+          "index.json:3904",
+          "index.json:3958",
+          "index.json:4611"
         ]
       },
       {
@@ -3987,9 +3989,9 @@
         "where": [
           "bootstrap.sh:139",
           "ds-system:62",
-          "index.json:3802",
-          "index.json:3865",
-          "index.json:4035"
+          "index.json:3804",
+          "index.json:3838",
+          "index.json:3983"
         ]
       },
       {
@@ -4006,11 +4008,11 @@
           "docs/GUIDE.md:189",
           "docs/GUIDE.md:289",
           "docs/GUIDE.md:315",
-          "index.json:3801",
-          "index.json:3864",
-          "index.json:3923",
-          "index.json:4050",
-          "index.json:4712"
+          "index.json:3803",
+          "index.json:3837",
+          "index.json:3900",
+          "index.json:3998",
+          "index.json:4626"
         ]
       },
       {
@@ -4022,11 +4024,11 @@
         "count": 6,
         "where": [
           "docs/GUIDE.md:183",
-          "index.json:3804",
-          "index.json:3869",
-          "index.json:3925",
-          "index.json:4067",
-          "index.json:4727"
+          "index.json:3806",
+          "index.json:3842",
+          "index.json:3902",
+          "index.json:4019",
+          "index.json:4641"
         ]
       },
       {
@@ -4038,11 +4040,11 @@
         "count": 6,
         "where": [
           "docs/GUIDE.md:183",
-          "index.json:3805",
-          "index.json:3870",
-          "index.json:3926",
-          "index.json:4082",
-          "index.json:4740"
+          "index.json:3807",
+          "index.json:3843",
+          "index.json:3903",
+          "index.json:4035",
+          "index.json:4654"
         ]
       },
       {
@@ -4054,11 +4056,11 @@
         "count": 6,
         "where": [
           "docs/GUIDE.md:182",
-          "index.json:3803",
-          "index.json:3868",
-          "index.json:3924",
-          "index.json:4097",
-          "index.json:4754"
+          "index.json:3805",
+          "index.json:3841",
+          "index.json:3901",
+          "index.json:4051",
+          "index.json:4668"
         ]
       },
       {
@@ -4076,8 +4078,8 @@
           "docs/GUIDE.md:107",
           "docs/GUIDE.md:188",
           "index.json:3795",
-          "index.json:3911",
-          "index.json:4112",
+          "index.json:3885",
+          "index.json:4067",
           "install.sh:19",
           "uninstall.sh:10"
         ]
@@ -4093,10 +4095,10 @@
           "docs/GUIDE.md:195",
           "docs/GUIDE.md:211",
           "index.json:3794",
-          "index.json:3904",
-          "index.json:3974",
-          "index.json:4133",
-          "index.json:4870"
+          "index.json:3877",
+          "index.json:3948",
+          "index.json:4088",
+          "index.json:4784"
         ]
       },
       {
@@ -4105,10 +4107,13 @@
         "what": "ds-next docs",
         "declared": true,
         "mentioned": true,
-        "count": 2,
+        "count": 5,
         "where": [
           "docs/GUIDE.md:200",
-          "gotchas/gotcha-confined-writes.md:27"
+          "gotchas/gotcha-confined-writes.md:27",
+          "index.json:3799",
+          "index.json:3878",
+          "index.json:4105"
         ]
       },
       {
@@ -4117,10 +4122,10 @@
         "what": "ds-next mcp",
         "declared": true,
         "mentioned": true,
-        "count": 19,
+        "count": 17,
         "where": [
           "AGENTS.md:7",
-          "README.md:173",
+          "README.md:179",
           "adr/adr-001-ship-canon-lib.md:60",
           "adr/adr-002-cross-repo-graph.md:59",
           "adr/adr-002-cross-repo-graph.md:92",
@@ -4132,12 +4137,10 @@
           "docs/GUIDE.md:321",
           "docs/GUIDE.md:406",
           "index.json:3792",
-          "index.json:3879",
-          "index.json:3902",
-          "index.json:4149",
-          "index.json:4457",
-          "index.json:4531",
-          "index.json:4905"
+          "index.json:3852",
+          "index.json:3875",
+          "index.json:4117",
+          "index.json:4445"
         ]
       },
       {
@@ -4152,10 +4155,10 @@
           "adr/adr-001-ship-canon-lib.md:33",
           "docs/GUIDE.md:194",
           "index.json:3793",
-          "index.json:3903",
-          "index.json:3973",
-          "index.json:4172",
-          "index.json:4883",
+          "index.json:3876",
+          "index.json:3947",
+          "index.json:4146",
+          "index.json:4797",
           "repo-naming.md:36"
         ]
       },
@@ -4165,7 +4168,7 @@
         "what": "ds-next setup [--remove|--check]",
         "declared": true,
         "mentioned": true,
-        "count": 20,
+        "count": 22,
         "where": [
           "README.md:82",
           "adr/adr-002-cross-repo-graph.md:34",
@@ -4179,14 +4182,14 @@
           "docs/GUIDE.md:424",
           "docs/GUIDE.md:430",
           "index.json:3791",
-          "index.json:3901",
-          "index.json:4191",
-          "index.json:4544",
-          "index.json:4950",
+          "index.json:3874",
+          "index.json:3949",
+          "index.json:4165",
+          "index.json:4458",
+          "index.json:4810",
+          "index.json:4832",
           "scripts/build_repos.py:159",
-          "scripts/tests/test_build_repos.py:61",
-          "terminal-design.md:20",
-          "uninstall.sh:10"
+          "scripts/tests/test_build_repos.py:61"
         ]
       },
       {
@@ -4195,14 +4198,12 @@
         "what": "ds-terminal-design",
         "declared": true,
         "mentioned": true,
-        "count": 8,
+        "count": 6,
         "where": [
           "docs/GUIDE.md:107",
           "index.json:3796",
-          "index.json:3912",
-          "index.json:4221",
-          "index.json:4690",
-          "index.json:4691",
+          "index.json:3886",
+          "index.json:4195",
           "terminal-design.md:20",
           "uninstall.sh:11"
         ]
@@ -4216,8 +4217,8 @@
         "count": 6,
         "where": [
           "index.json:3798",
-          "index.json:3908",
-          "index.json:4239",
+          "index.json:3882",
+          "index.json:4213",
           "uninstall.sh:88",
           "uninstall.sh:96",
           "uninstall.sh:105"
@@ -4235,8 +4236,8 @@
           "adr/adr-002-cross-repo-graph.md:60",
           "docs/GUIDE.md:284",
           "index.json:3797",
-          "index.json:3907",
-          "index.json:4255",
+          "index.json:3881",
+          "index.json:4229",
           "uninstall.sh:88",
           "uninstall.sh:96",
           "uninstall.sh:105"
@@ -4248,10 +4249,13 @@
         "what": "src/ds_next/docs_site",
         "declared": true,
         "mentioned": true,
-        "count": 2,
+        "count": 5,
         "where": [
           "bootstrap.sh:97",
-          "docs/GUIDE.md:455"
+          "docs/GUIDE.md:455",
+          "index.json:3800",
+          "index.json:3889",
+          "index.json:4248"
         ]
       },
       {
@@ -4260,11 +4264,13 @@
         "what": "so-agent-setup",
         "declared": true,
         "mentioned": true,
-        "count": 3,
+        "count": 5,
         "where": [
-          "index.json:3815",
-          "index.json:3953",
-          "index.json:4273"
+          "index.json:3817",
+          "index.json:3927",
+          "index.json:4260",
+          "index.json:4816",
+          "index.json:4817"
         ]
       },
       {
@@ -4273,18 +4279,16 @@
         "what": "so-bug-review-interview",
         "declared": true,
         "mentioned": true,
-        "count": 10,
+        "count": 8,
         "where": [
           "AGENTS.md:19",
-          "index.json:3813",
-          "index.json:3885",
-          "index.json:3934",
-          "index.json:3954",
-          "index.json:4286",
-          "index.json:4468",
-          "index.json:4555",
-          "index.json:4776",
-          "index.json:4914"
+          "index.json:3815",
+          "index.json:3858",
+          "index.json:3911",
+          "index.json:3928",
+          "index.json:4273",
+          "index.json:4469",
+          "index.json:4690"
         ]
       },
       {
@@ -4293,19 +4297,17 @@
         "what": "so-build-feature-interview",
         "declared": true,
         "mentioned": true,
-        "count": 11,
+        "count": 9,
         "where": [
           "AGENTS.md:18",
           "docs/GUIDE.md:152",
-          "index.json:3812",
-          "index.json:3884",
-          "index.json:3933",
-          "index.json:3955",
-          "index.json:4305",
-          "index.json:4479",
-          "index.json:4566",
-          "index.json:4789",
-          "index.json:4923"
+          "index.json:3814",
+          "index.json:3857",
+          "index.json:3910",
+          "index.json:3929",
+          "index.json:4293",
+          "index.json:4480",
+          "index.json:4703"
         ]
       },
       {
@@ -4314,7 +4316,7 @@
         "what": "so-capture",
         "declared": true,
         "mentioned": true,
-        "count": 20,
+        "count": 19,
         "where": [
           "AGENTS.md:20",
           "README.md:53",
@@ -4325,17 +4327,16 @@
           "docs/GUIDE.md:345",
           "docs/GUIDE.md:433",
           "docs/security-review.md:62",
-          "index.json:3809",
-          "index.json:3882",
-          "index.json:3931",
-          "index.json:3956",
-          "index.json:4325",
-          "index.json:4490",
-          "index.json:4577",
-          "index.json:4802",
-          "index.json:4854",
-          "index.json:4932",
-          "install.sh:149"
+          "index.json:3811",
+          "index.json:3855",
+          "index.json:3908",
+          "index.json:3930",
+          "index.json:4314",
+          "index.json:4491",
+          "index.json:4716",
+          "index.json:4768",
+          "install.sh:149",
+          "terminal-design/examples/ds-next/ui.py:6"
         ]
       },
       {
@@ -4344,21 +4345,19 @@
         "what": "so-changes",
         "declared": true,
         "mentioned": true,
-        "count": 13,
+        "count": 11,
         "where": [
           "AGENTS.md:21",
           "docs/GUIDE.md:351",
           "docs/GUIDE.md:352",
-          "index.json:3810",
-          "index.json:3883",
-          "index.json:3932",
-          "index.json:3957",
-          "index.json:4353",
-          "index.json:4501",
-          "index.json:4589",
-          "index.json:4832",
-          "index.json:4855",
-          "index.json:4941"
+          "index.json:3812",
+          "index.json:3856",
+          "index.json:3909",
+          "index.json:3931",
+          "index.json:4344",
+          "index.json:4503",
+          "index.json:4746",
+          "index.json:4769"
         ]
       },
       {
@@ -4369,9 +4368,9 @@
         "mentioned": true,
         "count": 4,
         "where": [
-          "index.json:3811",
-          "index.json:3958",
-          "index.json:4375",
+          "index.json:3813",
+          "index.json:3932",
+          "index.json:4367",
           "operating-principles.md:20"
         ]
       },
@@ -4383,15 +4382,15 @@
         "mentioned": true,
         "count": 9,
         "where": [
-          "index.json:3814",
-          "index.json:3959",
-          "index.json:4390",
-          "index.json:4875",
-          "index.json:4876",
-          "index.json:4877",
-          "index.json:4888",
-          "index.json:4889",
-          "index.json:4890"
+          "index.json:3816",
+          "index.json:3933",
+          "index.json:4381",
+          "index.json:4789",
+          "index.json:4790",
+          "index.json:4791",
+          "index.json:4802",
+          "index.json:4803",
+          "index.json:4804"
         ]
       },
       {
@@ -4402,9 +4401,9 @@
         "mentioned": true,
         "count": 3,
         "where": [
-          "index.json:3816",
-          "index.json:3960",
-          "index.json:4409"
+          "index.json:3818",
+          "index.json:3934",
+          "index.json:4400"
         ]
       },
       {
@@ -4415,9 +4414,9 @@
         "mentioned": true,
         "count": 3,
         "where": [
-          "index.json:3817",
-          "index.json:3961",
-          "index.json:4422"
+          "index.json:3819",
+          "index.json:3935",
+          "index.json:4413"
         ]
       },
       {
@@ -4596,6 +4595,19 @@
       {
         "from": "ds-next",
         "to": "canon",
+        "what": "terminal-design/design-system",
+        "declared": true,
+        "mentioned": true,
+        "count": 3,
+        "where": [
+          "skills/ds-terminal-design/SKILL.md:14",
+          "skills/ds-terminal-design/SKILL.md:15",
+          "skills/ds-terminal-design/SKILL.md:59"
+        ]
+      },
+      {
+        "from": "ds-next",
+        "to": "canon",
         "what": "uninstall.sh",
         "declared": true,
         "mentioned": true,
@@ -4760,6 +4772,17 @@
       {
         "from": "skills-os",
         "to": "canon",
+        "what": "ds-system",
+        "declared": false,
+        "mentioned": true,
+        "count": 1,
+        "where": [
+          "so-install/SKILL.md:11"
+        ]
+      },
+      {
+        "from": "skills-os",
+        "to": "canon",
         "what": "index.json",
         "declared": true,
         "mentioned": true,
@@ -4810,11 +4833,15 @@
         "what": "ds-next setup [--remove|--check]",
         "declared": true,
         "mentioned": true,
-        "count": 3,
+        "count": 7,
         "where": [
           "README.md:12",
+          "README.md:19",
           "so-agent-setup/SKILL.md:3",
-          "so-agent-setup/SKILL.md:9"
+          "so-agent-setup/SKILL.md:9",
+          "so-install/SKILL.md:3",
+          "so-install/SKILL.md:9",
+          "so-install/SKILL.md:11"
         ]
       }
     ],
@@ -4843,6 +4870,15 @@
           "where": [
             "README.md:85",
             "src/ds_next/ui.py:622"
+          ]
+        },
+        {
+          "from": "skills-os",
+          "to": "canon",
+          "what": "ds-system",
+          "count": 1,
+          "where": [
+            "so-install/SKILL.md:11"
           ]
         }
       ],

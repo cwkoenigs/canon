@@ -15,10 +15,9 @@ One rail, three voices, nothing moves that didn't change. Every terminal the tea
 `ds-next` to a one-command tool from the `python-cli` type, prints through the same roles, glyphs
 and grid, so a person who has read one of them can read all of them. The code is canon-lib's
 `ui_style`, `widgets` and `picker` (the blocks below). The design exports from Claude Design
-(tokens, specimen cards, component specs) live in
-[ds-cli-design](https://github.com/cwkoenigs/ds-cli-design), which checks `tokens.json` against
-that code; the `ds-terminal-design` skill, installed by `ds-next setup`, walks an agent through
-building to it.
+(tokens, specimen cards, component specs) live in the [terminal design export](terminal-design/README.md).
+Run `make -C terminal-design check` to compare the tokens with the implementation. The
+`ds-terminal-design` skill, installed by `ds-next setup`, walks an agent through building to it.
 
 ## Principles
 

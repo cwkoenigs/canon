@@ -1,0 +1,70 @@
+<!-- @dsCard group="Terminal" viewport="680x1200" subtitle="A full ds-next session: banner, menu, /new form, a turn with approval, /status, the prompt" name="Session" -->
+<!-- @startingPoint section="Terminal" subtitle="A complete ds-next session at 80 columns" viewport="680x1200" -->
+<!DOCTYPE html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>body{margin:0;padding:12px;background:#f2f2f3;font-family:var(--font-doc)}</style></head><body>
+<div style="display:flex;gap:10px;margin-bottom:10px;font-size:12px"><button id="d">dark</button><button id="l">light</button></div>
+<div id="root"></div>
+<script type="text/babel">
+const NS = window[Object.keys(window).find(k => window[k] && typeof window[k] === "object" && window[k].Term)] || {};
+const { Term, Line, You, Agent, Run, Result, Status, Footer, Outcome, Labelled, Hint, ErrorLine, Key, Frame, Mascot, Banner, Prompt, Toolbar, Menu } = NS;
+const dim = {color:"var(--term-dim)"};
+function Session({ theme }) {
+  return (
+    <Term theme={theme}>
+      <Banner version="0.1.0" facts={[["cwd", "~/Developer"], ["canon", "16 standards · 2 scaffolds"], ["skills", "5 from skills-os"], ["docs", "docs-ds found"], ["model", "auto · permissions low"]]}
+        hints={["/new starts a project · /help lists commands", "ctrl-d leaves · what's new: /changelog"]} path="~/Developer/canon" />
+      <Line> </Line>
+      <Prompt tag="New session" value="/c" closed={false} />
+      <Menu total={13} items={[{ name: "canon", desc: "list standards, or read one by id", kind: "command" }, { name: "changelog", desc: "what changed in this version", kind: "command" }, { name: "code-review", desc: "review a diff against the canon's standards", kind: "skill" }, { name: "cortex-sql", desc: "run and explain Snowflake SQL", kind: "skill" }]} />
+      <Line> </Line>
+      <You>/new python cli order-metrics</You>
+      <Line> </Line>
+      <Frame title={<b>New project from the canon</b>} keys={<><span style={dim}>Tab next · ↑ back · </span><Key>Enter submit</Key><span style={dim}> · Esc cancel</span></>}>
+        <Labelled label="type" indent={0}>‹ Python command-line tool ›  <span style={dim}>1/2</span></Labelled>
+        <Labelled label="name" required indent={0}>order-metrics</Labelled>
+        <Labelled label="purpose" required focused indent={0}>Pull daily order metrics from Snowflake for finance<span style={{ background: "var(--term-cursor)" }}> </span></Labelled>
+        <Labelled label="owner" indent={0}>cwkoenigs</Labelled>
+        <Line> </Line>
+        <Line><span style={{ color: "var(--term-accent)" }}>16 standards apply</span><span style={dim}> · python-cli v1 · python, package, cli</span></Line>
+      </Frame>
+      <Line> </Line>
+      <Outcome kind="ok" subject="python-cli" detail="v1 · order-metrics · Pull daily order metrics from Snowflake…" />
+      <Line color="dim">#1</Line>
+      <Agent lines={["Looking at the draft against the canon. The purpose names a consumer", "and a source; the name follows the rule. One wording change."]} />
+      <Run tool="scaffold_get" arg="python-cli" />
+      <Result more={42}>python-cli v1 · 6 files</Result>
+      <Run tool="scaffold_project" arg="order-metrics" />
+      <Line color="rule">│</Line>
+      <Frame kind="approval" onRail title={<><span style={{ color: "var(--term-warn)", fontWeight: 700 }}>Allow scaffold_project?</span><span style={dim}> · changed from your form</span></>}
+        keys={<><Key>y</Key><span style={dim}> yes · </span><b>a</b><span style={dim}> always this session · </span><b>n</b><span style={dim}> no</span></>}>
+        <Labelled label="purpose" indent={0}><span style={{ color: "var(--term-err)" }}>− Pull daily order metrics from Snowflake for finance</span></Labelled>
+        <Labelled label="" indent={0}><span style={{ color: "var(--term-ok)" }}>+ Daily order metrics from Snowflake, for finance</span></Labelled>
+        <Labelled label="name" indent={0}>order-metrics<span style={dim}> · owner cwkoenigs · scaffold python-cli v1</span></Labelled>
+      </Frame>
+      <Line color="rule">│</Line>
+      <Result>created ~/Developer/order-metrics from python-cli v1</Result>
+      <Run tool="Bash" arg="uv run pytest -q" />
+      <Result>13 passed in 1.42s</Result>
+      <Agent lines={[<>Created <b>order-metrics</b>. 16 standards adopted in .ds/manifest.toml.</>]} />
+      <Footer facts={["#1", "3 tool calls", "15.2s", "$0.0041"]} />
+      <Line> </Line>
+      <You>/status</You>
+      <Outcome kind="ok" subject="order-metrics" detail="16 adopted · 0 declined · 0 pending" />
+      <Labelled label="scaffold">python-cli v1</Labelled>
+      <Labelled label="owner">cwkoenigs</Labelled>
+      <Line> </Line>
+      <Prompt tag="#2" value="" closed={false} />
+      <Toolbar left="order-metrics · ✓ 16 · auto · low · idle" right="ctx 12% · $0.0041" />
+    </Term>
+  );
+}
+const root = ReactDOM.createRoot(document.getElementById("root"));
+const show = (t) => root.render(<Session theme={t} />);
+document.getElementById("d").onclick = () => show("dark");
+document.getElementById("l").onclick = () => show("light");
+show("dark");
+</script></body></html>

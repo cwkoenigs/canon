@@ -1,0 +1,41 @@
+<!-- @dsCard group="Components" viewport="700x560" subtitle="Rail primitives, outcomes, a frame, the prompt and the toolbar — dark and light" name="Terminal" -->
+<!DOCTYPE html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>body{margin:0;padding:12px;background:#f2f2f3;font-family:var(--font-doc)}</style></head><body>
+<div id="root" style="display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap"></div>
+<script type="text/babel">
+const NS = window[Object.keys(window).find(k => window[k] && typeof window[k] === "object" && window[k].Term)] || {};
+const { Term, Line, You, Agent, Run, Result, Status, Footer, Outcome, Labelled, Hint, ErrorLine, Key, Frame, Mascot, Banner, Prompt, Toolbar, Menu } = NS;
+function Sample({ theme }) {
+  return (
+    <Term theme={theme} cols={44}>
+      <You>add a --since flag</You>
+      <Agent lines={["I'll add --since as an ISO date,", "defaulting to yesterday."]} />
+      <Run tool="Edit" arg="src/cli.py" />
+      <Result>1 file changed</Result>
+      <Run tool="Bash" arg="uv run pytest -q" />
+      <Result more={11}>13 passed in 1.42s</Result>
+      <Result error>ERROR securty is not a standard</Result>
+      <Status step="Running Bash" secs={4} />
+      <Footer facts={["#1", "3 tool calls", "15.2s"]} />
+      <Line> </Line>
+      <Outcome kind="ok" subject="order-metrics" detail="16 adopted" />
+      <Outcome kind="warn" subject="order-metrics" detail="1 pending" />
+      <Outcome kind="err" subject="order-metrics" detail="2 errors" />
+      <ErrorLine fix="/help lists them">/nwe is not a command</ErrorLine>
+      <Line> </Line>
+      <Frame title={<b>Adopt?</b>} keys={<><span style={color:"var(--term-dim)"}>space toggle · </span><Key>Enter adopt</Key></>}>
+        <Labelled label="name" required focused indent={0}>order-metrics</Labelled>
+        <Labelled label="owner" indent={0}>cwkoenigs</Labelled>
+      </Frame>
+      <Line> </Line>
+      <Prompt tag="#2" value="/c" />
+      <Toolbar left="order-metrics · ✓ 16 · idle" right="ctx 0%" />
+    </Term>
+  );
+}
+ReactDOM.createRoot(document.getElementById("root")).render(<><Sample theme="dark" /><Sample theme="light" /></>);
+</script></body></html>

@@ -9,7 +9,7 @@ canon_index = "2026-10-30"
 
 [provides]                 # what other repositories run, read or share (adr-002); matched as text
 commands = ["install.sh", "bootstrap.sh", "uninstall.sh", "ds-system"]
-paths = ["index.json", "repos/*.toml"]
+paths = ["index.json", "repos/*.toml", "terminal-design/design-system"]
 packages = ["canon-lib"]
 
 [uses]                     # one key per registered repository, in the words its [provides] uses

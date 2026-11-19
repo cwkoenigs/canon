@@ -140,6 +140,12 @@ other in its way.
 at the team's copy; push the tag along with the commit (`git push origin canon-lib-v0.2.0`). Without
 the tag it falls back to the checkout's path, which only works on the machine that made the repo.
 
+## Terminal design
+
+The [terminal design export](terminal-design/README.md) lives here with the Python implementation.
+Run `make -C terminal-design check` to check token parity, or
+`make -C terminal-design sync ZIP=/path/to/export.zip` to import a new export.
+
 ## Scaffolds
 
 `scaffolds/<id>/` holds the accepted project shapes: `SCAFFOLD.md` (front matter `id`,
