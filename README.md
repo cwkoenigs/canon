@@ -19,7 +19,7 @@ On a managed work Mac, clone canon from the team's GitLab instead and run `ds-sy
 a canon that did not come from GitHub installs in **work-safe** mode (below). Either way the mode is
 remembered, so every later run is just `bash ~/Developer/canon/ds-system`.
 
-`ds-system` is the one command. It reports what this machine has (the five repos, `ds-next`, `ds-code`,
+`ds-system` is the one command. It reports what this machine has (the four repos, `ds-next`, `ds-code`,
 each agent's wiring, the config) and offers the one step that fits: install on a bare machine, update
 on an installed one, remove on either. The verbs work without the menu, for scripts and for people who
 know: `ds-system status | install | update | remove`. Under it are three scripts, each with `--help`:
@@ -27,7 +27,7 @@ know: `ds-system status | install | update | remove`. Under it are three scripts
 | Script | When | What it does |
 |---|---|---|
 | `install.sh` | Once, on a new machine | Clones the other four repos beside this one, asks one question (where the team's repos live), writes `~/.ds/config.toml`, then runs `bootstrap.sh`. |
-| `bootstrap.sh` | Whenever you want the latest | Pulls every repo, reinstalls and tests canon-lib and ds-next, builds docs-ds and ds-code, wires every agent CLI on PATH (Claude Code, Cortex Code, Codex). `install.sh` ends by running it. |
+| `bootstrap.sh` | Whenever you want the latest | Pulls every repo, reinstalls and tests canon-lib and ds-next, installs the local docs renderer and builds ds-code, wires every agent CLI on PATH (Claude Code, Cortex Code, Codex). `install.sh` ends by running it. |
 | `uninstall.sh` | When it should be gone | Unwires the agents, takes `ds-next` and `ds-code` off PATH, then asks before removing the clones and `~/.ds`. |
 
 Why three: install needs to ask about your world once; update must never ask; removal must ask before
@@ -38,13 +38,13 @@ deleting anything. [docs/GUIDE.md](docs/GUIDE.md) is the map of the whole system
 One command puts the system on a Mac: this repository, `ds-next` (the terminal and the MCP
 server, `ds-next` on PATH), `ds-code` (the code tools ds-next attaches) and every agent CLI on PATH
 (Cortex Code, Claude Code, Codex) wired to them (the `ds` tool server, `/ds-new`, read-only tools
-allowed). It needs git and [uv](https://docs.astral.sh/uv/); Node.js for docs-ds and ds-code.
+allowed). It needs git and [uv](https://docs.astral.sh/uv/); Node.js for local docs and ds-code.
 
 ```sh
 curl -fsSL https://raw.githubusercontent.com/cwkoenigs/canon/main/install.sh | bash
 ```
 
-`install.sh` clones canon, ds-next, skills-os, docs-ds and ds-code, then asks one question: do these
+`install.sh` clones canon, ds-next, skills-os and ds-code, then asks one question: do these
 live somewhere other than GitHub? On a personal machine press Enter and GitHub stays the home.
 At work answer with the GitLab group URL (or set `TEAM_HOST`; a clone already on the machine
 with a non-GitHub remote, or a `glab` login, answers it too): every clone's origin is pointed
@@ -52,7 +52,7 @@ there, and team copies that do not exist yet are pushed on a yes. What it settle
 machine's one config, `~/.ds/config.toml`, as `[world]` (`host`, `group`, `token_env`) and
 `[capture]` (where `/so-capture` sends captures), unless that file already has a `[world]`; edit it
 there when a machine's world differs. Then it runs `bootstrap.sh`,
-which also installs docs-ds's Node dependencies (Node.js 26) so `/docs` renders.
+which also installs the bundled renderer's Node dependencies (Node.js 26) so `/docs` renders.
 
 Or clone first and run the same script from the clone: `git clone https://github.com/cwkoenigs/canon
 ~/Developer/canon && bash ~/Developer/canon/install.sh`.
@@ -74,14 +74,14 @@ stay work-safe, and a later `--github` on that machine is refused rather than ob
 one-page summary for a security team.
 
 **Updating:** rerun the same line, or `bash ~/Developer/canon/bootstrap.sh`. Both pull every
-repository that has an upstream, including skills-os and docs-ds, and redo the install steps. From a checkout, `bash ~/Developer/canon/bootstrap.sh` does the install step
+repository that has an upstream, including skills-os and ds-code, and redo the install steps. From a checkout, `bash ~/Developer/canon/bootstrap.sh` does the install step
 alone. Rerunning either pulls where there is an upstream and re-checks. `CANON_URL` and `DS_NEXT_URL` override where the two
 repositories come from; `DEV` where they go (default `~/Developer`). Then `ds-next` in any
 directory, or `cortex` and `/ds-new`.
 
 **Removing:** `bash ~/Developer/canon/uninstall.sh`. It unwires the agents (`ds-next setup --remove`:
 the `ds` and `code` servers, the skills, the allow rules), takes `ds-next` and `ds-code` off PATH, then
-asks before removing the five clones (one with unsaved or unpushed work stays) and `~/.ds`. uv, Node and
+asks before removing the four clones (one with unsaved or unpushed work stays) and `~/.ds`. uv, Node and
 the agent CLIs are left. Reinstalling is the install line again.
 
 To propose a standard or change one, open a merge request: add or edit the file, bump
@@ -173,18 +173,14 @@ pipeline runs it; on a machine with the clones side by side, `python scripts/bui
 `repo_graph` tool, `reconcile` checking `[uses]`, and `ds-next mcp` fast-forwarding this clone first) and
 ds-code's `change_impact` ends with the contracts a change touches and who uses them.
 
-## Portal pipeline
+## Repository graph job
 
-Not running yet. `.gitlab-ci.yml` has a `check_index` job (refuses a stale index or a malformed
-standard) and a `portal` job (main and schedules) that clones the docs shell and every
-repository the registry names, runs `ds docs portal`, compiles the cross-repo graph into
-`index.json` (`scripts/build_repos.py`), and keeps both as artifacts; committing the section back to
-main needs a `CANON_PUSH_TOKEN` and is unverified. The publish
-step to SPCS is written as comments and is unverified: it needs the Snowflake image repository,
-`docker`, and `snow` on the runner, and should reuse `ds deploy service` rather than a bespoke
-`ALTER SERVICE`. `docs-ds/Dockerfile.static` packages a prebuilt `site/` with nginx. Both jobs carry a placeholder
-runner tag (`<docs-runner-tag>`), and `portal` calls the older `ds` CLI rather than ds-next, so on
-GitLab set a real runner tag before expecting a pipeline.
+The GitLab pipeline checks the standards index and can compile the cross-repo graph from the
+registered checkouts on main or on a schedule. The graph job needs a configured runner and
+permission to clone the registered projects. It saves `index.json` as an artifact. Committing
+the result back to main uses `CANON_PUSH_TOKEN` and remains unverified.
+
+For browser docs, use `/docs` in ds-next. The renderer lives in ds-next and serves locally.
 
 ## Design documents
 

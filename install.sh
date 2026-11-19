@@ -9,20 +9,19 @@
 #        canon      the standards, scaffolds, canon-lib, bootstrap     (required)
 #        ds-next    the terminal, the MCP server, `ds-next` on PATH    (required)
 #        skills-os  the /so-* procedures ds-next and Cortex read       (optional, skipped if the clone fails)
-#        docs-ds    the docs renderer behind /docs                     (optional, same)
 #   3. asks whether these live somewhere other than GitHub (not with --github or --work-safe). On a
 #      personal machine, Enter: the clones keep GitHub as origin and reruns pull from it. At work,
 #      answer with the GitLab group URL (or set TEAM_HOST; a clone already in DEV with a remote, or
 #      a glab login, answers it too): every clone's origin is pointed there, and team copies that
 #      do not exist yet are pushed on a yes.
 #   4. runs canon/bootstrap.sh: canon-lib and ds-next installed and tested, `ds-next` linked
-#      into ~/.local/bin, docs-ds's npm dependencies installed, Cortex Code wired (ds server,
+#      into ~/.local/bin, the docs renderer's npm dependencies installed, Cortex Code wired (ds server,
 #      /ds-new, read-only tools allowed)
 #
 # Updating later: rerun this line, or `bash ~/Developer/canon/bootstrap.sh`. Both pull every
 # repository that has an upstream (the team host, once there is one) and redo the install steps.
 # Removing: `bash ~/Developer/canon/uninstall.sh`, or `ds-system` beside this file for status and the menu (the agents unwired, the commands unlinked, then it asks about the clones and ~/.ds).
-# Override any source with CANON_URL, DS_NEXT_URL, SKILLS_URL, DOCS_URL, DS_CODE_URL (git URLs, bundles or paths).
+# Override any source with CANON_URL, DS_NEXT_URL, SKILLS_URL, DS_CODE_URL (git URLs, bundles or paths).
 #
 # Two modes skip the question, and the one chosen is remembered in ~/.ds/config.toml
 # (`install = "github"` or `"work-safe"` under [world]), so every rerun and update keeps it. A flag
@@ -80,7 +79,7 @@ if ! command -v uv >/dev/null 2>&1; then
 fi
 command -v cortex >/dev/null 2>&1 && echo "git, uv, cortex: ok" \
   || echo "git, uv: ok. Cortex Code is not on PATH: the agent step will be skipped; install it and rerun"
-command -v npm >/dev/null 2>&1 || echo "Node.js 26 is not on PATH: /docs (docs-ds) will not render until it is; everything else works"
+command -v npm >/dev/null 2>&1 || echo "Node.js 26 is not on PATH: /docs will not render until it is; everything else works"
 
 TTY_IN="${TTY_IN:-/dev/tty}"; TTY_OUT="${TTY_OUT:-/dev/tty}"   # questions reach the terminal even under `curl | bash`
 ask() {  # prompt default -> REPLY
@@ -165,7 +164,7 @@ say "team host"
 TO_SEED=""
 if [ "$MODE" = github ]; then   # a personal machine: GitHub is the home, nothing to ask
   [ -z "${TEAM_HOST:-}" ] || { echo "github: TEAM_HOST names another home ($TEAM_HOST); --github keeps GitHub. Pick one"; exit 2; }
-  for r in canon ds-next skills-os docs-ds ds-code; do   # a clone already pointing at a team host would stay mixed
+  for r in canon ds-next skills-os ds-code; do   # a clone already pointing at a team host would stay mixed
     u="$(git -C "$DEV/$r" config --get remote.origin.url 2>/dev/null || true)"
     case "$u" in ""|*github.com*|/*|file://*) ;; *) echo "github: $r pulls from $u, not GitHub; point it back (git -C $DEV/$r remote set-url origin <github url>) or drop --github"; exit 2;; esac
   done
@@ -182,10 +181,9 @@ fi
 CANON_URL="${CANON_URL:-$HOST/canon.git}"
 DS_NEXT_URL="${DS_NEXT_URL:-$HOST/ds-next.git}"
 SKILLS_URL="${SKILLS_URL:-$HOST/skills-os.git}"
-DOCS_URL="${DOCS_URL:-$HOST/docs-ds.git}"
 DS_CODE_URL="${DS_CODE_URL:-$HOST/ds-code.git}"
 if [ "$WORK_SAFE" = 1 ]; then
-  for u in "$CANON_URL" "$DS_NEXT_URL" "$SKILLS_URL" "$DOCS_URL" "$DS_CODE_URL"; do
+  for u in "$CANON_URL" "$DS_NEXT_URL" "$SKILLS_URL" "$DS_CODE_URL"; do
     case "$u" in *github.com*) safe_stop "refusing a github.com source ($u)";; esac
   done
 fi
@@ -195,7 +193,6 @@ say "repositories -> $DEV"
 clone canon     "$CANON_URL"   "$DEV/canon"     required
 clone ds-next   "$DS_NEXT_URL" "$DEV/ds-next"   required
 clone skills-os "$SKILLS_URL"  "$DEV/skills-os" optional
-clone docs-ds   "$DOCS_URL"    "$DEV/docs-ds"   optional
 clone ds-code   "$DS_CODE_URL" "$DEV/ds-code"   optional
 seed
 

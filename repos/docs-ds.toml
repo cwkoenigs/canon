@@ -1,4 +1,0 @@
-# the Docusaurus shell behind the docs and the portal
-[repo]
-name = "docs-ds"
-path = "cwkoenigs/docs-ds"   # <group>/<project> on the host in ~/.ds/config.toml [world]

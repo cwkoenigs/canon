@@ -20,7 +20,7 @@ set -uo pipefail
 here="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
 . "$here/lib.sh"                               # usage, ask, real, within
 export DEV="${DEV:-$(dirname "$here")}"   # the repos live beside this clone; the workers get the same answer
-REPOS="canon ds-next skills-os docs-ds ds-code"
+REPOS="canon ds-next skills-os ds-code"
 row() { printf '  %-10s %s\n' "$1" "$2"; }
 
 verb=""; FLAG=""; PASS=()          # --github / --work-safe anywhere; the first other word is the verb

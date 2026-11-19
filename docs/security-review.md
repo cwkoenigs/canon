@@ -7,16 +7,15 @@ mode, so later updates stay work-safe without anyone remembering a flag.
 
 ## What it is
 
-Five internal git repositories and the command-line tools built from them. They give the team's
+Four internal git repositories and the command-line tools built from them. They give the team's
 coding agent (Cortex Code, the approved agent) the team's written standards, project templates
 and code-navigation tools. There is no server and no background service.
 
 | Repository | What it adds |
 |---|---|
 | canon | The team's standards (Markdown), project templates, a small Python library, the install scripts |
-| ds-next | The `ds-next` command: a terminal for the agent, and a local tool server the agent starts |
+| ds-next | The `ds-next` command: a terminal for the agent, a local tool server the agent starts, and the local Docusaurus renderer |
 | skills-os | Written procedures (Markdown) the agent follows |
-| docs-ds | A documentation site generator (Docusaurus), run locally on demand |
 | ds-code | A local code-navigation tool server (TypeScript and Pyright language servers) |
 
 ## Where everything comes from
@@ -41,7 +40,7 @@ daemons, no system settings, no global npm or pip installs.
 
 | Location | Change |
 |---|---|
-| `~/Developer/<repo>` | The five clones, each with its own Python or Node dependencies inside it |
+| `~/Developer/<repo>` | The four clones, each with its own Python or Node dependencies inside it |
 | `~/.local/bin` | Two symlinks: `ds-next` and `ds-code` |
 | `~/.ds/config.toml` | Where the team's repos live, and the name (not the value) of the GitLab token variable |
 | Agent settings (`~/.snowflake/cortex/settings.json`, and Claude Code or Codex settings if installed) | Registers the two local tool servers, links the skills, and pre-approves the read-only tools (a `.json.bak` backup is kept) |
@@ -57,7 +56,7 @@ daemons, no system settings, no global npm or pip installs.
 - One read-only tool, `snowflake_search`, runs `cortex search` (Snowflake documentation, object
   names, table details) through the Cortex CLI with the user's own Snowflake connection and
   permissions. It returns metadata, not table rows.
-- **`/docs`** builds the docs with docs-ds, then serves them to the user's own browser from inside
+- **`/docs`** builds the docs with the renderer bundled in ds-next, then serves them to the user's own browser from inside
   the ds-next process, on `127.0.0.1` only (not reachable from other machines), at a free port the
   system picks, until ds-next exits.
 - **Captures** (`/so-capture`) open a merge request in the team's GitLab, using the user's own
@@ -82,5 +81,5 @@ daemons, no system settings, no global npm or pip installs.
 
 ## Contact
 
-Owner: ckoenigs. Source: the canon, ds-next, skills-os, docs-ds and ds-code repositories in the
+Owner: ckoenigs. Source: the canon, ds-next, skills-os and ds-code repositories in the
 team's GitLab group.

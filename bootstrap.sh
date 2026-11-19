@@ -2,14 +2,13 @@
 # bootstrap.sh: one command puts the team's knowledge system on this Mac.
 #
 #   canon      -> ~/Developer/canon          the standards, scaffolds and canon-lib (this repo)
-#   ds-next    -> ~/Developer/ds-next        the terminal, the MCP server and `ds-next` on PATH
+#   ds-next    -> ~/Developer/ds-next        the terminal, MCP server, and local docs renderer
 #   skills-os  -> ~/Developer/skills-os      pulled if it is there (install.sh clones it): the /so-* procedures
-#   docs-ds    -> ~/Developer/docs-ds        pulled if it is there, and `npm ci` run: the renderer behind /docs
 #   ds-code    -> ~/Developer/ds-code        pulled if it is there, built and linked: the code tools ds-next attaches
 #   agents                                    every agent CLI on PATH (Cortex Code, Claude Code, Codex): the ds server
 #                                             registered, /ds-new added, read-only tools allowed
 #
-# Safe to rerun: it pulls what is there and skips what is done. Needs git and uv; Node.js for docs-ds and ds-code.
+# Safe to rerun: it pulls what is there and skips what is done. Needs git and uv; Node.js for ds-next's docs renderer and ds-code.
 # Rerunning is the update. `uninstall.sh` beside this file takes it all off again.
 # Override the sources with CANON_URL / DS_NEXT_URL (git URLs, bundles or local paths) and the
 # locations with DEV (default ~/Developer). Run from a checkout, or `curl -fsSL <raw url> | bash`.
@@ -62,7 +61,7 @@ if [ "$WORK_SAFE" = 1 ]; then
   for src in "$CANON_URL" "$DS_NEXT_URL"; do
     case "$src" in *github.com*) echo "work-safe: refusing a github.com source ($src); clone canon from the team host"; exit 1;; esac
   done
-  for r in canon ds-next skills-os docs-ds ds-code; do   # an existing clone must not pull from GitHub either
+  for r in canon ds-next skills-os ds-code; do   # an existing clone must not pull from GitHub either
     o="$(git -C "$DEV/$r" remote get-url origin 2>/dev/null || true)"
     case "$o" in *github.com*) echo "work-safe: $r pulls from $o; point it at the team host (git -C $DEV/$r remote set-url origin <team url>) and rerun"; exit 1;; esac
   done
@@ -87,13 +86,27 @@ sync_repo() {   # name url dest
 
 sync_repo canon "$CANON_URL" "$DEV/canon"
 sync_repo ds-next "$DS_NEXT_URL" "$DEV/ds-next"
-for extra in skills-os docs-ds ds-code; do  # optional companions: updated when present, never cloned here
+for extra in skills-os ds-code; do  # optional companions: updated when present, never cloned here
   [ -d "$DEV/$extra/.git" ] && sync_repo "$extra" "$DEV/$extra" "$DEV/$extra"
 done
 
 say "canon-lib: install and test"
 if [ "$WORK_SAFE" = 1 ]; then FROZEN="--frozen"; NPM_SAFE="--ignore-scripts"; else FROZEN=""; NPM_SAFE=""; fi
 (cd "$DEV/canon/lib" && uv sync -q $FROZEN --all-extras && uv run -q $FROZEN pytest -q | tail -1)
+
+renderer="$DEV/ds-next/src/ds_next/docs_site"
+if [ -f "$renderer/package-lock.json" ]; then
+  say "ds-next: install the local docs renderer"
+  if command -v npm >/dev/null 2>&1; then
+    if (cd "$renderer" && npm ci $NPM_SAFE --silent --no-audit --no-fund); then
+      echo "docs renderer: dependencies installed (node $(node -v))"
+    else
+      echo "note: docs renderer dependencies failed to install; /docs needs a successful npm ci"
+    fi
+  else
+    echo "note: Node.js 26 and npm are not on PATH; /docs will not render until they are and this is rerun"
+  fi
+fi
 
 say "ds-next: install into its own venv"
 # canon-lib comes from this canon checkout, not from the GitHub URL in ds-next's pyproject, so a
@@ -108,15 +121,6 @@ fi
   && uv pip install -q -p .venv/bin/python --override "$OVERRIDE" ${PINS:+--constraints "$PINS"} -e ".[test]" \
   && .venv/bin/pytest -q | tail -1)
 rm -f "$OVERRIDE" ${PINS:+"$PINS"}
-
-if [ -d "$DEV/docs-ds/.git" ]; then
-  say "docs-ds: the renderer behind /docs"
-  if command -v npm >/dev/null 2>&1; then
-    (cd "$DEV/docs-ds" && npm ci $NPM_SAFE --silent --no-audit --no-fund 2>&1 | tail -2) && echo "docs-ds: dependencies installed (node $(node -v))"
-  else
-    echo "note: Node.js 26 and npm are not on PATH; /docs will not render until they are and this is rerun"
-  fi
-fi
 
 if [ -d "$DEV/ds-code/.git" ]; then
   say "ds-code: the code tools ds-next attaches (definitions, references, callers, change impact)"

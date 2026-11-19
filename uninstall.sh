@@ -12,7 +12,7 @@
 #      and Cortex Code (Codex has none). Without ds-next's venv it does the same by hand.
 #   2. `ds-next` out of ~/.local/bin; `ds-code` out of ~/.local/bin (work-safe) or npm's global bin
 #      (each only when it points into DEV)
-#   3. the five repositories under ~/Developer (DEV overrides). One with uncommitted changes, a stash,
+#   3. the four repositories under ~/Developer (DEV overrides). One with uncommitted changes, a stash,
 #      a branch without an upstream or with commits not pushed, stays and is named. If step 1 failed,
 #      no clone is removed this run.
 #   4. ~/.ds: config.toml, history, usage
@@ -23,7 +23,7 @@ here="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
 
 DEV="${DEV:-$HOME/Developer}"
 DEVP="$(cd "$DEV" 2>/dev/null && pwd -P || echo "$DEV")"
-REPOS="canon ds-next skills-os docs-ds ds-code"
+REPOS="canon ds-next skills-os ds-code"
 YES=no; KEEP_REPOS=no; KEEP_CONFIG=no
 for a in "$@"; do
   case "$a" in

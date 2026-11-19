@@ -6,7 +6,7 @@ answers, and what is not built yet. Written for someone who has never used it. T
 each part are the ADRs in `adr/`; this guide says what is, they say why.
 
 Current as of 2026-11-02: ds-next 0.2.0, ds-code 0.1.0, canon-lib 0.2.0, 36 standards, five
-accepted project types, five registered repositories.
+accepted project types. The local renderer moved into ds-next on 2026-11-19, leaving four registered repositories.
 
 ## In one paragraph
 
@@ -21,15 +21,14 @@ shows which other repositories it touches before it is finished. What a session 
 and sent back to the canon for review. One command installs, updates or removes all of it on a
 machine.
 
-## The five repositories
+## The four repositories
 
 | Repository | What it is | You touch it when |
 |---|---|---|
 | **canon** | The source of truth: standards, gotchas, ADRs, project types (scaffolds), accepted code (blocks, built into the canon-lib package), the registry of repositories, and `index.json`, compiled from all of them. Also the install, update and remove scripts. | You write or review a standard, register a repository, release canon-lib |
-| **ds-next** | The terminal (`ds-next`) and the `ds` tool server every agent reads the canon through (`ds-next mcp`). Python. | Every day: you run it, or your agent calls it |
+| **ds-next** | The terminal (`ds-next`) and the `ds` tool server every agent reads the canon through (`ds-next mcp`). Includes the local Docusaurus renderer. | Every day: you run it, or your agent calls it |
 | **ds-code** | The `code` tool server: eight read-only tools (definitions, references, callers, change impact…) answered by TypeScript's and Pyright's language servers. Node. | Rarely: it updates with everything else |
 | **skills-os** | The procedures agents follow, as `/so-*` skills: capture, changes, feature and bug interviews, external review, and others. | You change how the team works |
-| **docs-ds** | The Docusaurus shell that renders a repository's docs, or the whole canon, in the browser (`/docs`), and the team portal. No content of its own. | You change how the docs look |
 
 On a machine they live side by side in `~/Developer`. Two files hold everything else:
 
@@ -61,7 +60,7 @@ On a machine they live side by side in `~/Developer`. Two files hold everything 
 └───┬──────────────┬─────────────┬───┘                  │  .ds/captures/ (drafts)   │
     │ wires        │ registers   │ /docs                └───────────────────────────┘
     ▼              ▼             ▼
- Claude Code    ds-code       docs-ds
+ Claude Code    ds-code       local browser
  Cortex Code    (`code`       (the canon and a repo's docs
  Codex           tools)        in the browser)
     ▲
@@ -81,7 +80,7 @@ That is a personal machine. On a managed work Mac the clone comes from the team'
 flag is left off (see "Which mode" below). After the first install every run is just
 `bash ~/Developer/canon/ds-system`: the machine remembers its mode.
 
-It reports what the machine has (the five clones, `ds-next` and `ds-code` on PATH, each agent's
+It reports what the machine has (the four clones, `ds-next` and `ds-code` on PATH, each agent's
 wiring, the config) and offers the one step that fits: **install** on a bare machine, **update** on an
 installed one, **r** to remove. Enter takes the offer. The verbs skip the menu:
 `ds-system status | install | update | remove`. Every step is safe to run twice.
@@ -105,7 +104,7 @@ setup wires the ones it finds.
 | Step | What it does |
 |---|---|
 | **Install** | Clones the other four repositories beside the canon, from where the mode says. With no mode it asks one question, where the team's repositories live: Enter keeps GitHub, a group address points every clone there. Writes `~/.ds/config.toml` with the mode, then runs the update. |
-| **Update** | Pulls every repository that has an upstream; installs and tests canon-lib and ds-next; links `ds-next` into `~/.local/bin`; builds docs-ds and ds-code and links `ds-code` (into `~/.local/bin` in work-safe mode); then wires every agent on PATH: the `ds` and `code` servers, the `/ds-new`, `/ds-terminal-design` and `/so-*` skills, and an allow rule for every read-only tool. Asks nothing. |
+| **Update** | Pulls every repository that has an upstream; installs and tests canon-lib and ds-next; links `ds-next` into `~/.local/bin`; installs the local docs renderer and builds ds-code and links `ds-code` (into `~/.local/bin` in work-safe mode); then wires every agent on PATH: the `ds` and `code` servers, the `/ds-new`, `/ds-terminal-design` and `/so-*` skills, and an allow rule for every read-only tool. Asks nothing. |
 | **Remove** | Unwires every agent (`ds-next setup --remove`: only what setup registered; anything else of the same name is left alone), takes `ds-next` and `ds-code` off PATH, then asks before deleting the clones and `~/.ds`. A clone with uncommitted changes, a stash, a branch without an upstream or unpushed commits stays and is named. If unwiring fails, no clone is removed. `--yes` answers the questions; `--keep-repos` and `--keep-config` keep those. |
 
 After any step, open a new terminal so `~/.local/bin` is on PATH, and restart any agent session that
@@ -125,8 +124,8 @@ terminal's banner shows the same on its `snowflake` line. Until you sign in, SSO
 Snowflake side (a network policy, an authentication policy allowing tokens, a role to restrict them
 to) is one-time administrator work: `ds-next/docs/snowflake-pat-setup.sql`.
 
-**Setting up the team's GitLab, once.** Create five empty projects (no README) in one group:
-`canon`, `ds-next`, `skills-os`, `docs-ds`, `ds-code`, and push the five repositories there from a
+**Setting up the team's GitLab, once.** Create four empty projects (no README) in one group:
+`canon`, `ds-next`, `skills-os`, `ds-code`, and push the four repositories there from a
 machine that has them (`git -C ~/Developer/<repo> push <group address>/<repo>.git main --tags`).
 Work-safe installs never push, so the group must have them before the first managed Mac installs.
 
@@ -334,7 +333,7 @@ same at ten thousand repositories as at five.
 - The declines, with their reasons, are listed per standard: the honest list of where the rules do
   not hold, and why.
 
-Today: 36 standards across five repositories, 128 adoptions, 112 of them by default, no declines,
+Before the renderer moved: 36 standards across five repositories, 128 adoptions, 112 of them by default, no declines,
 nothing pending.
 
 ## Knowledge flowing back
@@ -369,17 +368,12 @@ the pipeline's check job runs on every merge request.
 
 ## The pipeline
 
-`.gitlab-ci.yml` in the canon has two jobs. `check_index` refuses a stale index or a malformed
-standard on every merge request. `portal`, on `main` and on a schedule, clones every registered
-repository, builds the team portal with docs-ds, compiles the graph and the team-wide view into
-`index.json`, and commits that back to `main`. With it running, every machine's next session reads
-who uses whom and who follows what, without anyone running anything.
+`.gitlab-ci.yml` checks the standards index on merge requests. The `repository_graph` job on
+main and on schedules clones the registered repositories and compiles the graph and adoption
+view into `index.json`. It saves the index as an artifact. Committing it back to main uses
+`CANON_PUSH_TOKEN`. The job needs a runner tag and permission to clone the registered projects.
 
-**It has never run.** It needs, on the team's GitLab: a runner and its tag in place of
-`<docs-runner-tag>`; a project access token with `write_repository` as `CANON_PUSH_TOKEN`; and the
-canon's job token allowed to clone every registered project. Until then, one person runs the compile
-on a machine with the clones and commits the result. The step that publishes the portal to Snowflake
-is written as comments and is unverified.
+Use `/docs` in ds-next for browser docs. It builds and serves the docs locally.
 
 ## Built and not built
 
@@ -402,8 +396,8 @@ Not built, or not yet true:
   resume and `/effort` through the linked `cortex` folder, a rotation, and the team's account and its
   policies wait for an account with Cortex Code enabled.
 
-- **The pipeline has never run** (above), so the graph and the team-wide view are as fresh as the
-  last manual compile.
+- **The graph pipeline remains unverified.** The checked-in graph and adoption view come from
+  a manual compile.
 - **Compliance is unchecked.** Adopted means held to; whether a repository follows a standard is the
   unattended agent step [[adr-000]] describes, not built.
 - **`adopt` does not register a repository** in `repos/`; that is a merge request by hand.
@@ -415,8 +409,8 @@ Not built, or not yet true:
 - **The offline bundle folder** (`ds-system-v0.2.0`, for a machine that cannot reach GitHub) dates
   from 2026-10-28 and predates everything in this guide after the install; a new one needs cutting.
 - **Windows** is tested for ds-next and ds-code, not for the install scripts.
-- **`/docs` in work-safe mode is untested.** docs-ds installs without npm install scripts; whether
-  it then renders needs a real `/docs` run on a managed Mac.
+- **`/docs` on a managed Mac remains unverified.** Work-safe mode installs the bundled renderer
+  without npm install scripts.
 - **ds-next's Python packages are pinned by version, not by hash,** in work-safe mode. canon-lib's
   and every npm package's hashes are checked; ds-next's are not yet.
 
@@ -435,7 +429,7 @@ Not built, or not yet true:
 | A new repository's install fails fetching canon-lib at work | The `canon-lib-v…` tag is not on the team's GitLab: `git -C ~/Developer/canon push origin --tags`. |
 | A session starts and hangs with no output | The agent's CLI is not on PATH (Cortex says nothing when `cortex` is missing). Install it, or `ds-next setup --agent claude`. |
 | Cortex asks about a repository's hooks before starting | That repository's settings define hooks that would run commands. Read them, then answer. On purpose. |
-| `/docs` fails | Node.js 26 or docs-ds is missing: install Node, then `ds-system update`. |
+| `/docs` fails | Install Node.js 26 and run `ds-system update` to install the bundled renderer's dependencies. |
 | `/so-capture flush` cannot open a merge request | No token in `$GITLAB_TOKEN` (or no `glab` login), or `[world]` names the wrong group. |
 | `change_impact` has no "Across repos" section | No canon on this machine, no manifest in the repository, or the repository is not registered. It says which when it can. |
 
@@ -458,4 +452,4 @@ Each repository's `DECISIONS.md` holds its own, numbered `local-NNN`.
 - `ds-next/README.md`: the terminal in detail.
 - `ds-code/README.md` and `ds-code/ARCHITECTURE.md`: the code tools and the rules they keep.
 - `skills-os/README.md`: every procedure.
-- `docs-ds/README.md`: the docs shell and its theme.
+- `ds-next/src/ds_next/docs_site/README.md`: the local renderer and its theme.
